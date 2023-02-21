@@ -2,12 +2,14 @@ BEGIN;
 
 -- Suppréssion des DOMAINS existants
 
-DROP DOMAIN IF EXISTS "email_regex" CASCADE;
+DROP DOMAIN IF EXISTS "email_regex", "phone_regex" CASCADE;
 
 -- Création DOMAIN
 
 CREATE DOMAIN email_regex AS text CHECK( 
     VALUE ~  '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$');
+
+CREATE DOMAIN phone_number AS TEXT CHECK(VALUE ~ '^0[1-9]([-. ]?[0-9]{2}){4}$');
 
 -- Suppression des tables existantes
 
@@ -27,7 +29,7 @@ CREATE TABLE "user" (
     "firstname"     TEXT NOT NULL,
     "lastname"      TEXT NOT NULL,
     "email"         email_regex NOT NULL UNIQUE,
-    "phone"         INT NOT NULL,
+    "phone"         phone_number NOT NULL,
     "password"      TEXT NOT NULL,
     "address"       TEXT,
     "city"          TEXT,
@@ -49,7 +51,7 @@ CREATE TABLE "avatar" (
 CREATE TABLE "animal" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
-    "resume"   TEXT,
+    "resume"        TEXT,
     "description"   TEXT,
     "needs"         TEXT,
     "birthdate"     DATE,

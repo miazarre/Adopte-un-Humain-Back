@@ -1,4 +1,5 @@
+const apiController = require("./apiController");
 const usersController = require("./users.js");
 
 
-module.exports = {usersController};
+module.exports = {apiController,usersController};

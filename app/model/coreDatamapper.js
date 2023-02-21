@@ -1,3 +1,5 @@
+const { client }  = require("../service/dbClient");
+
 class CoreDatamapper {
     tableName;
 
@@ -5,11 +7,6 @@ class CoreDatamapper {
         this.client = client;
     }
 
-    /**
-     * Récupération par identifiant
-     * @param {number|number[]} id identifiant ou liste d'identifiants
-     * @returns un enregistrement ou une liste d'enregistrement
-     */
     async findByPk(id) {
         const preparedQuery = {
             text: `SELECT * FROM "${this.tableName}" WHERE id = $1`,
