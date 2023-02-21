@@ -1,20 +1,20 @@
 const { User } = require("../model");
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const authController = {
-
     /**
      * Vérification de l'authentification
      * @param {*} req 
      * @param {*} res 
      */
     async checkLogin(req,res){
-        console.log("test")
+        console.log(req.body)
         // on génère une instance de User à partir de req.body qui contient username et password
         const user = new User(req.body);
         
         // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
-        // la méthode renvoie true ou false suivant si les informations username/password sont correctes
+        // la méthode renvoie true ou false suivant si les informations email/password sont correctes
         if(await user.checkPassword()){
             console.log(user);
             // Génération du token
@@ -29,7 +29,7 @@ const authController = {
             });
         }
         else{
-            // erreur dans le couple username/password, on renvoie false au client
+            // erreur dans le couple email/password, on renvoie false au client
             res.status(500).json({
                 error:"ceci n'est pas correct!"
             });
