@@ -34,6 +34,25 @@ const usersController = {
         }
     },
 
+    async updateUser(req, res, next) {
+        if(req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 10); 
+            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            if(user) {
+                res.json(user);
+            } else {
+                next(new Error("Problème de BDD"));
+            }
+        } else {
+            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            if(user) {
+                res.json(user);
+            } else {
+                next(new Error("Problème de BDD"));
+            }
+        }
+    },
+
     async deleteUser(req,res,next){
         const user = await coreDatamapper.delete(req.params.id, tableName);
         if (user) {

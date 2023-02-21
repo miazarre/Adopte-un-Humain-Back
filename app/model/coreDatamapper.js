@@ -91,7 +91,7 @@ const coreDatamapper = {
         return row;
     },
 
-    async update({ id }, inputData) {
+    async update(id , inputData, tableName) {
         const fieldsAndPlaceholders = [];
         let indexPlaceholder = 1;
         const values = [];
@@ -106,7 +106,7 @@ const coreDatamapper = {
 
         const preparedQuery = {
             text: `
-                UPDATE "${this.tableName}" SET
+                UPDATE "${tableName}" SET
                 ${fieldsAndPlaceholders},
                 updated_at = now()
                 WHERE id = $${indexPlaceholder}
@@ -115,7 +115,7 @@ const coreDatamapper = {
             values,
         };
 
-        const result = await this.client.query(preparedQuery);
+        const result = await client.query(preparedQuery);
         const row = result.rows[0];
 
         return row;
