@@ -1,31 +1,29 @@
-class CoreDatamapper {
-    tableName;
+const { client }  = require("../service/dbClient");
 
-    constructor(client) {
-        this.client = client;
-    }
+
+const coreDatamapper = {
 
     /**
      * Récupération par identifiant
      * @param {number|number[]} id identifiant ou liste d'identifiants
      * @returns un enregistrement ou une liste d'enregistrement
      */
-    async findByPk(id) {
+    async findByPk(id, tableName) {
         const preparedQuery = {
-            text: `SELECT * FROM "${this.tableName}" WHERE id = $1`,
+            text: `SELECT * FROM "${tableName}" WHERE id = $1`,
             values: [id],
         };
 
-        const result = await this.client.query(preparedQuery);
+        const result = await client.query(preparedQuery);
 
         if (!result.rows[0]) {
             return null;
         }
 
         return result.rows[0];
-    }
+    },
 
-    async findAll(params) {
+    async findAll(params, tableName) {
         let filter = '';
         const values = [];
 
@@ -53,18 +51,18 @@ class CoreDatamapper {
 
         const preparedQuery = {
             text: `
-                SELECT * FROM "${this.tableName}"
+                SELECT * FROM "${tableName}"
                 ${filter}
             `,
             values,
         };
 
-        const result = await this.client.query(preparedQuery);
+        const result = await client.query(preparedQuery);
         console.log(result.rows);
         return result.rows;
-    }
+    },
 
-    async create(inputData) {
+    async create(inputData, tableName) {
         const fields = [];
         const placeholders = [];
         const values = [];
@@ -79,7 +77,7 @@ class CoreDatamapper {
 
         const preparedQuery = {
             text: `
-                INSERT INTO "${this.tableName}"
+                INSERT INTO "${tableName}"
                 (${fields})
                 VALUES (${placeholders})
                 RETURNING *
@@ -87,13 +85,13 @@ class CoreDatamapper {
             values,
         };
 
-        const result = await this.client.query(preparedQuery);
+        const result = await client.query(preparedQuery);
         const row = result.rows[0];
 
         return row;
-    }
+    },
 
-    async update({ id }, inputData) {
+    async update(id , inputData, tableName) {
         const fieldsAndPlaceholders = [];
         let indexPlaceholder = 1;
         const values = [];
@@ -108,7 +106,7 @@ class CoreDatamapper {
 
         const preparedQuery = {
             text: `
-                UPDATE "${this.tableName}" SET
+                UPDATE "${tableName}" SET
                 ${fieldsAndPlaceholders},
                 updated_at = now()
                 WHERE id = $${indexPlaceholder}
@@ -117,16 +115,19 @@ class CoreDatamapper {
             values,
         };
 
-        const result = await this.client.query(preparedQuery);
+        const result = await client.query(preparedQuery);
         const row = result.rows[0];
 
         return row;
-    }
+    },
 
-    async delete(id) {
-        const result = await this.client.query(`DELETE FROM "${this.tableName}" WHERE id = $1`, [id]);
-        return !!result.rowCount;
+    async delete(id, tableName) {
+        const result = await client.query(`DELETE FROM "${tableName}" WHERE id = $1 RETURNING *;`, [id]);
+        return result.rows;
+        // return !!result.rowCount;
     }
 }
 
-module.exports = CoreDatamapper;
+
+
+module.exports = coreDatamapper;
