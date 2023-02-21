@@ -24,7 +24,7 @@ CREATE TABLE "role" (
 
 CREATE TABLE "user" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "firstname"      TEXT NOT NULL,
+    "firstname"     TEXT NOT NULL,
     "lastname"      TEXT NOT NULL,
     "email"         email_regex NOT NULL UNIQUE,
     "phone"         INT NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE "avatar" (
 CREATE TABLE "animal" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
+    "resume"   TEXT,
     "description"   TEXT,
     "needs"         TEXT,
     "birthdate"     DATE,
