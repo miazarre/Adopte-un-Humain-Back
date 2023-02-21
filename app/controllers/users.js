@@ -6,10 +6,21 @@ const usersController = {
         if(users) {
             res.json(users);
         } else {  
-            const error = new Error("Problème interne");         
+            const error = new Error("Problème de BDD");         
             next(error);
         }
+    },
+
+    async addUser(req, res, next) {
+        const user = await userModel.insert(req.body);
+        if(user) {
+            res.json(user);
+        } else {
+            const error = new Error("Problème de BDD");
+            next(error)
+        }
     }
+
 }
 
 module.exports = usersController
