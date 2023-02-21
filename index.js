@@ -10,7 +10,7 @@ app.use(express.json());
 const router = require("./app/router/index.js");
 
 
-app.use(router);
+app.use("/api",router);
 
 app.listen(PORT, () => {
   console.log(`Server ready : http://localhost:${PORT}`);
