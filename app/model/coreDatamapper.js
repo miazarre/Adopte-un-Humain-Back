@@ -108,7 +108,7 @@ const coreDatamapper = {
             text: `
                 UPDATE "${tableName}" SET
                 ${fieldsAndPlaceholders},
-                updated_at = now()
+                updated_at = TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS')
                 WHERE id = $${indexPlaceholder}
                 RETURNING *
             `,
