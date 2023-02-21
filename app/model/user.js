@@ -6,19 +6,19 @@ class User extends Core {
 
     constructor(obj){
         super(obj);
-        this.id = obj.id;
-        this.firstname = obj.firstname;
-        this.lastname = obj.lastname;
+        // this.id = obj.id;
+        // this.firstname = obj.firstname;
+        // this.lastname = obj.lastname;
         this.email = obj.email;
-        this.phone = obj.phone;
+        // this.phone = obj.phone;
         this.password = obj.password;
-        this.address = obj.address;
-        this.city = obj.city;
-        this.postal_code = obj.postal_code;
-        this.country = obj.country;
-        this.role_id = obj.role_id;
-        this.created_at = obj.created_at;
-        this.updated_at = obj.updated_at;
+        // this.address = obj.address;
+        // this.city = obj.city;
+        // this.postal_code = obj.postal_code;
+        // this.country = obj.country;
+        // this.role_id = obj.role_id;
+        // this.created_at = obj.created_at;
+        // this.updated_at = obj.updated_at;
     }
 
     /**
@@ -31,8 +31,8 @@ class User extends Core {
         //     fistname, lastname, username, email, password, birthdate)
         //     VALUES ('Chuck','Norris','cn','cn@gmail.com','maurice','1940-03-10'::date );
 
-        const sqlQuery = "SELECT * FROM \"user\" WHERE username=$1 AND password=$2";
-        const values = [this.username, this.password];
+        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
+        const values = [this.email, this.password];
 
         const response = await client.query(sqlQuery, values);
         
