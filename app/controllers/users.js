@@ -1,23 +1,21 @@
-const coreDatamapper = require("../model/coreDatamapper");
+const { User } = require("../model");
 const bcrypt = require('bcrypt');
-const tableName = "user";
+
 
 const usersController = {
 
     async getAll(_, res, next) {
-        let params;
-        const users = await coreDatamapper.findAll(params, tableName);
+        const users = await User.findAll();
         if(users) {
             res.json(users);
         } else {
-            const error = new Error("Problème de BDD");
-            next(error);
-        }
+            next(new Error("Problème de BDD"));
+        }   
     },
 
     async getUser(req, res, next) {
-         const user = await coreDatamapper.findByPk(req.params.id, tableName);
-        if (user) {
+        const user = await User.findByPk(req.params.id);
+        if(user) {
             res.json(user);
         } else {
             next(new Error("Problème de BDD"));
@@ -26,7 +24,8 @@ const usersController = {
 
     async addUser(req, res, next) {
         req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
-        const user = await coreDatamapper.create(req.body, tableName);
+        req.body.phone = req.body.phone.replace(/[-. ]/g, "");  // Supprime les espaces, tirets et points
+        const user = await User.create(req.body);
         if(user) {
             res.json(user);
         } else {
@@ -37,14 +36,14 @@ const usersController = {
     async updateUser(req, res, next) {
         if(req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, 10); 
-            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            const user = await User.update(req.params.id, req.body);
             if(user) {
                 res.json(user);
             } else {
                 next(new Error("Problème de BDD"));
             }
         } else {
-            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            const user = await User.update(req.params.id, req.body);
             if(user) {
                 res.json(user);
             } else {
@@ -53,16 +52,15 @@ const usersController = {
         }
     },
 
-    async deleteUser(req,res,next){
-        const user = await coreDatamapper.delete(req.params.id, tableName);
+       async deleteUser(req,res,next){
+        const user = await User.delete(req.params.id);
         if (user) {
             res.json(user);
         }
         else {
             next(new Error("Problème de BDD"));
         }
-    },
-
+    }
 
 }
 

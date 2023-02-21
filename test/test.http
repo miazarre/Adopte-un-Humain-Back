@@ -1,0 +1,26 @@
+### Récupération des utilisateurs
+
+GET http://localhost:3001/api/users
+Content-Type: application/application/json
+
+
+### Récupération d'un utilisateur
+
+GET http://localhost:3001/api/user/5
+Content-Type: application/application/json
+
+### Création d'un utilisateur
+
+POST http://localhost:3001/api/register HTTP/1.1
+Content-Type: application/json
+
+{ 
+    "firstname" : "Chuck",
+     "lastname" : "Norris",
+     "email"    : "chuck.norrirs@test.tu",
+     "password" : "azerty",
+     "phone"    : "06-52-14-52-32"
+ }
+
+
+
