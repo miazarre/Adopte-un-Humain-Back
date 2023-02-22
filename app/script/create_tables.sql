@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS "user", "role", "avatar", "adoption", "animal", "tag", "use
 CREATE TABLE "role" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT
 );
 
 CREATE TABLE "user" (
@@ -35,8 +35,8 @@ CREATE TABLE "user" (
     "city"          TEXT,
     "postal_code"   TEXT,
     "country"       TEXT,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ,
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     "role_id"       INTEGER REFERENCES "role"("id") DEFAULT 1
 );
 
@@ -44,8 +44,8 @@ CREATE TABLE "avatar" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
     "picture"       TEXT,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT
 );
 
 CREATE TABLE "animal" (
@@ -60,8 +60,8 @@ CREATE TABLE "animal" (
     "photo2"        TEXT,
     "photo3"        TEXT,
     "photo4"        TEXT,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ,
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     "user_id"       INTEGER REFERENCES "user"("id")
 );
 
@@ -73,8 +73,8 @@ CREATE TABLE "adoption" (
     "form3"         TEXT NOT NULL,
     "status"        TEXT,
     "date_adopt"    DATE,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ,
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     "user_id"       INTEGER REFERENCES "user"("id"),
     "animal_id"     INTEGER REFERENCES "animal"("id")
 );
@@ -86,27 +86,32 @@ CREATE TABLE "adoption" (
 CREATE TABLE "tag" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
-    "required"      BOOLEAN NOT NULL DEFAULT FALSE,
     "priority"      BOOLEAN NOT NULL DEFAULT FALSE,
-    "created_at"    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at"    TIMESTAMPTZ
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT
 );
 
 CREATE TABLE "avatar_has_tag" (
     "avatar_id"     INTEGER REFERENCES "avatar"("id"),
     "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     PRIMARY KEY ("avatar_id", "tag_id")
 );
 
 CREATE TABLE "user_has_tag" (
     "user_id"       INTEGER REFERENCES "user"("id"),
     "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     PRIMARY KEY ("user_id", "tag_id")
 );
 
 CREATE TABLE "animal_has_tag" (
     "animal_id"     INTEGER REFERENCES "animal"("id"),
     "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
+    "updated_at"    TEXT,
     PRIMARY KEY ("animal_id", "tag_id")
 );
 
