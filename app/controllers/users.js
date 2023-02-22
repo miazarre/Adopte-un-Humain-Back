@@ -1,50 +1,54 @@
-const coreDatamapper = require("../model/coreDatamapper");
+const { User } = require("../model");
 const bcrypt = require('bcrypt');
-const tableName = "user";
+
 
 const usersController = {
 
+    /**
+     * Récupère la liste des utilisateurs
+     * @returns Liste des utilisateurs
+     */
     async getAll(_, res, next) {
-        let params;
-        const users = await coreDatamapper.findAll(params, tableName);
+        const users = await User.findAll();
         if(users) {
             res.json(users);
         } else {
-            const error = new Error("Problème de BDD");
-            next(error);
-        }
-    },
-
-    async getUser(req, res, next) {
-         const user = await coreDatamapper.findByPk(req.params.id, tableName);
-        if (user) {
-            res.json(user);
-        } else {
             next(new Error("Problème de BDD"));
-        }
+        }   
     },
 
-    async addUser(req, res, next) {
-        req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
-        const user = await coreDatamapper.create(req.body, tableName);
+   // Récupère un utilisateur
+    async getUser(req, res, next) {
+        const user = await User.findByPk(req.params.id);
         if(user) {
             res.json(user);
         } else {
             next(new Error("Problème de BDD"));
         }
     },
-
+    // Ajoute un utilisateur
+    async addUser(req, res, next) {
+        req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
+        req.body.phone = req.body.phone.replace(/[-. ]/g, "");            // Supprime les espaces, tirets et points
+        const user = await User.create(req.body);
+        if(user) {
+            res.json(user);
+        } else {
+            next(new Error("Problème de BDD"));
+        }
+    },
+    // Modifie un utilisateur
     async updateUser(req, res, next) {
         if(req.body.password) {
             req.body.password = await bcrypt.hash(req.body.password, 10); 
-            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            const user = await User.update(req.params.id, req.body);
             if(user) {
                 res.json(user);
             } else {
                 next(new Error("Problème de BDD"));
             }
         } else {
-            const user = await coreDatamapper.update(req.params.id, req.body, tableName);
+            const user = await User.update(req.params.id, req.body);
             if(user) {
                 res.json(user);
             } else {
@@ -52,9 +56,9 @@ const usersController = {
             }
         }
     },
-
+    // Supprime un utilisateur
     async deleteUser(req,res,next){
-        const user = await coreDatamapper.delete(req.params.id, tableName);
+        const user = await User.delete(req.params.id);
         if (user) {
             res.json(user);
         }
@@ -62,8 +66,6 @@ const usersController = {
             next(new Error("Problème de BDD"));
         }
     },
-
-
 }
 
 module.exports = usersController

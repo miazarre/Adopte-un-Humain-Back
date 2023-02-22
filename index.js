@@ -1,17 +1,37 @@
 require("dotenv").config();
-
 const express = require('express');
+const session = require('express-session');
+const { authRouter, usersRouter } = require("./app/router/index");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+/* Configuration des sessions */
+const sessionConfig = {
+	secret: process.env.SESSION_SECRET,
+	resave: true,
+	saveUninitialized: true,
+	cookie: {
+		secure: false,
+		maxAge: (1000*60*60)
+	},
+};
+
 app.use(express.static('public'));
+
+/* Autorisation de recevoir des données de type JSON */
 app.use(express.json());
 
-const router = require("./app/router/index.js");
+/* Mise en place des sessions */
+const sessionMiddleware = session(sessionConfig);
+app.use(sessionMiddleware);
 
+/* Mise en place du router */
+app.use("/api",authRouter, usersRouter);
 
-app.use("/api",router);
 
 app.listen(PORT, () => {
   console.log(`Server ready : http://localhost:${PORT}`);
 });
+
+
+module.exports = { app, sessionMiddleware};
