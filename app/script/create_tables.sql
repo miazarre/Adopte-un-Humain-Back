@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS "user", "role", "avatar", "adoption", "animal", "tag", "use
 
 CREATE TABLE "role" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name"          TEXT NOT NULL,
+    "name"          TEXT NOT NULL UNIQUE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT
 );
@@ -42,7 +42,7 @@ CREATE TABLE "user" (
 
 CREATE TABLE "avatar" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name"          TEXT NOT NULL,
+    "name"          TEXT NOT NULL UNIQUE,
     "picture"       TEXT,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT
@@ -85,7 +85,7 @@ CREATE TABLE "adoption" (
 
 CREATE TABLE "tag" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name"          TEXT NOT NULL,
+    "name"          TEXT NOT NULL UNIQUE,
     "priority"      BOOLEAN NOT NULL DEFAULT FALSE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT

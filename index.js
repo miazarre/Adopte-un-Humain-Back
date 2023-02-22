@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const session = require('express-session');
-const { authRouter, usersRouter, animalsRouter } = require("./app/router/index");
+const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter } = require("./app/routers/index");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, './public')));
 // Définition des options de configuration de Swagger
 
 const expressJSDocSwagger = require('express-jsdoc-swagger');
+
 
 const options = {
     info: {
@@ -66,7 +67,7 @@ const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter, animalsRouter);
+app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter);
 
 
 app.listen(PORT, () => {
