@@ -27,11 +27,7 @@ class User extends Core {
      * @returns boolean
      */
     async checkPassword() {
-        // utilisateur de test :
-        // INSERT INTO public."user"(
-        //     fistname, lastname, username, email, password, birthdate)
-        //     VALUES ('Chuck','Norris','cn','cn@gmail.com','maurice','1940-03-10'::date );
-
+   
         const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
         const values = [this.email, this.password];
 
@@ -40,7 +36,7 @@ class User extends Core {
         // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
         if (response.rows.length == 1) {
             // je mets à jour le this (user qui appelle le checkPassword)
-            this.firtname = response.rows[0].firstname;
+            this.firstname = response.rows[0].firstname;
             this.lastname = response.rows[0].lastname;
 
             return true;
