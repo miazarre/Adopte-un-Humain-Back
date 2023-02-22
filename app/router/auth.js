@@ -6,7 +6,7 @@ const router = express.Router();
  * POST /api/login
  * @summary Récupère tous les identifiants
  * @tags AUTH
- * @return {string} 200 - les id
+ * @return {string} 200 - all ids
  * @return {object} 500 - Unexpected error
  */
 
