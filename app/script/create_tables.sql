@@ -2,7 +2,7 @@ BEGIN;
 
 -- Suppréssion des DOMAINS existants
 
-DROP DOMAIN IF EXISTS "email_regex", "phone_regex" CASCADE;
+DROP DOMAIN IF EXISTS "email_regex", "phone_number" CASCADE;
 
 -- Création DOMAIN
 
