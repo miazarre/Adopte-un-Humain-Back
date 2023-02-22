@@ -45,6 +45,43 @@ class User extends Core {
             return false;
         }
     }
+
+    // Permet de vérifier si le mail est déjà utilisé
+    async checkEmail() {
+        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
+        const values = [this.email];
+        const response = await client.query(sqlQuery, values);
+        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+        if (response.rows.length == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // Permet de vérifier si l'adresse mail est conforme
+    async regexEmail() {
+        const email = /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email);
+        if(email) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // Permet de vérifier si l'adresse mail est conforme
+    async regexPhone() {
+        const phone = /^0[1-9]([-. ]?[0-9]{2}){4}$/.test(this.phone);
+        if(phone) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }
 
 module.exports = User;
