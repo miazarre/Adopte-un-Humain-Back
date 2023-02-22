@@ -1,4 +1,4 @@
-const { Animal } = require("../model");
+const { Animal } = require("../models");
 const fs = require('fs');
 const multer = require('multer');
 
