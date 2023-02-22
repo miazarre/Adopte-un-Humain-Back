@@ -3,8 +3,13 @@ const authController  = require('../controllers/auth');
 const router = express.Router();
 
 /**
- * POST /api/login - route pour vérifier les informations pour se connecter (email,password)
+ * POST /api/login
+ * @summary Récupère tous les identifiants
+ * @tags AUTH
+ * @return {string} 200 - les id
+ * @return {object} 500 - Unexpected error
  */
+
 router.post("/login", authController.checkLogin);
 
 
