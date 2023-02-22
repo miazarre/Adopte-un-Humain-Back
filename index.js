@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const session = require('express-session');
-const { authRouter, usersRouter } = require("./app/router/index");
+const { authRouter, usersRouter, animalsRouter } = require("./app/router/index");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -26,7 +26,7 @@ const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter);
+app.use("/api",authRouter, usersRouter, animalsRouter);
 
 
 app.listen(PORT, () => {
