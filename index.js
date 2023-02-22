@@ -5,6 +5,41 @@ const { authRouter, usersRouter, animalsRouter } = require("./app/router/index")
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+/****************************/
+/**** Swagger generator  ****/
+/****************************/
+
+// Définition des options de configuration de Swagger
+
+const expressJSDocSwagger = require('express-jsdoc-swagger');
+
+const options = {
+    info: {
+        version: '1.0.0',
+        title: 'J\'Adopte un humain',
+		description: 'My API with Swagger documentation',
+        license: {
+            name: 'MIT',
+        },
+    },
+    security: {
+        BasicAuth: {
+            type: 'http',
+            scheme: 'basic',
+        },
+    },
+    baseDir: __dirname,
+    // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
+    filesPattern: './**/*.js',
+};
+
+// Appel de la fonction expressJSDocSwagger() pour lui passer les options de configuration
+expressJSDocSwagger(app)(options);
+// Montage de l'interface utilisateur Swagger sur une route spécifique
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup);
+
+
 /* Configuration des sessions */
 const sessionConfig = {
 	secret: process.env.SESSION_SECRET,
