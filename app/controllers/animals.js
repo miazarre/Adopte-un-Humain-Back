@@ -1,4 +1,5 @@
 const { Animal } = require("../model");
+const multer = require('multer');
 
 const animalsController = {
     /**
@@ -34,9 +35,9 @@ const animalsController = {
     },
     // Modifie un animal
     async updateAnimal(req, res, next) {
-        const user = await Animal.update(req.params.id, req.body);
-        if(user) {
-            res.json(user);
+        const animal = await Animal.update(req.params.id, req.body);
+        if(animal) {
+            res.json(animal);
         } else {
             next(new Error("Problème de BDD"));
         }

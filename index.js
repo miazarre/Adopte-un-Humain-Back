@@ -6,6 +6,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, './public')));
+
+
 /****************************/
 /**** Swagger generator  ****/
 /****************************/
@@ -51,7 +56,6 @@ const sessionConfig = {
 	},
 };
 
-app.use(express.static('public'));
 
 /* Autorisation de recevoir des données de type JSON */
 app.use(express.json());
