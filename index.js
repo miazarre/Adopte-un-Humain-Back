@@ -59,6 +59,7 @@ const sessionConfig = {
 
 /* Autorisation de recevoir des données de type JSON */
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /* Mise en place des sessions */
 const sessionMiddleware = session(sessionConfig);
