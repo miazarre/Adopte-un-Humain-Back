@@ -3,6 +3,8 @@ const express = require('express');
 const session = require('express-session');
 const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter } = require("./app/routers/index");
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
 
@@ -70,7 +72,7 @@ app.use(sessionMiddleware);
 app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter);
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server ready : http://localhost:${PORT}`);
 });
 
