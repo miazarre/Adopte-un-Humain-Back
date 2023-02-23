@@ -1,6 +1,9 @@
 const express = require('express');
 const { usersController } = require('../controllers');
 const router = express.Router();
+const validationModule = require("../service/validation");
+const schemaRegisterBody = require("../schemas/registerBody");
+const schemaProfilBody = require("../schemas/profilBody");
 
 /**
  * GET /api/users
@@ -20,7 +23,7 @@ router.get('/users', usersController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/register', usersController.addUser);
+router.post('/register', validationModule.check(schemaRegisterBody,"body"), usersController.addUser);
 
 /**
  * GET /api/user/:id
@@ -40,7 +43,7 @@ router.get('/user/:id', usersController.getUser);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/user/:id', usersController.updateUser);
+router.patch('/user/:id', validationModule.check(schemaProfilBody,"body"), usersController.updateUser);
 
 /**
  * DELETE /api/user/:id
