@@ -67,7 +67,7 @@ const tagsController = {
               res.status(500).json({
                 error: "L'id n'existe pas"
               });
-            }
+        }
     },
 
     // Supprime un tag

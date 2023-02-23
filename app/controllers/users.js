@@ -64,7 +64,8 @@ const usersController = {
     // Modifie un utilisateur
     async updateUser(req, res, next) {
         const userExist = new User(req.body);
-        if(userExist) {
+        const emailExist = await userExist.checkEmail();           // Controle si le mail existe déjà
+        if(emailExist) {
             if(req.body.password) {
                 req.body.password = await bcrypt.hash(req.body.password, 10); 
                 const user = await User.update(req.params.id, req.body);
