@@ -1,7 +1,6 @@
 const { Animal } = require("../models");
 const fs = require('fs');
-const multer = require('multer');
-
+const { upload } = require("../routers/animals"); // import d''upload' du router
 
 const animalsController = {
 
@@ -31,6 +30,13 @@ const animalsController = {
     async addAnimal(req, res, next) {
         const animal = await Animal.create(req.body);
         if(animal) {
+
+        //photo1: req.files.photo1[0].filename,
+        //photo2: req.files.photo2[0].filename,
+        //photo3: req.files.photo3[0].filename,
+        //photo4: req.files.photo4[0].filename,
+
+
             res.json(animal);
         } else {
             next(new Error("Problème de BDD"));
