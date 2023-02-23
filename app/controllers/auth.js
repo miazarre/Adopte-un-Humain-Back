@@ -1,5 +1,6 @@
 const { User } = require("../models");
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const authController = {
     /**
@@ -8,7 +9,7 @@ const authController = {
      * @returns Le token
      */
     async checkLogin(req,res){
-        console.log(req.body)
+        req.body.password = await bcrypt.compare(req.body.password, 10);     // Crypt password
         // Génération d'une instance de User à partir de req.body qui contient l'email et password
         const user = new User(req.body);
         
