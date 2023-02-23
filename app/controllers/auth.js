@@ -9,9 +9,12 @@ const authController = {
      * @returns Le token
      */
     async checkLogin(req,res){
-        req.body.password = await bcrypt.compare(req.body.password, 10);     // Crypt password
+        
         // Génération d'une instance de User à partir de req.body qui contient l'email et password
         const user = new User(req.body);
+        if(await user.checkEmailLogin()){
+            
+        }
         
         // on appelle la méthode qui va vérifier les infos en BDD et rempli les informations de notre user
         if(await user.checkPassword()){
