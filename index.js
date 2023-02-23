@@ -7,6 +7,7 @@ const http = require('http');
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
+const multer = require('multer');
 
 const path = require('path');
 app.use(express.static(path.join(__dirname, './public')));
@@ -45,6 +46,7 @@ const options = {
 expressJSDocSwagger(app)(options);
 // Montage de l'interface utilisateur Swagger sur une route spécifique
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup);
+
 
 
 /* Configuration des sessions */

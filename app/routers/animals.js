@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     }
   })
   
-  const upload = multer({ storage: storage });
+  const upload = multer({ storage: storage })
 
 
 /**
@@ -40,8 +40,8 @@ router.get('/animals', animalsController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/animal', upload.fields([{ name: "photo1" }, { name: "photo2" }, { name: "photo3" }, { name: "photo4" }]), animalsController.addAnimal);
-
+router.post('/animal', upload.array('files'), animalsController.addAnimal);
+// upload.array("files")
 /**
  * GET /api/animals/:id
  * @summary Récupère un animal
@@ -73,4 +73,4 @@ router.patch('/animal/:id', animalsController.updateAnimal);
 router.delete('/animal/:id', animalsController.deleteAnimal);
 
 
-module.exports = router, upload;
+module.exports = router;
