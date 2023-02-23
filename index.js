@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const session = require('express-session');
-const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter } = require("./app/routers/index");
+const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter } = require("./app/routers/index");
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -10,7 +10,8 @@ const cors = require('cors');
 const multer = require('multer');
 
 const path = require('path');
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, './public/')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use(cors())
 
 /****************************/
@@ -70,7 +71,7 @@ const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter);
+app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter);
 
 
 server.listen(PORT, () => {
