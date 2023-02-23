@@ -1,6 +1,5 @@
 const { Animal } = require("../models");
-const fs = require('fs');
-const { upload } = require("../routers/animals"); // import d''upload' du router
+
 
 const animalsController = {
 
