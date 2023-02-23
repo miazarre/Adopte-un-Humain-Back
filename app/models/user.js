@@ -1,5 +1,6 @@
 const Core = require('./core');
 const client = require('../service/dbClient');
+const bcrypt = require('bcrypt');
 
 class User extends Core {
     static tableName = 'user';
@@ -27,7 +28,7 @@ class User extends Core {
      * @returns boolean
      */
     async checkPassword() {
-        console.log(this.password, this.email)
+
         const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
         const values = [this.email, this.password];
 
@@ -65,9 +66,14 @@ class User extends Core {
         const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
         const values = [this.email];
         const response = await client.query(sqlQuery, values);
+        
         // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
         if (response.rows.length == 1) {
-            return response.rows[0].password;
+            if(await bcrypt.compare(this.password, response.rows[0].password)) {
+                return true;
+            } else {
+                return false;
+            }
         }
         else {
             return false;
