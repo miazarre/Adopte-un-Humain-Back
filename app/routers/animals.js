@@ -1,6 +1,26 @@
 const express = require('express');
 const { animalsController } = require('../controllers');
 const router = express.Router();
+const multer = require('multer');
+
+// Import de 'multer' et création d'un objet de configuration pour gérer l'upload des fichiers.
+// La fonction 'diskStorage()' permet de créer un objet de configuration qui définit le répertoire de destination où les fichiers téléchargés seront stockés et le nom de fichier qui sera utilisé.
+// 'uploads/' est le dossier où sont stockées les images.
+// 'cb' est un callback appelé losque le fichier imgage est uploadé.
+// 'file.fieldname' permet d'obtenir le nom du champ de formulaire dans lequel le fichier a été téléchargé, et de l'utiliser comme préfixe pour le nom de fichier généré.
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "public/images/")
+    },
+    filename: function (req, file, cb) {
+// si les images ont une extension .png
+      cb(null, file.fieldname + '-' + '.png')
+    }
+  })
+  
+  const upload = multer({ storage: storage })
+
 
 /**
  * GET /api/animals
@@ -20,7 +40,7 @@ router.get('/animals', animalsController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/animal', animalsController.addAnimal);
+router.post('/animal', upload.fields([{ name: "photo1" }, { name: "photo2" }, { name: "photo3" }, { name: "photo4" }]), animalsController.addAnimal);
 
 /**
  * GET /api/animals/:id
@@ -53,4 +73,4 @@ router.patch('/animal/:id', animalsController.updateAnimal);
 router.delete('/animal/:id', animalsController.deleteAnimal);
 
 
-module.exports = router;
+module.exports = router, upload;
