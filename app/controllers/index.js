@@ -4,6 +4,7 @@ const authController = require("./auth");
 const tagsController = require("./tags");
 const rolesController = require("./roles");
 const photosController = require("./photos");
+const adoptsController = require("./adopts");
 
 
 module.exports =  { 
@@ -13,4 +14,5 @@ module.exports =  {
     tagsController,
     rolesController,
     photosController,
+    adoptsController
  };
