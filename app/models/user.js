@@ -27,7 +27,7 @@ class User extends Core {
      * @returns boolean
      */
     async checkPassword() {
-   
+        console.log(this.password, this.email)
         const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
         const values = [this.email, this.password];
 
