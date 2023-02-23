@@ -35,7 +35,7 @@ const authController = {
             
         } else {
             // erreur dans le couple email/password
-            res.status(500).json({
+            res.status(400).json({
                 error:"L'email ou le mot de passe ne correspond pas !"
             });
         }
