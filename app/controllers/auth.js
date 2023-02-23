@@ -16,12 +16,21 @@ const authController = {
             // Génération du token
             const token = jwt.sign({email:user.email}, process.env.SESSION_SECRET);
             console.log("TOKEN : ",token);
-            
+            const userAuth = await User.findAll({ $where: {email:user.email} });  
             // on enregistre le user courant dans la session
-            req.session.user = user;
+            req.session.user = userAuth;
             // on envoie le token généré au client
             res.json({
-                token
+                token,
+                firstname: userAuth[0].firstname,
+                lastname: userAuth[0].lastname,
+                email: userAuth[0].email,
+                phone: userAuth[0].phone,
+                address: userAuth[0].address,
+                postal_code: userAuth[0].postal_code,
+                city: userAuth[0].city,
+                country: userAuth[0].country,
+                role_id: userAuth[0].role_id
             });
             
         } else {
