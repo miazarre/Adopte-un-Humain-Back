@@ -1,7 +1,8 @@
 const express = require('express');
 const { animalsController } = require('../controllers');
 const router = express.Router();
-
+const multer = require('multer');
+const upload = multer({dest: 'public/images/'});
 
 
 /**
@@ -22,8 +23,8 @@ router.get('/animals', animalsController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/animal', animalsController.addAnimal);
-
+router.post('/animal', upload.array('files'), animalsController.addAnimal);
+// upload.array("files")
 /**
  * GET /api/animals/:id
  * @summary Récupère un animal

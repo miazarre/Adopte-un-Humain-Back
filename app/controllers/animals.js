@@ -1,5 +1,5 @@
 const { Animal } = require("../models");
-
+const multer = require('multer');
 
 const animalsController = {
 
@@ -27,19 +27,25 @@ const animalsController = {
     },
     // Ajoute un animal
     async addAnimal(req, res, next) {
-        const animal = await Animal.create(req.body);
-        if(animal) {
 
-        //photo1: req.files.photo1[0].filename,
-        //photo2: req.files.photo2[0].filename,
-        //photo3: req.files.photo3[0].filename,
-        //photo4: req.files.photo4[0].filename,
+        console.log(req.body);
+        console.log(req.files);
+        // res.json({status: "files received"});
+        
+        // const animal = await Animal.create(req.body);
+        // if(animal) {
+        
+
+        // // photo1: req.files.photo1[0].filename,
+        // // photo2: req.files.photo2[0].filename,
+        // // photo3: req.files.photo3[0].filename,
+        // // photo4: req.files.photo4[0].filename,
 
 
-            res.json(animal);
-        } else {
-            next(new Error("Problème de BDD"));
-        }
+        //     res.json(animal);
+        // } else {
+        //     next(new Error("Problème de BDD"));
+        // }
     },
     // Modifie un animal
     async updateAnimal(req, res, next) {
