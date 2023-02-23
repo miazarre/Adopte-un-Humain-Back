@@ -60,6 +60,20 @@ class User extends Core {
         }
     }
 
+    // Permet de vérifier si le mail est déjà utilisé
+    async checkEmailLogin() {
+        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
+        const values = [this.email];
+        const response = await client.query(sqlQuery, values);
+        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+        if (response.rows.length == 1) {
+            return response.rows[0].password;
+        }
+        else {
+            return false;
+        }
+    }
+
     // Permet de vérifier si l'adresse mail est conforme
     async regexEmail() {
         const email = /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email);
