@@ -5,6 +5,7 @@ const animalsRouter = require("./animals");
 const tagsRouter = require("./tags");
 const rolesRouter = require("./roles");
 const photosRouter = require("./photos");
+const avatarsRouter = require("./photos");
 
 
 
@@ -14,5 +15,6 @@ module.exports = {
      animalsRouter,
      tagsRouter,
      rolesRouter,
-     photosRouter
+     photosRouter,
+     avatarsRouter
 };
