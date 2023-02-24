@@ -16,7 +16,7 @@ const upload = multer({dest: 'public/images/'});
 router.get('/animals', animalsController.getAll);
 
 /**
- * POST /api/animals
+ * POST /api/animal
  * @summary Crée un animal
  * @tags ANIMAL
  * @return {string} 200 - new animal
@@ -26,7 +26,7 @@ router.get('/animals', animalsController.getAll);
 router.post('/animal', upload.array('files'), animalsController.addAnimal);
 // upload.array("files")
 /**
- * GET /api/animals/:id
+ * GET /api/animal/:id
  * @summary Récupère un animal
  * @tags ANIMAL
  * @return {string} 200 - one animal
@@ -36,7 +36,7 @@ router.post('/animal', upload.array('files'), animalsController.addAnimal);
 router.get('/animal/:id', animalsController.getAnimal);
 
 /**
- * PATCH /api/animals/:id
+ * PATCH /api/animal/:id
  * @summary Modifie un animal
  * @tags ANIMAL
  * @return {string} 200 - update animal
@@ -46,7 +46,7 @@ router.get('/animal/:id', animalsController.getAnimal);
 router.patch('/animal/:id', animalsController.updateAnimal);
 
 /**
- * DELETE /api/animals/:id
+ * DELETE /api/animal/:id
  * @summary Supprime un animal
  * @tags ANIMAL
  * @return {string} 200 - delete animal

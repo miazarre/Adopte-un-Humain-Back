@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/roles', rolesController.getAll);
 
 /**
- * POST /api/roles
+ * POST /api/role
  * @summary Crée un role
  * @tags ROLE
  * @return {string} 200 - new role
@@ -23,7 +23,7 @@ router.get('/roles', rolesController.getAll);
 router.post('/role', rolesController.addRole);
 
 /**
- * GET /api/roles/:id
+ * GET /api/role/:id
  * @summary Récupère un role
  * @tags ROLE
  * @return {string} 200 - one role
@@ -33,7 +33,7 @@ router.post('/role', rolesController.addRole);
 router.get('/role/:id', rolesController.getRole);
 
 /**
- * PATCH /api/roles/:id
+ * PATCH /api/role/:id
  * @summary Modifie un role
  * @tags ROLE
  * @return {string} 200 - update role
@@ -43,7 +43,7 @@ router.get('/role/:id', rolesController.getRole);
 router.patch('/role/:id', rolesController.updateRole);
 
 /**
- * DELETE /api/roles/:id
+ * DELETE /api/role/:id
  * @summary Supprime un role
  * @tags ROLE
  * @return {string} 200 - delete role
