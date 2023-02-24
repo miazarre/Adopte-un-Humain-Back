@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/adopts', adoptsController.getAll);
 
 /**
- * POST /api/adopts
+ * POST /api/adopt
  * @summary Crée une adoption
  * @tags ADOPT
  * @return {string} 200 - new adopt
@@ -24,7 +24,7 @@ router.get('/adopts', adoptsController.getAll);
 router.post('/adopt', adoptsController.addAdopt);
 // upload.array("files")
 /**
- * GET /api/adopts/:id
+ * GET /api/adopt/:id
  * @summary Récupère une adoption
  * @tags ADOPT
  * @return {string} 200 - one adopt
@@ -34,7 +34,7 @@ router.post('/adopt', adoptsController.addAdopt);
 router.get('/adopt/:id', adoptsController.getAdopt);
 
 /**
- * PATCH /api/adopts/:id
+ * PATCH /api/adopt/:id
  * @summary Modifie une adoption
  * @tags ADOPT
  * @return {string} 200 - update adopt
@@ -44,7 +44,7 @@ router.get('/adopt/:id', adoptsController.getAdopt);
 router.patch('/adopt/:id', adoptsController.updateAdopt);
 
 /**
- * DELETE /api/adopts/:id
+ * DELETE /api/adopt/:id
  * @summary Supprime une adoption
  * @tags ADOPT
  * @return {string} 200 - delete adopt

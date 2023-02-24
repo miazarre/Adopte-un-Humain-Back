@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/tags', tagsController.getAll);
 
 /**
- * POST /api/tags
+ * POST /api/tag
  * @summary Crée un tag
  * @tags TAG
  * @return {string} 200 - new tag
@@ -24,7 +24,7 @@ router.get('/tags', tagsController.getAll);
 router.post('/tag', tagsController.addTag);
 
 /**
- * GET /api/tags/:id
+ * GET /api/tag/:id
  * @summary Récupère un tag
  * @tags TAG
  * @return {string} 200 - one tag
@@ -34,7 +34,7 @@ router.post('/tag', tagsController.addTag);
 router.get('/tag/:id', tagsController.getTag);
 
 /**
- * PATCH /api/tags/:id
+ * PATCH /api/tag/:id
  * @summary Modifie un tag
  * @tags TAG
  * @return {string} 200 - update tag
@@ -44,7 +44,7 @@ router.get('/tag/:id', tagsController.getTag);
 router.patch('/tag/:id', tagsController.updateTag);
 
 /**
- * DELETE /api/tags/:id
+ * DELETE /api/tag/:id
  * @summary Supprime un tag
  * @tags TAG
  * @return {string} 200 - delete tag

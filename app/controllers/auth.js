@@ -22,6 +22,7 @@ const authController = {
             // on envoie le token généré au client
             res.json({
                 token,
+                id: userAuth[0].id,
                 firstname: userAuth[0].firstname,
                 lastname: userAuth[0].lastname,
                 email: userAuth[0].email,
