@@ -1,5 +1,8 @@
 const express = require('express');
 const { tagsController } = require('../controllers');
+const validationModule = require("../service/validation");
+const schemaTag = require("../schemas/tagBody");
+const schemaUpdateTag = require("../schemas/updateTagBody");
 
 const router = express.Router();
 
@@ -21,7 +24,7 @@ router.get('/tags', tagsController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/tag', tagsController.addTag);
+router.post('/tag', validationModule.check(schemaTag,"body"), tagsController.addTag);
 
 /**
  * GET /api/tag/:id
@@ -41,7 +44,7 @@ router.get('/tag/:id', tagsController.getTag);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/tag/:id', tagsController.updateTag);
+router.patch('/tag/:id', validationModule.check(schemaUpdateTag,"body"), tagsController.updateTag);
 
 /**
  * DELETE /api/tag/:id

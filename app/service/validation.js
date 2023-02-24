@@ -16,7 +16,7 @@ const validation = {
             else{
                 // je gère l'erreur
                 next(error);
-                // throw new Error("Schéma non validé !!!");
+                throw new Error("Schéma non validé !!!");
             }
         };
     }
