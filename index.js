@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const session = require('express-session');
-const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter } = require("./app/routers/index");
+const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter } = require("./app/routers/index");
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -71,7 +71,7 @@ const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter);
+app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter);
 
 
 server.listen(PORT, () => {
