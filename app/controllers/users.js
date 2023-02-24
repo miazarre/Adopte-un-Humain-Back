@@ -28,44 +28,56 @@ const usersController = {
     },
     // Ajoute un utilisateur
     async addUser(req, res, next) {
-        const email = new User(req.body);
-        const emailExist = await email.checkEmail();           // Controle si le mail existe déjà
-        if (!emailExist) {
-            const emailRegex = await email.regexEmail();       // Controle si l'adresse e-mail est conforme
-            if(emailRegex) {
-                const phoneRegex = await email.regexPhone();   // Controle si le téléphone est conforme
-                if(phoneRegex) {
-                    req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
-                    req.body.phone = req.body.phone.replace(/[-. ]/g, "");            // Supprime les espaces, tirets et points
-                    const user = await User.create(req.body);
-                    if(user) {
-                        res.json(user);
-                    } else {
-                        next(new Error("Problème de BDD"));
-                    }
-                } else {
-                    res.status(500).json({
-                        error: "Le numéro de téléphone n'est pas conforme"
-                    });
-                }
+        try {
+            req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
+            req.body.phone = req.body.phone.replace(/[-. ]/g, "");            // Supprime les espaces, tirets et points
+            const user = await User.create(req.body);
+            if(user) {
+                res.json(user);
             } else {
-                res.status(500).json({
-                    error: "L'e-mail n'est pas conforme"
-                });
+                next(new Error("Problème de BDD"));
             }
-        } else {
-          // Le tag existe déjà
-          res.status(500).json({
-            error: "L'e-mail est déjà utilisé !"
-          });
+        } catch(error) {
+
         }
 
+        // const email = new User(req.body);
+        // const emailExist = await email.checkEmail();           // Controle si le mail existe déjà
+        // if (!emailExist) {
+        //     const emailRegex = await email.regexEmail();       // Controle si l'adresse e-mail est conforme
+        //     if(emailRegex) {
+        //         const phoneRegex = await email.regexPhone();   // Controle si le téléphone est conforme
+        //         if(phoneRegex) {
+        //             req.body.password = await bcrypt.hash(req.body.password, 10);     // Crypt password
+        //             req.body.phone = req.body.phone.replace(/[-. ]/g, "");            // Supprime les espaces, tirets et points
+        //             const user = await User.create(req.body);
+        //             if(user) {
+        //                 res.json(user);
+        //             } else {
+        //                 next(new Error("Problème de BDD"));
+        //             }
+        //         } else {
+        //             res.status(500).json({
+        //                 error: "Le numéro de téléphone n'est pas conforme"
+        //             });
+        //         }
+        //     } else {
+        //         res.status(500).json({
+        //             error: "L'e-mail n'est pas conforme"
+        //         });
+        //     }
+        // } else {
+        //   // Le tag existe déjà
+        //   res.status(500).json({
+        //     error: "L'e-mail est déjà utilisé !"
+        //   });
+        // }
     },
     // Modifie un utilisateur
     async updateUser(req, res, next) {
         const userExist = new User(req.body);
         const emailExist = await userExist.checkEmail();           // Controle si le mail existe déjà
-        if(emailExist) {
+        if(!emailExist) {
             if(req.body.password) {
                 req.body.password = await bcrypt.hash(req.body.password, 10); 
                 const user = await User.update(req.params.id, req.body);
