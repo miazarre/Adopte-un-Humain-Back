@@ -1,6 +1,10 @@
 const express = require('express');
 const { rolesController } = require('../controllers');
 const router = express.Router();
+const validationModule = require("../service/validation");
+const schemaRole = require("../schemas/roleBody");
+const schemaUpdateRole = require("../schemas/updateRoleBody");
+
 
 /**
  * GET /api/roles
@@ -20,7 +24,7 @@ router.get('/roles', rolesController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/role', rolesController.addRole);
+router.post('/role',validationModule.check(schemaRole,"body"), rolesController.addRole);
 
 /**
  * GET /api/role/:id
@@ -40,7 +44,7 @@ router.get('/role/:id', rolesController.getRole);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/role/:id', rolesController.updateRole);
+router.patch('/role/:id',validationModule.check(schemaUpdateRole,"body"), rolesController.updateRole);
 
 /**
  * DELETE /api/role/:id
