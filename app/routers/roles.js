@@ -2,6 +2,7 @@ const express = require('express');
 const { rolesController } = require('../controllers');
 const router = express.Router();
 const validationModule = require("../service/validation");
+const auth = require("../service/security");
 const schemaRole = require("../schemas/roleBody");
 const schemaUpdateRole = require("../schemas/updateRoleBody");
 

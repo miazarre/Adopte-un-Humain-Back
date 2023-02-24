@@ -1,6 +1,7 @@
 const express = require('express');
 const { photosController } = require('../controllers');
 const router = express.Router();
+const auth = require("../service/security");
 
 
 router.get('/images/animal/:filename', photosController.getPhotoAnimal);

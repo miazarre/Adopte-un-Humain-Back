@@ -1,6 +1,7 @@
 const express = require('express');
 const { avatarsController } = require('../controllers');
 const router = express.Router();
+const auth = require("../service/security");
 const multer = require('multer');
 const upload = multer({dest: 'public/images/avatars'});
 

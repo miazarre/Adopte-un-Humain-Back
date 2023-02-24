@@ -3,7 +3,7 @@ const { tagsController } = require('../controllers');
 const validationModule = require("../service/validation");
 const schemaTag = require("../schemas/tagBody");
 const schemaUpdateTag = require("../schemas/updateTagBody");
-
+const auth = require("../service/security");
 const router = express.Router();
 
 /**
@@ -14,7 +14,7 @@ const router = express.Router();
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/tags', tagsController.getAll);
+router.get('/tags', auth.checkToken, tagsController.getAll);
 
 /**
  * POST /api/tag
@@ -24,7 +24,7 @@ router.get('/tags', tagsController.getAll);
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/tag', validationModule.check(schemaTag,"body"), tagsController.addTag);
+router.post('/tag', auth.checkToken, validationModule.check(schemaTag,"body"), tagsController.addTag);
 
 /**
  * GET /api/tag/:id
@@ -34,7 +34,7 @@ router.post('/tag', validationModule.check(schemaTag,"body"), tagsController.add
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/tag/:id', tagsController.getTag);
+router.get('/tag/:id', auth.checkToken, tagsController.getTag);
 
 /**
  * PATCH /api/tag/:id
@@ -44,7 +44,7 @@ router.get('/tag/:id', tagsController.getTag);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/tag/:id', validationModule.check(schemaUpdateTag,"body"), tagsController.updateTag);
+router.patch('/tag/:id', auth.checkToken, validationModule.check(schemaUpdateTag,"body"), tagsController.updateTag);
 
 /**
  * DELETE /api/tag/:id
@@ -54,7 +54,7 @@ router.patch('/tag/:id', validationModule.check(schemaUpdateTag,"body"), tagsCon
  * @return {object} 500 - Unexpected error
  */
 
-router.delete('/tag/:id', tagsController.deleteTag);
+router.delete('/tag/:id', auth.checkToken, tagsController.deleteTag);
 
 
 module.exports = router;

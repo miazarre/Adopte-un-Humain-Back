@@ -1,6 +1,7 @@
 const express = require('express');
 const { adoptsController } = require('../controllers');
 const router = express.Router();
+const auth = require("../service/security");
 
 
 /**
