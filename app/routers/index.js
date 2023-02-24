@@ -5,7 +5,7 @@ const animalsRouter = require("./animals");
 const tagsRouter = require("./tags");
 const rolesRouter = require("./roles");
 const photosRouter = require("./photos");
-const avatarsRouter = require("./photos");
+const avatarsRouter = require("./avatars");
 
 
 
