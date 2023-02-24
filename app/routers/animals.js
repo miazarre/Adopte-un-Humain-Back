@@ -2,7 +2,7 @@ const express = require('express');
 const { animalsController } = require('../controllers');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({dest: 'public/images/'});
+const upload = multer({dest: 'public/images/animals'});
 
 
 /**

@@ -3,7 +3,9 @@ const { photosController } = require('../controllers');
 const router = express.Router();
 
 
-router.get('/images/:filename', photosController.getPhoto);
+router.get('/images/animal/:filename', photosController.getPhotoAnimal);
+
+router.get('/images/avatar/:filename', photosController.getPhotoAvatar);
 
 
 module.exports = router;
