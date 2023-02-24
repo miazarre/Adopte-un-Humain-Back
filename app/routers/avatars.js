@@ -9,7 +9,7 @@ const upload = multer({dest: 'public/images/'});
  * GET /api/avatars
  * @summary Récupère tous les avatars
  * @tags AVATAR
- * @return {string} 200 - all animals
+ * @return {string} 200 - all avatars
  * @return {object} 500 - Unexpected error
  */
 
