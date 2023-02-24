@@ -30,23 +30,26 @@ const animalsController = {
 
         console.log(req.body);
         console.log(req.files);
-        // res.json({status: "files received"});
         
-        // const animal = await Animal.create(req.body);
-        // if(animal) {
-        
+        // Pour chaque images récupérer je les mets dans mon req.body
+        if(req.files) {
+            for (let i = 0; i < req.files.length; i++) {
+                let count = i + 1;
+                req.body[`photo${count}`] = req.files[i].filename;
+                console.log(req.body);
+              }
+        }
 
-        // // photo1: req.files.photo1[0].filename,
-        // // photo2: req.files.photo2[0].filename,
-        // // photo3: req.files.photo3[0].filename,
-        // // photo4: req.files.photo4[0].filename,
+        // const animal = new Animal(req.body);
 
-
-        //     res.json(animal);
-        // } else {
-        //     next(new Error("Problème de BDD"));
-        // }
+          const addAnimal = await Animal.create(req.body);
+          if (addAnimal) {
+            res.json(addAnimal);
+          } else {
+            next(new Error("Problème de BDD"));
+          }        
     },
+
     // Modifie un animal
     async updateAnimal(req, res, next) {
         const animal = await Animal.update(req.params.id, req.body);

@@ -4,6 +4,8 @@ const authRouter = require("./auth");
 const animalsRouter = require("./animals");
 const tagsRouter = require("./tags");
 const rolesRouter = require("./roles");
+const photosRouter = require("./photos");
+
 
 
 module.exports = {
@@ -11,5 +13,6 @@ module.exports = {
      authRouter,
      animalsRouter,
      tagsRouter,
-     rolesRouter
+     rolesRouter,
+     photosRouter
 };
