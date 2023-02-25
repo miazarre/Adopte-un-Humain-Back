@@ -67,13 +67,31 @@ const animalsController = {
     // Modifie un animal
     async updateAnimal(req, res, next) {
         try {
-            const animal = await Animal.update(req.params.id, req.body);
-            if(animal) {
-                res.json(animal);
-            } else {
-                next(new Error("Problème de BDD"));
-            }
-        } catch(error) {
+          const animalId = req.params.id;
+          const data = {};
+      
+          // Vérifie si de nouvelles images sont envoyées
+          if (req.files && req.files.length > 0) {
+            for (let i = 0; i < Math.min(4, req.files.length); i++) {
+            data[`photo${i + 1}`] = req.files[i].filename;
+        }
+      }
+      
+          // Vérifie si un nouveau nom est envoyé
+          if (req.body.name) {
+            data.name = req.body.name;
+          }
+      
+          // Met à jour l'avatar en BDD
+          const updatedAnimal = await Animal.update(animalId, data);
+      
+          // Retourne l'avatar modifié
+          if(updatedAnimal) {
+            res.json(updatedAnimal);
+        } else {
+            next(new Error("Problème de BDD"));
+        }
+    } catch(error) {
             res.status(500).json({
                 error: "erreur !"
             });

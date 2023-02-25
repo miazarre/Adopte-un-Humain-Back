@@ -116,7 +116,7 @@ class Core {
         }
     }
 
-    static async update( id , inputData) {
+    static async update(id , inputData) {
         try {
             const fieldsAndPlaceholders = [];
             let indexPlaceholder = 1;

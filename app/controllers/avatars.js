@@ -60,15 +60,32 @@ const avatarsController = {
     },
 
     // Modifie un avatar
+    
     async updateAvatar(req, res, next) {
         try {
-            const avatar = await Avatar.update(req.params.id, req.body);
-            if(avatar) {
-                res.json(avatar);
-            } else {
-                next(new Error("Problème de BDD"));
-            }
-        } catch(error) {
+          const avatarId = req.params.id;
+          const data = {};
+      
+          // Vérifie si une nouvelle image est envoyée
+          if (req.files && req.files.length > 0) {
+            data.picture = req.files[0].filename;
+          }
+      
+          // Vérifie si un nouveau nom est envoyé
+          if (req.body.name) {
+            data.name = req.body.name;
+          }
+      
+          // Met à jour l'avatar en BDD
+          const updatedAvatar = await Avatar.update(avatarId, data);
+      
+          // Retourne l'avatar modifié
+          if(updatedAvatar) {
+            res.json(updatedAvatar);
+        } else {
+            next(new Error("Problème de BDD"));
+        }
+    } catch(error) {
             res.status(500).json({
                 error: "erreur !"
             });
