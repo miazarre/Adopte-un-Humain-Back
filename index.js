@@ -7,7 +7,7 @@ const http = require('http');
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
-const multer = require('multer');
+
 
 const path = require('path');
 app.use(express.static(path.join(__dirname, './public/')));
@@ -72,6 +72,7 @@ app.use(sessionMiddleware);
 
 /* Mise en place du router */
 app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter);
+
 
 
 server.listen(PORT, () => {

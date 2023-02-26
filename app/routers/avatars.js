@@ -1,9 +1,30 @@
 const express = require('express');
 const { avatarsController } = require('../controllers');
 const router = express.Router();
+const auth = require("../service/security");
 const multer = require('multer');
 const upload = multer({dest: 'public/images/avatars'});
 
+
+
+// Routes des avatars
+
+router.get('/avatars', avatarsController.getAll);
+router.post('/avatar', upload.array('files'), avatarsController.addAvatar);
+router.get('/avatar/:id', avatarsController.getAvatar);
+router.patch('/avatar/:id', avatarsController.updateAvatar);
+router.delete('/avatar/:id', avatarsController.deleteAvatar);
+
+// Routes de la relation AVATAR_HAS_TAG
+
+router.get('/avatar/:id/tag');
+router.post('/avatar/:id/tag');
+router.delete('/avatar/:id/tag');
+
+
+module.exports = router;
+
+// doc swagger : http://localhost:3000/api-docs
 
 /**
  * GET /api/avatars
@@ -13,8 +34,6 @@ const upload = multer({dest: 'public/images/avatars'});
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/avatars', avatarsController.getAll);
-
 /**
  * POST /api/avatar
  * @summary Crée un avatar
@@ -22,9 +41,6 @@ router.get('/avatars', avatarsController.getAll);
  * @return {string} 200 - new avatar
  * @return {object} 500 - Unexpected error
  */
-
-router.post('/avatar', upload.array('files'), avatarsController.addAvatar);
-// upload.array("files")
 
 /**
  * GET /api/avatar/:id
@@ -34,8 +50,6 @@ router.post('/avatar', upload.array('files'), avatarsController.addAvatar);
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/avatar/:id', avatarsController.getAvatar);
-
 /**
  * PATCH /api/avatar/:id
  * @summary Modifie un avatar
@@ -44,8 +58,6 @@ router.get('/avatar/:id', avatarsController.getAvatar);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/avatar/:id', avatarsController.updateAvatar);
-
 /**
  * DELETE /api/avatar/:id
  * @summary Supprime un avatar
@@ -53,8 +65,3 @@ router.patch('/avatar/:id', avatarsController.updateAvatar);
  * @return {string} 200 - delete avatar
  * @return {object} 500 - Unexpected error
  */
-
-router.delete('/avatar/:id', avatarsController.deleteAvatar);
-
-
-module.exports = router;

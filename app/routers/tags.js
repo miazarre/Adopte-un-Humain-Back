@@ -1,10 +1,24 @@
 const express = require('express');
 const { tagsController } = require('../controllers');
-const validationModule = require("../service/validation");
+const validation = require("../service/validation");
 const schemaTag = require("../schemas/tagBody");
-const schemaUpdateTag = require("../schemas/updateTagBody");
-
+const auth = require("../service/security");
 const router = express.Router();
+
+// Routes des tags
+
+router.get('/tags', auth.checkToken, tagsController.getAll);
+router.post('/tag', auth.checkToken, validation.check(schemaTag.create(),"body"), tagsController.addTag);
+router.get('/tag/:id', auth.checkToken, tagsController.getTag);
+router.patch('/tag/:id', auth.checkToken, validation.check(schemaTag.update(),"body"), tagsController.updateTag);
+router.delete('/tag/:id', auth.checkToken, tagsController.deleteTag);
+
+
+module.exports = router;
+
+
+
+// doc swagger : http://localhost:3000/api-docs
 
 /**
  * GET /api/tags
@@ -14,8 +28,6 @@ const router = express.Router();
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/tags', tagsController.getAll);
-
 /**
  * POST /api/tag
  * @summary Crée un tag
@@ -23,8 +35,6 @@ router.get('/tags', tagsController.getAll);
  * @return {string} 200 - new tag
  * @return {object} 500 - Unexpected error
  */
-
-router.post('/tag', validationModule.check(schemaTag,"body"), tagsController.addTag);
 
 /**
  * GET /api/tag/:id
@@ -34,8 +44,6 @@ router.post('/tag', validationModule.check(schemaTag,"body"), tagsController.add
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/tag/:id', tagsController.getTag);
-
 /**
  * PATCH /api/tag/:id
  * @summary Modifie un tag
@@ -44,8 +52,6 @@ router.get('/tag/:id', tagsController.getTag);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/tag/:id', validationModule.check(schemaUpdateTag,"body"), tagsController.updateTag);
-
 /**
  * DELETE /api/tag/:id
  * @summary Supprime un tag
@@ -53,8 +59,3 @@ router.patch('/tag/:id', validationModule.check(schemaUpdateTag,"body"), tagsCon
  * @return {string} 200 - delete tag
  * @return {object} 500 - Unexpected error
  */
-
-router.delete('/tag/:id', tagsController.deleteTag);
-
-
-module.exports = router;
