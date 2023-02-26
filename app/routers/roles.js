@@ -1,11 +1,24 @@
 const express = require('express');
 const { rolesController } = require('../controllers');
 const router = express.Router();
-const validationModule = require("../service/validation");
+const validation = require("../service/validation");
 const auth = require("../service/security");
 const schemaRole = require("../schemas/roleBody");
-const schemaUpdateRole = require("../schemas/updateRoleBody");
 
+
+// Routes des Rôles
+
+router.get('/roles', rolesController.getAll);
+router.post('/role',validation.check(schemaRole.create(),"body"), rolesController.addRole);
+router.get('/role/:id', rolesController.getRole);
+router.patch('/role/:id',validation.check(schemaRole.update(),"body"), rolesController.updateRole);
+router.delete('/role/:id', rolesController.deleteRole);
+
+
+module.exports = router;
+
+
+// doc swagger : http://localhost:3000/api-docs
 
 /**
  * GET /api/roles
@@ -15,8 +28,6 @@ const schemaUpdateRole = require("../schemas/updateRoleBody");
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/roles', rolesController.getAll);
-
 /**
  * POST /api/role
  * @summary Crée un role
@@ -24,8 +35,6 @@ router.get('/roles', rolesController.getAll);
  * @return {string} 200 - new role
  * @return {object} 500 - Unexpected error
  */
-
-router.post('/role',validationModule.check(schemaRole,"body"), rolesController.addRole);
 
 /**
  * GET /api/role/:id
@@ -35,8 +44,6 @@ router.post('/role',validationModule.check(schemaRole,"body"), rolesController.a
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/role/:id', rolesController.getRole);
-
 /**
  * PATCH /api/role/:id
  * @summary Modifie un role
@@ -45,8 +52,6 @@ router.get('/role/:id', rolesController.getRole);
  * @return {object} 500 - Unexpected error
  */
 
-router.patch('/role/:id',validationModule.check(schemaUpdateRole,"body"), rolesController.updateRole);
-
 /**
  * DELETE /api/role/:id
  * @summary Supprime un role
@@ -54,8 +59,3 @@ router.patch('/role/:id',validationModule.check(schemaUpdateRole,"body"), rolesC
  * @return {string} 200 - delete role
  * @return {object} 500 - Unexpected error
  */
-
-router.delete('/role/:id', rolesController.deleteRole);
-
-
-module.exports = router;
