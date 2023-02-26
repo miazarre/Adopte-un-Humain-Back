@@ -1,28 +1,8 @@
-const express = require('express');
-const { usersController } = require('../controllers');
-const router = express.Router();
-const validation = require("../service/validation");
-const schemaUser = require("../schemas/registerBody");
-const auth = require("../service/security");
+/****************************/
+/****   Swagger config   ****/
+/****************************/
 
-// Routes des membres
-
-router.get('/users', auth.checkToken, usersController.getAll);
-router.get('/user/:id', auth.checkToken, usersController.getUser);
-router.patch('/user/:id', auth.checkToken, validation.check(schemaUser.update(),"body"), usersController.updateUser);
-router.delete('/user/:id', auth.checkToken, usersController.deleteUser);
-
-
-// Routes de la relation USER_HAS_TAG
-
-router.get('/user/:id/tag');
-router.post('/user/:id/tag');
-router.delete('/user/:id/tag');
-
-
-module.exports = router;
-
-// doc swagger : http://localhost:3000/api-docs
+// USER  #########################################################
 
 /**
  * GET /api/users
@@ -44,7 +24,6 @@ module.exports = router;
  * PATCH /api/user/:id
  * @summary Modifie un user
  * @tags USER
- * @param {UserUpdate} request.body.required - User info
  * @return {string} 200 - update user
  * @return {object} 500 - Unexpected error
  */
@@ -59,8 +38,8 @@ module.exports = router;
 
 
 /**
- * User Update
- * @typedef {object} UserUpdate
+ * User
+ * @typedef {object} User
  * @property {string} lastname - nom
  * @property {string} firstname - prénom
  * @property {string} email - email
@@ -71,3 +50,4 @@ module.exports = router;
  * @property {string} postal_code - code postal
  * @property {string} country - pays
  */
+

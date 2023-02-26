@@ -3,9 +3,10 @@ const { photosController } = require('../controllers');
 const router = express.Router();
 const auth = require("../service/security");
 
-
+// Route pour récupérer les images d'animaux
 router.get('/images/animal/:filename', photosController.getPhotoAnimal);
 
+// Route pour récupérer les images d'avatars
 router.get('/images/avatar/:filename', photosController.getPhotoAvatar);
 
 
