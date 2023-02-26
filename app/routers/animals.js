@@ -1,9 +1,31 @@
 const express = require('express');
 const { animalsController } = require('../controllers');
 const router = express.Router();
+const auth = require("../service/security");
 const multer = require('multer');
 const upload = multer({dest: 'public/images/animals'});
 
+
+// Routes des animaux
+
+router.get('/animals', animalsController.getAll);
+router.post('/animal', upload.array('files'), animalsController.addAnimal);
+router.get('/animal/:id', animalsController.getAnimal);
+router.patch('/animal/:id', animalsController.updateAnimal);
+router.delete('/animal/:id', animalsController.deleteAnimal);
+
+
+// Routes de la relation ANIMAL_HAS_TAG
+
+router.get('/animal/:id/tag');
+router.post('/animal/:id/tag');
+router.delete('/animal/:id/tag');
+
+
+module.exports = router;
+
+
+// doc swagger : http://localhost:3000/api-docs
 
 /**
  * GET /api/animals
@@ -13,18 +35,15 @@ const upload = multer({dest: 'public/images/animals'});
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/animals', animalsController.getAll);
-
 /**
  * POST /api/animal
  * @summary Crée un animal
  * @tags ANIMAL
+ * @param {Animal} request.body.required - Animal info
  * @return {string} 200 - new animal
  * @return {object} 500 - Unexpected error
  */
 
-router.post('/animal', upload.array('files'), animalsController.addAnimal);
-// upload.array("files")
 /**
  * GET /api/animal/:id
  * @summary Récupère un animal
@@ -33,17 +52,14 @@ router.post('/animal', upload.array('files'), animalsController.addAnimal);
  * @return {object} 500 - Unexpected error
  */
 
-router.get('/animal/:id', animalsController.getAnimal);
-
 /**
  * PATCH /api/animal/:id
  * @summary Modifie un animal
  * @tags ANIMAL
+ * @param {AnimalUpdate} request.body.required - Animal info
  * @return {string} 200 - update animal
  * @return {object} 500 - Unexpected error
  */
-
-router.patch('/animal/:id', animalsController.updateAnimal);
 
 /**
  * DELETE /api/animal/:id
@@ -53,7 +69,34 @@ router.patch('/animal/:id', animalsController.updateAnimal);
  * @return {object} 500 - Unexpected error
  */
 
-router.delete('/animal/:id', animalsController.deleteAnimal);
 
+/**
+ * Animal
+ * @typedef {object} Animal
+ * @property {string} name - nom
+ * @property {string} description - description de l'animal
+ * @property {string} resume - résumé de la description
+ * @property {string} needs - besoin de l'animal
+ * @property {string} birthdate - date de naissance
+ * @property {string} status - status de l'animal
+ * @property {string} photo_1 - nom de l'image de la photo 1
+ * @property {string} photo_2 - nom de l'image de la photo 2
+ * @property {string} photo_3 - nom de l'image de la photo 3
+ * @property {string} photo_4 - nom de l'image de la photo 4
+ * @property {number} user_id - id de l'utilisateur crée le profil
+ */
 
-module.exports = router;
+/**
+ * Animal Update
+ * @typedef {object} AnimalUpdate
+ * @property {string} name - nom
+ * @property {string} description - description de l'animal
+ * @property {string} resume - résumé de la description
+ * @property {string} needs - besoin de l'animal
+ * @property {string} birthdate - date de naissance
+ * @property {string} status - status de l'animal
+ * @property {string} photo_1 - nom de l'image de la photo 1
+ * @property {string} photo_2 - nom de l'image de la photo 2
+ * @property {string} photo_3 - nom de l'image de la photo 3
+ * @property {string} photo_4 - nom de l'image de la photo 4
+ */
