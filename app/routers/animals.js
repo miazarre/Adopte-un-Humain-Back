@@ -15,7 +15,7 @@ router.patch('/animal/:id',upload.array('files'), animalsController.updateAnimal
 router.delete('/animal/:id', animalsController.deleteAnimal);
 
 
-// Routes de la relation ANIMAL_HAS_TAG
+// Routes de la relation ANIMAL_HAS_TAG 
 
 router.get('/animal/:id/tag');
 router.post('/animal/:id/tag');
