@@ -11,7 +11,7 @@ const upload = multer({dest: 'public/images/animals'});
 router.get('/animals', animalsController.getAll);
 router.post('/animal', upload.array('files'), animalsController.addAnimal);
 router.get('/animal/:id', animalsController.getAnimal);
-router.patch('/animal/:id', animalsController.updateAnimal);
+router.patch('/animal/:id',upload.array('files'), animalsController.updateAnimal);
 router.delete('/animal/:id', animalsController.deleteAnimal);
 
 

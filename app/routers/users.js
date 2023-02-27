@@ -9,7 +9,8 @@ const auth = require("../service/security");
 
 router.get('/users', auth.checkToken, usersController.getAll);
 router.get('/user/:id', auth.checkToken, usersController.getUser);
-router.patch('/user/:id', auth.checkToken, validation.check(schemaUser.update(),"body"), usersController.updateUser);
+router.patch('/user/:id', validation.check(schemaUser.update(),"body"), usersController.updateUser);
+// router.patch('/user/:id', usersController.updateUser);
 router.delete('/user/:id', auth.checkToken, usersController.deleteUser);
 
 

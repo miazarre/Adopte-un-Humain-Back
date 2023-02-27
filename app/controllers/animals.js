@@ -67,6 +67,8 @@ const animalsController = {
     // Modifie un animal
     async updateAnimal(req, res, next) {
         try {
+            console.log("test id", req.params.id);
+            console.log("test name", req.body.name)
             const animal = await Animal.update(req.params.id, req.body);
             if(animal) {
                 res.json(animal);

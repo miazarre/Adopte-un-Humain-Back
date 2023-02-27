@@ -12,7 +12,7 @@ const upload = multer({dest: 'public/images/avatars'});
 router.get('/avatars', avatarsController.getAll);
 router.post('/avatar', upload.array('files'), avatarsController.addAvatar);
 router.get('/avatar/:id', avatarsController.getAvatar);
-router.patch('/avatar/:id', avatarsController.updateAvatar);
+router.patch('/avatar/:id',upload.array('files'), avatarsController.updateAvatar);
 router.delete('/avatar/:id', avatarsController.deleteAvatar);
 
 // Routes de la relation AVATAR_HAS_TAG
