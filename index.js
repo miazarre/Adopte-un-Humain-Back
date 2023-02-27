@@ -1,10 +1,7 @@
 require("dotenv").config();
 const express = require('express');
-const session = require('express-session');
 const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter } = require("./app/routers/index");
 const app = express();
-// const http = require('http');
-// const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
@@ -33,10 +30,16 @@ const options = {
         },
     },
     security: {
-        BasicAuth: {
+        // BasicAuth: {
+        //     type: 'http',
+        //     scheme: 'basic',
+        // },
+        bearerAuth: {
             type: 'http',
-            scheme: 'basic',
-        },
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
+
+        }
     },
     baseDir: __dirname,
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
@@ -49,30 +52,13 @@ expressJSDocSwagger(app)(options);
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup);
 
 
-
-/* Configuration des sessions */
-const sessionConfig = {
-	secret: process.env.SESSION_SECRET,
-	resave: true,
-	saveUninitialized: true,
-	cookie: {
-		secure: false,
-		maxAge: (1000*60*60)
-	},
-};
-
-
 /* Autorisation de recevoir des données de type JSON */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* Mise en place des sessions */
-const sessionMiddleware = session(sessionConfig);
-app.use(sessionMiddleware);
 
 /* Mise en place du router */
 app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter);
-
 
 
 app.listen(PORT, () => {
@@ -80,4 +66,4 @@ app.listen(PORT, () => {
 });
 
 
-module.exports = { app, sessionMiddleware};
+module.exports = app ;
