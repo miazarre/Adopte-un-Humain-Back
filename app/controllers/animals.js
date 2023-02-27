@@ -85,6 +85,21 @@ const animalsController = {
             if(req.body.name) {
                 data.name = req.body.name
             }
+            if(req.body.description) {
+                data.description = req.body.description
+            }
+            if(req.body.needs) {
+                data.needs = req.body.needs
+            }
+            if(req.body.status) {
+                data.status = req.body.status
+            }
+            if(req.body.resume) {
+                data.resume = req.body.resume
+            }
+            if(req.body.birthdate) {
+                data.birthdate = req.body.birthdate
+            }
             
             // Met à jour de l'animal en BDD
             const updatedAnimal = await Animal.update(req.params.id, data);
