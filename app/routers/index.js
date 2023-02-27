@@ -6,6 +6,7 @@ const tagsRouter = require("./tags");
 const rolesRouter = require("./roles");
 const photosRouter = require("./photos");
 const avatarsRouter = require("./avatars");
+const adoptRouter = require("./adopts");
 
 
 
@@ -16,5 +17,6 @@ module.exports = {
      tagsRouter,
      rolesRouter,
      photosRouter,
-     avatarsRouter
+     avatarsRouter,
+     adoptRouter
 };
