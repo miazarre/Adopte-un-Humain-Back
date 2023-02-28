@@ -1,5 +1,5 @@
 const { Animal } = require("../models");
-const multer = require('multer');
+const cleanPhotos = require("../script/cleanPhoto");
 
 const animalsController = {
 
