@@ -25,11 +25,21 @@ router.patch('/animal/:id',upload.fields([{
 router.delete('/animal/:id', animalsController.deleteAnimal);
 
 
-// Routes de la relation ANIMAL_HAS_TAG
+// Routes de la relation ANIMAL_HAS_TAG 
 
-router.get('/animal/:id/tag');
-router.post('/animal/:id/tag');
-router.delete('/animal/:id/tag');
+
+// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Récupérer tous les tags d'un animal spécifique
+router.get('/animal/:id/tag', animalsController.getAnimalTags);
+
+// Ajouter un tag à un animal spécifique
+router.post('/animal/:id/tag', animalsController.addAnimalTag);
+
+// Supprimer un tag d'un animal spécifique
+router.delete('/animal/:id/tag/:tagId', animalsController.deleteAnimalTag);
+
+// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 module.exports = router;
