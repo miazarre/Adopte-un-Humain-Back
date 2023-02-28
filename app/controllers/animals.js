@@ -98,6 +98,46 @@ const animalsController = {
             });
         }
     },
+
+// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    async getAnimalTags(req, res) {
+        const animalId = req.params.id;
+      
+        try {
+          const tags = await Animal.getAnimalTags(animalId);
+          res.json(tags);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error getting animal tags - controller' });
+        }
+      },
+      
+    async addAnimalTag(req, res) {
+        const animalId = req.params.id;
+        const tagId = req.body.tagId;
+      
+        try {
+          await Animal.addAnimalTag(animalId, tagId);
+          res.sendStatus(201);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error adding animal tag' });
+        }
+      },
+
+    async deleteAnimalTag(req, res) {
+        const animalId = req.params.id;
+        const tagId = req.body.tagId;
+      
+        try {
+          await Animal.deleteAnimalTag(animalId, tagId);
+          res.sendStatus(204);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error deleting animal tag' });
+        }
+      }
+// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
 module.exports = animalsController;
