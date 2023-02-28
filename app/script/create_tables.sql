@@ -61,8 +61,7 @@ CREATE TABLE "animal" (
     "photo3"        TEXT,
     "photo4"        TEXT,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
-    "updated_at"    TEXT,
-    "user_id"       INTEGER REFERENCES "user"("id")
+    "updated_at"    TEXT
 );
 
 CREATE TABLE "adoption" (
