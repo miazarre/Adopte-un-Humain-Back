@@ -17,9 +17,18 @@ router.delete('/avatar/:id', avatarsController.deleteAvatar);
 
 // Routes de la relation AVATAR_HAS_TAG
 
-router.get('/avatar/:id/tag');
-router.post('/avatar/:id/tag');
-router.delete('/avatar/:id/tag');
+// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Récupérer tous les tags d'un avatar spécifique
+router.get('/avatar/:id/tag', avatarsController.getAvatarTags);
+
+// Ajouter un tag à un avatar spécifique
+router.post('/avatar/:id/tag', avatarsController.addAvatarTag);
+
+// Supprimer un tag d'un avatar spécifique
+router.delete('/avatar/:id/tag/:tagId', avatarsController.deleteAvatarTag);
+
+// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 module.exports = router;

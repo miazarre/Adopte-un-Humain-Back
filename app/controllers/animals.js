@@ -138,6 +138,7 @@ const animalsController = {
     },
 
 // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     async getAnimalTags(req, res) {
         const animalId = req.params.id;
       

@@ -102,6 +102,81 @@ class User extends Core {
         }
     }
 
+    // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+static async getUserTags(userId) {
+    try {
+      const preparedQuery = {
+        text:`
+        SELECT t.id AS "user_has_tag id", 'user.name' AS "user_name", 'user.id' AS "user_id", t.name AS "tag name", t.id AS "tag_id"
+        FROM user_has_tag uht
+        JOIN tag t ON uht.tag_id = t.id
+        JOIN "user" ON uht.user_id = "user".id
+        WHERE uht.user_id = $1;`,
+        values: [userId] 
+      };
+  
+      const result = await client.query(preparedQuery);
+        if (!result.rows) {
+          return null;
+        }
+  
+       return result.rows;
+  
+    } catch (err) {
+      console.error(err);
+      throw new Error('Error getting user tags - model');
+    }
+  }
+  
+  static async addUserTag(userId, tagId) {
+      try {
+        const preparedQuery = {
+        text:'INSERT INTO user_has_tag (user_id, tag_id) VALUES ($1, $2) RETURNING *',
+        values: [userId, tagId]
+        };
+        const result = await client.query(preparedQuery);
+        const row = result.rows[0];
+  
+        return row;
+  
+    } catch (err) {
+        console.error(err);
+        throw new Error('Error adding user tag');
+    }
+  }
+  
+  static async deleteUserTag(userId, tagId) {
+      try {
+        const preparedQuery =  {
+        text:'DELETE FROM user_has_tag WHERE user_id = $1 AND tag_id = $2 RETURNING *',
+        values: [userId, tagId]
+        };
+        const result = await client.query(preparedQuery);
+        const row = result.rows[0];
+  
+        return row;
+      } catch (err) {
+        console.error(err);
+        throw new Error('Error deleting user tag');
+      }
+    }
+  
+      // Permet de vérifier si ca existe
+    static  async checkUser(id) {
+        const sqlQuery = "SELECT * FROM \"user\" WHERE id=$1";
+        const values = [id];
+        const response = await client.query(sqlQuery, values);
+        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+        if (response.rows.length == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+  // END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 }
 
 module.exports = User;
