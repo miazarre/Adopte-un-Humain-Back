@@ -9,9 +9,9 @@ const schemaRole = require("../schemas/roleBody");
 // Routes des Rôles
 
 router.get('/roles', rolesController.getAll);
-router.post('/role',validation.check(schemaRole.create(),"body"), rolesController.addRole);
+router.post('/role', rolesController.addRole);
 router.get('/role/:id', rolesController.getRole);
-router.patch('/role/:id',validation.check(schemaRole.update(),"body"), rolesController.updateRole);
+router.patch('/role/:id', rolesController.updateRole);
 router.delete('/role/:id', rolesController.deleteRole);
 
 
