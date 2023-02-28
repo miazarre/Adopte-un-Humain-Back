@@ -2,18 +2,6 @@ const { Adopt } = require("../models");
 
 const adoptsController = {
 
-/**
- * Récupère la liste de toutes les adoptions
- *
- * @function
- * @async
- * @param {Object} _ - Paramètre non utilisé
- * @param {Object} res - Objet Response Express
- * @param {function} next - Middleware pour passer à la prochaine fonction
- * @returns {Promise} Liste de toutes les adoptions
- * @throws {Error} Si une erreur se produit lors de la récupération des adoptions dans la base de données
- */
-
     async getAll(_, res, next) {
         try {
             const adopts = await Adopt.findAll();

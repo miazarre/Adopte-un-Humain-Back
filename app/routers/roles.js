@@ -59,3 +59,15 @@ module.exports = router;
  * @return {string} 200 - delete role
  * @return {object} 500 - Unexpected error
  */
+
+/**
+ * Role
+ * @typedef {object} Role
+ * @property {string} name - nom
+ */
+
+/**
+ * Role Update
+ * @typedef {object} RoleUpdate
+ * @property {string} name - nom
+ */

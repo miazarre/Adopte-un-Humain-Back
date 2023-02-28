@@ -59,3 +59,17 @@ module.exports = router;
  * @return {string} 200 - delete tag
  * @return {object} 500 - Unexpected error
  */
+
+/**
+ * Tag
+ * @typedef {object} Tag
+ * @property {string} name - nom
+ * @property {boolean} priority - obligatoire (true) ou oprionnel (false)
+ */
+
+/**
+ * Tag Update
+ * @typedef {object} TagUpdate
+ * @property {string} name - nom
+ * @property {boolean} priority - obligatoire (true) ou oprionnel (false)
+ */

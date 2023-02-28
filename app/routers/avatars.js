@@ -74,3 +74,17 @@ module.exports = router;
  * @return {string} 200 - delete avatar
  * @return {object} 500 - Unexpected error
  */
+
+/**
+ * Avatar
+ * @typedef {object} Avatar
+ * @property {string} name - nom
+ * @property {string} picture - nom de l'image de la photo
+ */
+
+/**
+ * Avatar Update
+ * @typedef {object} AvatarUpdate
+ * @property {string} name - nom
+ * @property {string} picture - nom de l'image de la photo
+ */
