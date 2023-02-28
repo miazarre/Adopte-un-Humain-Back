@@ -1,5 +1,5 @@
 const { Animal, Tag } = require("../models");
-const cleanPhotos = require("../script/cleanPhoto");
+const clean = require("../script/cleanPhoto");
 
 const animalsController = {
 
@@ -49,9 +49,9 @@ const animalsController = {
             }
 
             // const animal = new Animal(req.body);
-
             const addAnimal = await Animal.create(req.body);
             if (addAnimal) {
+                clean.deleteAnimalsFiles();
                 res.json(addAnimal);
             } else {
                 next(new Error("Problème de BDD"));
@@ -105,12 +105,14 @@ const animalsController = {
             const updatedAnimal = await Animal.update(req.params.id, data);
             // Retourne l'animal modifié
             if(updatedAnimal) {
+                clean.deleteAnimalsFiles();
                 res.json(updatedAnimal);
             } else {
                 next(new Error("Problème de BDD"));
             }
       
           } else {
+            clean.deleteAnimalsFiles();
             res.status(400).json({error: `l'animal avec l'id : ${req.params.id} n'existe pas !`})
           }
         } catch(error) {
@@ -125,6 +127,7 @@ const animalsController = {
         try {
             const animal = await Animal.delete(req.params.id);
             if (animal) {
+                clean.deleteAnimalsFiles()
                 res.json(animal);
             }
             else {
@@ -140,12 +143,10 @@ const animalsController = {
 // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     async getAnimalTags(req, res) {
         const animalId = req.params.id;
-      
         try {
         const tags = await Animal.getAnimalTags(animalId);
           res.json(tags);
         } catch (err) {
-          console.error(err);
           res.status(500).json({ error: 'Error getting animal tags - controller' });
         }
       },
@@ -173,7 +174,6 @@ const animalsController = {
             });
         }
         } catch (err) {
-          console.error(err);
           res.status(500).json({ error: 'Error adding animal tag' });
         }
       },
