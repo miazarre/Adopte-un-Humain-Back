@@ -67,7 +67,7 @@ const cleanPhotos = {
           console.log(`Le fichier "${filename}" a été supprimé.`);
         });
       }
-      pool.end();
+      // pool.end();
 
     });
   }
