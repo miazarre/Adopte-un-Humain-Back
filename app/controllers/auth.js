@@ -17,8 +17,6 @@ const authController = {
                 const token = jwt.sign({email:user.email}, process.env.SESSION_SECRET);
                 console.log("TOKEN : ",token);
                 const userAuth = await User.findAll({ $where: {email:user.email} });  
-                // on enregistre le user courant dans la session
-                req.session.user = userAuth;
                 // on envoie le token généré au client
                 res.json({
                     token,
