@@ -1,4 +1,4 @@
-const { Animal } = require("../models");
+const { Animal, Tag } = require("../models");
 const cleanPhotos = require("../script/cleanPhoto");
 
 const animalsController = {
@@ -136,6 +136,60 @@ const animalsController = {
             });
         }
     },
+
+// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    async getAnimalTags(req, res) {
+        const animalId = req.params.id;
+      
+        try {
+        const tags = await Animal.getAnimalTags(animalId);
+          res.json(tags);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error getting animal tags - controller' });
+        }
+      },
+      
+    async addAnimalTag(req, res) {
+        try {
+        const tag = new Tag(req.body);
+        const animal = new Animal(req.params);
+        const tagExist = await tag.checkTagId(req.body.tag_id);
+        const animalExist = await Animal.checkAnimal(req.params.id);
+        if(tagExist){
+            if(animalExist){
+                const animalHasTag = await Animal.addAnimalTag(req.params.id, req.body.tag_id);
+                res.json(animalHasTag);
+            } else {
+                // L'animal n'existe pas
+                res.status(500).json({
+                error: `L'animal avec l'id = ${req.params.id} n'existe pas !`
+                });
+            }
+        } else {
+            // Le tag n'existe pas
+            res.status(500).json({
+                error: `Le tag avec l'id = ${req.body.tag_id} n'existe pas !`
+            });
+        }
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error adding animal tag' });
+        }
+      },
+
+    async deleteAnimalTag(req, res) {
+        try {
+          await Animal.deleteAnimalTag(req.params.id, req.params.tagId);
+          res.json({
+            message: `L'association animal id = ${req.params.id} et tag id = ${req.params.tagId} a bien été supprimée` 
+          });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error deleting animal tag' });
+        }
+      }
+// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
 module.exports = animalsController;
