@@ -7,7 +7,7 @@ const schemaRegister = require("../schemas/registerBody");
 
 
 router.post("/login", authController.checkLogin);
-router.post("/register", validation.check(schemaRegister.create(),"body"), usersController.addUser);
+router.post("/register", usersController.addUser);
 
 module.exports = router;
 
