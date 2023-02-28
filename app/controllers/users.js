@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Tag } = require("../models");
 const bcrypt = require('bcrypt');
 
 
@@ -114,6 +114,61 @@ const usersController = {
             });
         }
     },
+
+    // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    async getUserTags(req, res) {
+        const userId = req.params.id;
+        try {
+        const tags = await User.getUserTags(userId);
+          res.json(tags);
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error getting user tags - controller' });
+        }
+      },
+      
+    async addUserTag(req, res) {
+        try {
+        const tag = new Tag(req.body);
+        const user = new User(req.params);
+        const tagExist = await tag.checkTagId(req.body.tag_id);
+        const userExist = await User.checkUser(req.params.id);
+        if(tagExist){
+            if(userExist){
+                const userHasTag = await User.addUserTag(req.params.id, req.body.tag_id);
+                res.json(userHasTag);
+            } else {
+                // L'utilisateur n'existe pas
+                res.status(500).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`
+                });
+            }
+        } else {
+            // Le tag n'existe pas
+            res.status(500).json({
+                error: `Le tag avec l'id = ${req.body.tag_id} n'existe pas !`
+            });
+        }
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error adding user tag' });
+        }
+      },
+
+    async deleteUserTag(req, res) {
+        try {
+          await User.deleteUserTag(req.params.id, req.params.tagId);
+          res.json({
+            message: `L'association user id = ${req.params.id} et tag id = ${req.params.tagId} a bien été supprimée` 
+          });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Error deleting user tag' });
+        }
+      }
+// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 }
 
 module.exports = usersController
