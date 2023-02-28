@@ -74,8 +74,8 @@ CREATE TABLE "adoption" (
     "date_adopt"    DATE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT,
-    "user_id"       INTEGER REFERENCES "user"("id"),
-    "animal_id"     INTEGER REFERENCES "animal"("id")
+    "user_id"       INTEGER NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
+    "animal_id"     INTEGER NOT NULL REFERENCES "animal"("id") ON DELETE CASCADE
 );
 
 -- Table "tag", proposition / explication => 
