@@ -1,5 +1,5 @@
 const { Avatar } = require("../models");
-const multer = require('multer');
+const clean = require("../script/cleanPhoto");
 
 const avatarsController = {
 
@@ -48,6 +48,7 @@ const avatarsController = {
                 };
 
                 const addAvatar = await Avatar.create(data);
+                clean.deleteAvatarsFiles();
                 res.json(addAvatar);
             } else {
                 next(new Error("Problème de BDD"));
@@ -71,11 +72,11 @@ const avatarsController = {
           if (req.body.name) {
             data.name = req.body.name;
           }
-      console.log("test", data);
           // Met à jour l'avatar en BDD
           const updatedAvatar = await Avatar.update(req.params.id, data);
           // Retourne l'avatar modifié
           if(updatedAvatar) {
+            clean.deleteAvatarsFiles();
             res.json(updatedAvatar);
         } else {
             next(new Error("Problème de BDD"));
@@ -92,6 +93,7 @@ const avatarsController = {
         try {
             const avatar = await Avatar.delete(req.params.id);
             if (avatar) {
+                clean.deleteAvatarsFiles();
                 res.json(avatar);
             }
             else {
