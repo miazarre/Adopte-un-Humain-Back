@@ -91,24 +91,24 @@ CREATE TABLE "tag" (
 );
 
 CREATE TABLE "avatar_has_tag" (
-    "avatar_id"     INTEGER REFERENCES "avatar"("id"),
-    "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "avatar_id"     INTEGER REFERENCES "avatar"("id") ON DELETE CASCADE,
+    "tag_id"        INTEGER REFERENCES "tag"("id") ON DELETE CASCADE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT,
     PRIMARY KEY ("avatar_id", "tag_id")
 );
 
 CREATE TABLE "user_has_tag" (
-    "user_id"       INTEGER REFERENCES "user"("id"),
-    "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "user_id"       INTEGER REFERENCES "user"("id") ON DELETE CASCADE,
+    "tag_id"        INTEGER REFERENCES "tag"("id") ON DELETE CASCADE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT,
     PRIMARY KEY ("user_id", "tag_id")
 );
 
 CREATE TABLE "animal_has_tag" (
-    "animal_id"     INTEGER REFERENCES "animal"("id"),
-    "tag_id"        INTEGER REFERENCES "tag"("id"),
+    "animal_id"     INTEGER REFERENCES "animal"("id") ON DELETE CASCADE,
+    "tag_id"        INTEGER REFERENCES "tag"("id") ON DELETE CASCADE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT,
     PRIMARY KEY ("animal_id", "tag_id")

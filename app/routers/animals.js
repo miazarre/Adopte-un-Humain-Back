@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer({dest: 'public/images/animals'});
 
 
+
 // Routes des animaux
 
 router.get('/animals', animalsController.getAll);

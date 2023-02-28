@@ -35,8 +35,6 @@ const cleanPhotos = {
           console.log(`Le fichier "${filename}" a été supprimé.`);
         });
       }
-      // pool.end();
-
     });
   },
 
@@ -67,8 +65,6 @@ const cleanPhotos = {
           console.log(`Le fichier "${filename}" a été supprimé.`);
         });
       }
-      pool.end();
-
     });
   }
 
