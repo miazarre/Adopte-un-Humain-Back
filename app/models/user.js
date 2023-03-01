@@ -107,7 +107,7 @@ static async getUserTags(userId) {
     try {
       const preparedQuery = {
         text:`
-        SELECT  t.name AS "tag_name", t.id AS "tag_id"
+        SELECT  t.name AS "tag_name", t.id AS "tag_id", t.priority
         FROM user_has_tag uht
         JOIN tag t ON uht.tag_id = t.id
         JOIN "user" ON uht.user_id = "user".id
@@ -175,8 +175,30 @@ static async getUserTags(userId) {
         }
     }
 
-    static async matchingAll() {
-        const sqlQuery = ""
+    static async matchingAll(id) {
+        try {
+            const preparedQuery = {
+                text:`
+                SELECT animal.id AS "animal_id", animal.name AS "animal_name", tag.id AS tag_id, tag.name AS tag_name
+                FROM animal
+                JOIN animal_has_tag ON animal.id = animal_has_tag.animal_id
+                JOIN tag ON animal_has_tag.tag_id = tag.id
+                WHERE tag.id IN (
+                SELECT tag_id
+                FROM user_has_tag
+                WHERE user_id = $1
+                );`,
+                values: [id] 
+            };
+            const result = await client.query(preparedQuery);
+            if (!result.rows) {
+                return null;
+            }        
+            return result.rows;
+        
+        } catch(error) {
+
+        }
     }
 
 

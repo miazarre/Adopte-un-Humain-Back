@@ -19,7 +19,7 @@ static async getAvatarTags(avatarId) {
   try {
     const preparedQuery = {
       text:`
-      SELECT avatar.id AS "avatar_id", t.name AS "tag_name"
+      SELECT avatar.id AS "avatar_id", t.name AS "tag_name", t.priority
       FROM avatar_has_tag aht
       JOIN tag t ON aht.tag_id = t.id
 	    JOIN avatar ON aht.avatar_id = avatar.id

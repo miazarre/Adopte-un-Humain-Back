@@ -166,9 +166,9 @@ const usersController = {
         }
       },
 
-      async matching(_,res,next) {
+      async matching(req,res,next) {
         try {
-            const matching = await User.matchingAll();
+            const matching = await User.matchingAll(req.params.id);
             if(matching) {
                 res.json(matching);
             } else {
