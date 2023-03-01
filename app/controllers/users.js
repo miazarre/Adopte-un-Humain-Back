@@ -166,11 +166,50 @@ const usersController = {
         }
       },
 
-      async matching(req,res,next) {
+    // Système de matching - Compare les tags d'un utilisateur à ceux de tous les animaux
+    async matching(req,res,next) {
         try {
             const matching = await User.matchingAll(req.params.id);
             if(matching) {
+             // Créer un objet qui contient les informations regroupées par nom d'animal
+            const animals = {};
+            matching.forEach((row) => {
+                const animalName = row.animal_name;
+                if (!animals[animalName]) {
+                animals[animalName] = {
+                    name: animalName,
+                    tags: []
+                };
+                }
+                animals[animalName].tags.push({
+                tag_id: row.tag_id,
+                tag_name: row.tag_name,
+                priority: row.priority
+                });
+            });
+
+            // Convertir l'objet en tableau
+            const finalResult = Object.values(animals);
+
+            // Renvoyer la réponse JSON
+            res.json(finalResult);                
+                
+            } else {
+                next(new Error("Problème de BDD"));
+            }  
+        } catch(error) {
+            res.status(500).json({
+                error: "erreur !"
+            });
+        } 
+      },
+
+      async matchingOne(req,res,next) {
+        try {
+            const matching = await User.matchingOne(req.params.id, req.params.animalId);
+            if(matching) {
                 res.json(matching);
+                
             } else {
                 next(new Error("Problème de BDD"));
             }  

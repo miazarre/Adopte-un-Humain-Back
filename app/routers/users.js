@@ -19,9 +19,11 @@ router.get('/user/:id/tag', usersController.getUserTags);
 router.post('/user/:id/tag', usersController.addUserTag);
 router.delete('/user/:id/tag/:tagId', usersController.deleteUserTag);
 
-// Routes du matching
- 
+// Route du matching de tous les animaux
 router.get('/user/:id/matching', usersController.matching);
+
+// Route du matching d'un animal
+router.get('/user/:id/matching/:animalId', usersController.matchingOne);
 
 module.exports = router;
 
