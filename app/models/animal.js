@@ -28,7 +28,7 @@ static async getAnimalTags(animalId) {
   try {
     const preparedQuery = {
       text:`
-      SELECT t.id AS "animal_has_tag id", animal.name, animal.id AS "animal_id", t.name AS "tag name", t.id AS "tag_id"
+      SELECT t.name AS "tag_name", t.id AS "tag_id"
       FROM animal_has_tag aht
       JOIN tag t ON aht.tag_id = t.id
 	    JOIN animal ON aht.animal_id = animal.id

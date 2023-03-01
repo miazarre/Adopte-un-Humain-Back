@@ -107,7 +107,7 @@ static async getUserTags(userId) {
     try {
       const preparedQuery = {
         text:`
-        SELECT t.id AS "user_has_tag id", 'user.name' AS "user_name", 'user.id' AS "user_id", t.name AS "tag name", t.id AS "tag_id"
+        SELECT  t.name AS "tag_name", t.id AS "tag_id"
         FROM user_has_tag uht
         JOIN tag t ON uht.tag_id = t.id
         JOIN "user" ON uht.user_id = "user".id
