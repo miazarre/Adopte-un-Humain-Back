@@ -44,6 +44,7 @@ const tagsController = {
             const tagExist = await tag.checkTag();           // Controle si le tag existe déjà
             if (!tagExist) {
             const addTag = await Tag.create(req.body);
+            
             if (addTag) {
                 res.json(addTag);
             } else {

@@ -8,6 +8,7 @@ class Tag extends Core {
         super(obj);
         this.id = obj.id;
         this.name = obj.name;
+        this.priority = obj.priority
     }
     // Permet de vérifier si le nom existe
     async checkTag() {
