@@ -32,6 +32,7 @@ module.exports = router;
  * POST /api/tag
  * @summary Crée un tag
  * @tags TAG
+ * @param {Tag} request.body.required - Tag info
  * @return {string} 200 - new tag
  * @return {object} 500 - Unexpected error
  */
@@ -48,6 +49,7 @@ module.exports = router;
  * PATCH /api/tag/:id
  * @summary Modifie un tag
  * @tags TAG
+ * @param {TagUpdate} request.body.required - TagUpdate info
  * @return {string} 200 - update tag
  * @return {object} 500 - Unexpected error
  */
@@ -58,4 +60,18 @@ module.exports = router;
  * @tags TAG
  * @return {string} 200 - delete tag
  * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * Tag
+ * @typedef {object} Tag
+ * @property {string} name - nom
+ * @property {boolean} priority - obligatoire (true) ou oprionnel (false)
+ */
+
+/**
+ * Tag Update
+ * @typedef {object} TagUpdate
+ * @property {string} name - nom
+ * @property {boolean} priority - obligatoire (true) ou oprionnel (false)
  */

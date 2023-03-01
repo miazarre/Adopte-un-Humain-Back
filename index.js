@@ -43,7 +43,7 @@ const options = {
     },
     baseDir: __dirname,
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
-    filesPattern: './**/*.js',
+    filesPattern: './**/*.js'
 };
 
 // Appel de la fonction expressJSDocSwagger() pour lui passer les options de configuration

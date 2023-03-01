@@ -32,6 +32,7 @@ module.exports = router;
  * POST /api/role
  * @summary Crée un role
  * @tags ROLE
+ * @param {Role} request.body.required - Role info
  * @return {string} 200 - new role
  * @return {object} 500 - Unexpected error
  */
@@ -48,6 +49,7 @@ module.exports = router;
  * PATCH /api/role/:id
  * @summary Modifie un role
  * @tags ROLE
+ * @param {RoleUpdate} request.body.required - RoleUpdate info
  * @return {string} 200 - update role
  * @return {object} 500 - Unexpected error
  */
@@ -58,4 +60,16 @@ module.exports = router;
  * @tags ROLE
  * @return {string} 200 - delete role
  * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * Role
+ * @typedef {object} Role
+ * @property {string} name - nom
+ */
+
+/**
+ * Role Update
+ * @typedef {object} RoleUpdate
+ * @property {string} name - nom
  */
