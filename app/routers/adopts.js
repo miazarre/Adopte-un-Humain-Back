@@ -47,7 +47,7 @@ module.exports = router;
  * PATCH /api/adopt/:id
  * @summary Modifie une adoption
  * @tags ADOPT
- * @param {AdoptUpdate} request.body.required - Adopt info
+ * @param {AdoptUpdate} request.body.required - AdoptUpdate info
  * @return {string} 200 - update adopt
  * @return {object} 500 - Unexpected error
  */
@@ -69,7 +69,7 @@ module.exports = router;
  * @property {string} form_3 - formulaire partie 3
  * @property {string} comment - commentaire du refuge concernant l'adoption en cours
  * @property {string} status - status de la demande d'adoption
- * @property {date} date_adopt - date effective de l'adoption
+ * @property {string} date_adopt - date effective de l'adoption
  * @property {number} user_id - utilisateur à l'origine de la demande d'adoption
  * @property {number} animal_id - animal concerné par l'adoption
  */
@@ -79,6 +79,6 @@ module.exports = router;
  * @typedef {object} AdoptUpdate
  * @property {string} comment - commentaire du refuge concernant l'adoption en cours
  * @property {string} status - status de la demande d'adoption
- * @property {date} date_adopt - date effective de l'adoption
+ * @property {string} date_adopt - date effective de l'adoption
  */
 

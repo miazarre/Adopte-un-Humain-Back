@@ -98,12 +98,12 @@ module.exports = router;
  * @property {string} description - description de l'animal
  * @property {string} resume - résumé de la description
  * @property {string} needs - besoin de l'animal
- * @property {date} birthdate - date de naissance
+ * @property {string} birthdate - date de naissance
  * @property {string} status - status de l'animal
- * @property {string} photo_1 - nom de l'image de la photo 1
- * @property {string} photo_2 - nom de l'image de la photo 2
- * @property {string} photo_3 - nom de l'image de la photo 3
- * @property {string} photo_4 - nom de l'image de la photo 4
+ * @property {string} photo1 - nom de l'image de la photo 1
+ * @property {string} photo2 - nom de l'image de la photo 2
+ * @property {string} photo3 - nom de l'image de la photo 3
+ * @property {string} photo4 - nom de l'image de la photo 4
  * @property {number} user_id - id de l'utilisateur crée le profil
  */
 
@@ -114,10 +114,10 @@ module.exports = router;
  * @property {string} description - description de l'animal
  * @property {string} resume - résumé de la description
  * @property {string} needs - besoin de l'animal
- * @property {date} birthdate - date de naissance
+ * @property {string} birthdate - date de naissance
  * @property {string} status - status de l'animal
- * @property {string} photo_1 - nom de l'image de la photo 1
- * @property {string} photo_2 - nom de l'image de la photo 2
- * @property {string} photo_3 - nom de l'image de la photo 3
- * @property {string} photo_4 - nom de l'image de la photo 4
+ * @property {string} photo1 - nom de l'image de la photo 1
+ * @property {string} photo2 - nom de l'image de la photo 2
+ * @property {string} photo3 - nom de l'image de la photo 3
+ * @property {string} photo4 - nom de l'image de la photo 4
  */
