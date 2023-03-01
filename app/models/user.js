@@ -179,16 +179,59 @@ static async getUserTags(userId) {
         try {
             const preparedQuery = {
                 text:`
-                SELECT animal.id AS "animal_id", animal.name AS "animal_name", tag.id AS tag_id, tag.name AS tag_name
+                SELECT animal.id AS "animal_id", animal.name AS "animal_name", tag.id AS tag_id, tag.name AS tag_name, tag.priority
                 FROM animal
                 JOIN animal_has_tag ON animal.id = animal_has_tag.animal_id
                 JOIN tag ON animal_has_tag.tag_id = tag.id
-                WHERE tag.id IN (
+				WHERE tag.id IN (
                 SELECT tag_id
                 FROM user_has_tag
                 WHERE user_id = $1
                 );`,
                 values: [id] 
+            };
+            const result = await client.query(preparedQuery);
+            if (!result.rows) {
+                return null;
+            }        
+            return result.rows;
+        
+        } catch(error) {
+
+        }
+    }
+
+    static async matchingOne(userId, animalId) {
+        try {
+            const preparedQuery = {
+                text:`
+                SELECT
+                COALESCE(user_tags.id, animal_tags.id) AS tag_id,
+                COALESCE(user_tags.name, animal_tags.name) AS tag_name,
+                COALESCE(user_tags.priority, animal_tags.priority) AS priority,
+                COUNT(CASE WHEN user_tags.id IS NOT NULL AND animal_tags.id IS NOT NULL THEN 1 END) AS match_count,
+                CASE WHEN user_tags.id IS NOT NULL AND animal_tags.id IS NULL THEN CONCAT(user_tags.name, ' - utilisateur')
+                    WHEN user_tags.id IS NULL AND animal_tags.id IS NOT NULL THEN CONCAT(animal_tags.name, ' - animal')
+                    WHEN user_tags.id IS NOT NULL THEN CONCAT(user_tags.name, ' - commun')
+                END AS statut
+                FROM (
+                SELECT tag.id, tag.name, tag.priority
+                FROM "user"
+                JOIN user_has_tag ON "user".id = user_has_tag.user_id
+                JOIN tag ON user_has_tag.tag_id = tag.id
+                WHERE "user".id = $1
+                ) AS user_tags
+                FULL OUTER JOIN (
+                SELECT tag.id, tag.name, tag.priority
+                FROM animal
+                JOIN animal_has_tag ON animal.id = animal_has_tag.animal_id
+                JOIN tag ON animal_has_tag.tag_id = tag.id
+                WHERE animal.id = $2
+                ) AS animal_tags ON user_tags.id = animal_tags.id
+                GROUP BY COALESCE(user_tags.id, animal_tags.id), 
+                COALESCE(user_tags.name, animal_tags.name), 
+                COALESCE(user_tags.priority, animal_tags.priority), statut;`,
+                values: [userId,animalId] 
             };
             const result = await client.query(preparedQuery);
             if (!result.rows) {
