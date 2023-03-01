@@ -95,7 +95,6 @@ class Core {
                 indexPlaceholder += 1;
                 values.push(value);
             });
-
             const preparedQuery = {
                 text: `
                     INSERT INTO "${this.tableName}"

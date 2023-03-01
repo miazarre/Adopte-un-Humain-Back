@@ -102,7 +102,6 @@ class User extends Core {
         }
     }
 
-    // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 static async getUserTags(userId) {
     try {
@@ -175,7 +174,11 @@ static async getUserTags(userId) {
             return false;
         }
     }
-  // END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    static async matchingAll() {
+        const sqlQuery = ""
+    }
+
 
 }
 

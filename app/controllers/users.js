@@ -114,8 +114,6 @@ const usersController = {
             });
         }
     },
-
-    // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     async getUserTags(req, res) {
         const userId = req.params.id;
@@ -166,8 +164,23 @@ const usersController = {
           console.error(err);
           res.status(500).json({ error: 'Error deleting user tag' });
         }
+      },
+
+      async matching(_,res,next) {
+        try {
+            const matching = await User.matchingAll();
+            if(matching) {
+                res.json(matching);
+            } else {
+                next(new Error("Problème de BDD"));
+            }  
+        } catch(error) {
+            res.status(500).json({
+                error: "erreur !"
+            });
+        } 
+
       }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 }
 

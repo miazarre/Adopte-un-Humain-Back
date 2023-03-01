@@ -15,18 +15,13 @@ router.delete('/user/:id', auth.checkToken, usersController.deleteUser);
 
 // Routes de la relation USER_HAS_TAG
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// Récupérer tous les tags d'un user spécifique
 router.get('/user/:id/tag', usersController.getUserTags);
-
-// Ajouter un tag à un user spécifique
 router.post('/user/:id/tag', usersController.addUserTag);
-
-// Supprimer un tag d'un user spécifique
 router.delete('/user/:id/tag/:tagId', usersController.deleteUserTag);
 
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Routes du matching
+ 
+router.get('/user/:id/matching', usersController.matching);
 
 module.exports = router;
 
