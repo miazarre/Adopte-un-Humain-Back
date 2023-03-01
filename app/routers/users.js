@@ -52,7 +52,7 @@ module.exports = router;
  * PATCH /api/user/:id
  * @summary Modifie un user
  * @tags USER
- * @param {UserUpdate} request.body.required - User info
+ * @param {UserUpdate} request.body.required - UserUpdate info
  * @return {string} 200 - update user
  * @return {object} 500 - Unexpected error
  */

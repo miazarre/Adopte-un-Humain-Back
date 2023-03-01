@@ -39,7 +39,7 @@ module.exports = router;
  * @property {string} firstname - prénom
  * @property {string} email - email
  * @property {string} password - mot de passe (min 6)
- * @property {string} phone - numéro de téléphone (doit commencer à 0 et contenir 10 chiffres)
+ * @property {string} phone - numéro de téléphone (doit commencer par 0 et contenir 10 chiffres)
  */
 
 /**

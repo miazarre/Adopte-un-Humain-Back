@@ -47,6 +47,7 @@ module.exports = router;
  * POST /api/avatar
  * @summary Crée un avatar
  * @tags AVATAR
+ * @param {Avatar} request.body.required - Avatar info
  * @return {string} 200 - new avatar
  * @return {object} 500 - Unexpected error
  */
@@ -63,6 +64,7 @@ module.exports = router;
  * PATCH /api/avatar/:id
  * @summary Modifie un avatar
  * @tags AVATAR
+ * @param {AvatarUpdate} request.body.required - AvatarUpdate info
  * @return {string} 200 - update avatar
  * @return {object} 500 - Unexpected error
  */
