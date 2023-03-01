@@ -2,10 +2,6 @@ const { Adopt } = require("../models");
 
 const adoptsController = {
 
-    /**
-     * Récupère la liste des adoptions
-     * @returns Liste des adoptions
-     */
     async getAll(_, res, next) {
         try {
             const adopts = await Adopt.findAll();
