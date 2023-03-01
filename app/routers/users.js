@@ -47,7 +47,7 @@ module.exports = router;
  * PATCH /api/user/:id
  * @summary Modifie un user
  * @tags USER
- * @param {UserUpdate} request.body.required - User info
+ * @param {UserUpdate} request.body.required - UserUpdate info
  * @return {string} 200 - update user
  * @return {object} 500 - Unexpected error
  */
@@ -60,6 +60,20 @@ module.exports = router;
  * @return {object} 500 - Unexpected error
  */
 
+/**
+  * User
+ * @typedef {object} User
+ * @property {string} lastname - nom
+ * @property {string} firstname - prénom
+ * @property {string} email - email
+ * @property {string} password - mot de passe (min 6)
+ * @property {string} phone - numéro de téléphone (doit commencer par 0 et contenir 10 chiffres)
+ * @property {string} addresse - adresse
+ * @property {string} city - ville
+ * @property {string} postal_code - code postal
+ * @property {string} country - pays
+ * @property {number} role_id - id du rôle de l'utilisateur
+ */
 
 /**
  * User Update
@@ -68,7 +82,7 @@ module.exports = router;
  * @property {string} firstname - prénom
  * @property {string} email - email
  * @property {string} password - mot de passe (min 6)
- * @property {string} phone - numéro de téléphone (doit commencer à 0 et contenir 10 chiffres)
+ * @property {string} phone - numéro de téléphone (doit commencer par 0 et contenir 10 chiffres)
  * @property {string} addresse - adresse
  * @property {string} city - ville
  * @property {string} postal_code - code postal
