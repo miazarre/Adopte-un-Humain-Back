@@ -23,8 +23,29 @@ const usersController = {
         } 
     },
 
-   // Récupère un utilisateur
-    async getUser(req, res, next) {
+    async getUser(req,res,next){
+        try {
+            if(req.params.id == req.userProfil[0].id) { 
+                const user = await User.findByPk(req.params.id);
+                if(user) {
+                    res.json(user);
+                } else {
+                    next(new Error("Problème de BDD"));
+                }
+            } else {
+                res.status(500).json({
+                error: "Ce n'est pas votre fiche, l'id ne correspond pas !"
+                });
+            }
+        } catch(error) {
+        res.status(500).json({
+            error: "erreur !"
+        });
+        }
+    },
+
+   // Récupère un utilisateur par un admin
+    async adminGetUser(req, res, next) {
         try {
             const user = await User.findByPk(req.params.id);
             if(user) {
@@ -67,29 +88,36 @@ const usersController = {
     // Modifie un utilisateur
     async updateUser(req, res, next) {
         try {
-            const userExist = new User(req.body);
-            const emailExist = await userExist.checkEmail();           // Controle si le mail existe déjà
-            if(!emailExist) {
-                if(req.body.password) {
-                    req.body.password = await bcrypt.hash(req.body.password, 10); 
-                    const user = await User.update(req.params.id, req.body);
-                    if(user) {
-                        res.json(user);
+            if(req.params.id == req.userProfil[0].id) { 
+                const userExist = new User(req.body);
+                const emailExist = await userExist.checkEmail();           // Controle si le mail existe déjà
+                if(!emailExist) {
+                    if(req.body.password) {
+                        req.body.password = await bcrypt.hash(req.body.password, 10); 
+                        const user = await User.update(req.params.id, req.body);
+                        if(user) {
+                            res.json(user);
+                        } else {
+                            next(new Error("Problème de BDD"));
+                        }
                     } else {
-                        next(new Error("Problème de BDD"));
+                        const user = await User.update(req.params.id, req.body);
+                        if(user) {
+                            res.json(user);
+                        } else {
+                            next(new Error("Problème de BDD"));
+                        }
                     }
                 } else {
-                    const user = await User.update(req.params.id, req.body);
-                    if(user) {
-                        res.json(user);
-                    } else {
-                        next(new Error("Problème de BDD"));
-                    }
+                    // L'utilisateur existe déjà'
+                    res.status(500).json({
+                        error: "L'e-mail est déjà utilisé !"
+                    });
                 }
             } else {
                 // L'utilisateur existe déjà'
                 res.status(500).json({
-                    error: "L'e-mail est déjà utilisé !"
+                    error: "Ce n'est pas votre fiche, l'id ne correspond pas !"
                 });
             }
         } catch(error) {
@@ -98,8 +126,49 @@ const usersController = {
             });
         }
     },
+
+    // Modifie un utilisateur par un admin
+    async adminUpdateUser(req, res, next) {
+        try {
+            const user = await User.update(req.params.id, req.body);
+            if(user) {
+                res.json(user);
+            } else {
+                next(new Error("Problème de BDD"));
+            }
+        } catch(error) {
+            res.status(500).json({
+                error: "erreur !"
+            });
+        }
+    },
+    
     // Supprime un utilisateur
     async deleteUser(req,res,next){
+        try {
+            if(req.params.id == req.userProfil[0].id) { 
+                const user = await User.delete(req.params.id);
+                if (user) {
+                    res.json(user);
+                }
+                else {
+                    next(new Error("Problème de BDD"));
+                }
+            } else {
+                // L'utilisateur existe déjà'
+                res.status(500).json({
+                    error: "Ce n'est pas votre fiche, l'id ne correspond pas !"
+                });
+            }
+        } catch(error) {
+            res.status(500).json({
+                error: "erreur !"
+            });
+        }
+    },
+
+    // Supprime un utilisateur par un admin
+    async adminDeleteUser(req,res,next){
         try {
             const user = await User.delete(req.params.id);
             if (user) {
@@ -108,6 +177,7 @@ const usersController = {
             else {
                 next(new Error("Problème de BDD"));
             }
+        
         } catch(error) {
             res.status(500).json({
                 error: "erreur !"
@@ -174,9 +244,12 @@ const usersController = {
              // Créer un objet qui contient les informations regroupées par nom d'animal
             const animals = {};
             matching.forEach((row) => {
+                const animalId = row.animal_id;
                 const animalName = row.animal_name;
+                console.log("animalName : ", matching)
                 if (!animals[animalName]) {
                 animals[animalName] = {
+                    id: animalId,
                     name: animalName,
                     tags: []
                 };

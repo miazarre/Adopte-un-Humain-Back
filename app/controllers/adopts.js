@@ -19,8 +19,31 @@ const adoptsController = {
 
    // Récupère une adoption
     async getAdopt(req, res, next) {
-        try {
+        try {      
             const adopt = await Adopt.findByPk(req.params.id);
+            if(req.userProfil[0].id == adopt.user_id) {
+                if(adopt) {
+                    res.json(adopt);
+                } else {
+                    next(new Error("Problème de BDD"));
+                }
+            } else {
+                res.status(500).json({
+                error: "Ce n'est pas votre fiche, l'id ne correspond pas !"
+                });
+            }
+            
+        } catch(error) {
+            res.status(500).json({
+                error: "erreur !"
+            });
+        }
+    },
+    // Récupère une adoption par un admin ou un membre du staff
+    async adminGetAdopt(req, res, next) {
+        try {      
+            const adopt = await Adopt.findByPk(req.params.id);
+            
             if(adopt) {
                 res.json(adopt);
             } else {

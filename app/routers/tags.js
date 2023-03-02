@@ -7,11 +7,11 @@ const router = express.Router();
 
 // Routes des tags
 
-router.get('/tags', tagsController.getAll);
-router.post('/tag', validation.check(schemaTag.create(),"body"), tagsController.addTag);
-router.get('/tag/:id', tagsController.getTag);
-router.patch('/tag/:id', validation.check(schemaTag.update(),"body"), tagsController.updateTag);
-router.delete('/tag/:id', tagsController.deleteTag);
+router.get('/tags', auth.authMiddleware(['membre','staff', 'admin']),  tagsController.getAll);
+router.post('/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.create(),"body"), tagsController.addTag);
+router.get('/tag/:id', auth.authMiddleware(['membre','staff', 'admin']), tagsController.getTag);
+router.patch('/tag/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.update(),"body"), tagsController.updateTag);
+router.delete('/tag/:id', auth.authMiddleware(['staff', 'admin']), tagsController.deleteTag);
 
 
 module.exports = router;

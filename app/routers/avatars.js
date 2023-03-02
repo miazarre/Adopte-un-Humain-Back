@@ -9,24 +9,24 @@ const upload = multer({dest: 'public/images/avatars'});
 
 // Routes des avatars
 
-router.get('/avatars', avatarsController.getAll);
-router.post('/avatar', upload.array('files'), avatarsController.addAvatar);
-router.get('/avatar/:id', avatarsController.getAvatar);
-router.patch('/avatar/:id',upload.array('files'), avatarsController.updateAvatar);
-router.delete('/avatar/:id', avatarsController.deleteAvatar);
+router.get('/avatars', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAll);
+router.post('/avatar', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.addAvatar);
+router.get('/avatar/:id', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatar);
+router.patch('/avatar/:id', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.updateAvatar);
+router.delete('/avatar/:id', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatar);
 
 // Routes de la relation AVATAR_HAS_TAG
 
 // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Récupérer tous les tags d'un avatar spécifique
-router.get('/avatar/:id/tag', avatarsController.getAvatarTags);
+router.get('/avatar/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatarTags);
 
 // Ajouter un tag à un avatar spécifique
-router.post('/avatar/:id/tag', avatarsController.addAvatarTag);
+router.post('/avatar/:id/tag', auth.authMiddleware(['staff', 'admin']), avatarsController.addAvatarTag);
 
 // Supprimer un tag d'un avatar spécifique
-router.delete('/avatar/:id/tag/:tagId', avatarsController.deleteAvatarTag);
+router.delete('/avatar/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatarTag);
 
 // END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
