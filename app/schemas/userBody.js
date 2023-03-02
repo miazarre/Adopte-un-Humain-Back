@@ -13,6 +13,11 @@ const userSchema = {
             postal_code:Joi.string().pattern(new RegExp('^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$')),
             country:Joi.string()
 		});																					  
+	},
+    updateAdmin() {
+		return Joi.object({
+			role_id:Joi.number(),
+		});																					  
 	}
 }
 
