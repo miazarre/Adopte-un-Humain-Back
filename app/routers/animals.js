@@ -90,6 +90,30 @@ module.exports = router;
  * @return {object} 500 - Unexpected error
  */
 
+/**
+ * GET /api/animal/:id/tag
+ * @summary Récupère le tag lié à l'animal
+ * @tags ANIMAL
+ * @return {string} 200 - one animal tag
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * POST /api/animal/:id/tag
+ * @summary Crée une association
+ * @tags ANIMAL
+ * @return {string} 200 - new association
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * DELETE /api/animal/:id/tag/:tagId
+ * @summary Supprime une association
+ * @tags ANIMAL
+ * @return {string} 200 - delete association
+ * @return {object} 500 - Unexpected error
+ */
+
 
 /**
  * Animal
