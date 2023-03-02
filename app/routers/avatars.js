@@ -78,6 +78,30 @@ module.exports = router;
  */
 
 /**
+ * GET /api/avatar/:id/tag
+ * @summary Récupère le tag lié à l'avatar
+ * @tags AVATAR
+ * @return {string} 200 - one avatar tag
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * POST /api/avatar/:id/tag
+ * @summary Crée une association
+ * @tags AVATAR
+ * @return {string} 200 - new association
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * DELETE /api/avatar/:id/tag
+ * @summary Supprime l'association entre l'avatar et le tag
+ * @tags AVATAR
+ * @return {string} 200 - delete association
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
  * Avatar
  * @typedef {object} Avatar
  * @property {string} name - nom
