@@ -68,6 +68,46 @@ module.exports = router;
  */
 
 /**
+ * GET /api/user/:id/tag
+ * @summary Récupère le tag lié au user
+ * @tags USER
+ * @return {string} 200 - one user tag
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * POST /api/user/:id/tag
+ * @summary Crée une association
+ * @tags USER
+ * @return {string} 200 - new association
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * DELETE /api/user/:id/tag/:tagId
+ * @summary Supprime une association
+ * @tags USER
+ * @return {string} 200 - delete association
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * GET /api/user/:id/matching
+ * @summary Récupère la liste des animaux qui ont les mêmes tags
+ * @tags USER
+ * @return {string} 200 - animals with same tags
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
+ * GET /api/user/:id/matching/:id
+ * @summary Compare les tags d'un animal et d'un user
+ * @tags USER
+ * @return {string} 200 - animal/user tags
+ * @return {object} 500 - Unexpected error
+ */
+
+/**
   * User
  * @typedef {object} User
  * @property {string} lastname - nom
@@ -75,7 +115,7 @@ module.exports = router;
  * @property {string} email - email
  * @property {string} password - mot de passe (min 6)
  * @property {string} phone - numéro de téléphone (doit commencer par 0 et contenir 10 chiffres)
- * @property {string} addresse - adresse
+ * @property {string} address - adresse
  * @property {string} city - ville
  * @property {string} postal_code - code postal
  * @property {string} country - pays
@@ -90,8 +130,10 @@ module.exports = router;
  * @property {string} email - email
  * @property {string} password - mot de passe (min 6)
  * @property {string} phone - numéro de téléphone (doit commencer par 0 et contenir 10 chiffres)
- * @property {string} addresse - adresse
+ * @property {string} address - adresse
  * @property {string} city - ville
  * @property {string} postal_code - code postal
  * @property {string} country - pays
  */
+
+
