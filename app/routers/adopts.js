@@ -6,11 +6,12 @@ const auth = require("../service/security");
 
 // Routes des demandes d'adoptions
 
-router.get('/adopts', adoptsController.getAll);
-router.post('/adopt', adoptsController.addAdopt);
-router.get('/adopt/:id', adoptsController.getAdopt);
-router.patch('/adopt/:id', adoptsController.updateAdopt);
-router.delete('/adopt/:id', adoptsController.deleteAdopt);
+router.get('/adopts', auth.authMiddleware(['staff', 'admin']), adoptsController.getAll);
+router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), adoptsController.addAdopt);
+router.get('/adopt/:id', auth.authMiddleware(['membre','staff', 'admin']), adoptsController.getAdopt);
+router.get('/admin/adopt/:id', auth.authMiddleware(['staff', 'admin']), adoptsController.adminGetAdopt);
+router.patch('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.updateAdopt);
+router.delete('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.deleteAdopt);
 
 
 module.exports = router;
