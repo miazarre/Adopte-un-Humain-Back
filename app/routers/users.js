@@ -2,14 +2,14 @@ const express = require('express');
 const { usersController } = require('../controllers');
 const router = express.Router();
 const validation = require("../service/validation");
-const schemaUser = require("../schemas/registerBody");
+const schemaUser = require("../schemas/userBody");
 const auth = require("../service/security");
 
 // Routes des membres
 
 router.get('/users', auth.checkToken, usersController.getAll);
 router.get('/user/:id', auth.checkToken, usersController.getUser);
-router.patch('/user/:id', usersController.updateUser);
+router.patch('/user/:id', validation.check(schemaUser.update(),"body"), usersController.updateUser);
 router.delete('/user/:id', auth.checkToken, usersController.deleteUser);
 
 
