@@ -8,10 +8,10 @@ const router = express.Router();
 // Routes des tags
 
 router.get('/tags', tagsController.getAll);
-router.post('/tag',  tagsController.addTag);
-router.get('/tag/:id',  tagsController.getTag);
-router.patch('/tag/:id',  tagsController.updateTag);
-router.delete('/tag/:id',  tagsController.deleteTag);
+router.post('/tag', validation.check(schemaTag.create(),"body"), tagsController.addTag);
+router.get('/tag/:id', tagsController.getTag);
+router.patch('/tag/:id', validation.check(schemaTag.update(),"body"), tagsController.updateTag);
+router.delete('/tag/:id', tagsController.deleteTag);
 
 
 module.exports = router;
