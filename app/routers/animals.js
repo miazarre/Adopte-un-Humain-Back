@@ -9,11 +9,11 @@ const upload = multer({dest: 'public/images/animals'});
 
 // Routes des animaux
 
-router.get('/animals', animalsController.getAll);
-router.post('/animal', upload.array('files'), animalsController.addAnimal);
-router.get('/animal/:id', animalsController.getAnimal);
+router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  animalsController.getAll);
+router.post('/animal', auth.authMiddleware(['staff', 'admin']),  upload.array('files'), animalsController.addAnimal);
+router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
 
-router.patch('/animal/:id',upload.fields([{
+router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fields([{
     name: 'photo1', maxCount: 1
   }, {
     name: 'photo2', maxCount: 1
@@ -23,24 +23,21 @@ router.patch('/animal/:id',upload.fields([{
     name: 'photo4', maxCount: 1
   }]), animalsController.updateAnimal);
 
-router.delete('/animal/:id', animalsController.deleteAnimal);
+router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  animalsController.deleteAnimal);
 
 
 // Routes de la relation ANIMAL_HAS_TAG 
 
-
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 // Récupérer tous les tags d'un animal spécifique
-router.get('/animal/:id/tag', animalsController.getAnimalTags);
+router.get('/animal/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimalTags);
 
 // Ajouter un tag à un animal spécifique
-router.post('/animal/:id/tag', animalsController.addAnimalTag);
+router.post('/animal/:id/tag', auth.authMiddleware(['staff', 'admin']),  animalsController.addAnimalTag);
 
 // Supprimer un tag d'un animal spécifique
-router.delete('/animal/:id/tag/:tagId', animalsController.deleteAnimalTag);
+router.delete('/animal/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), animalsController.deleteAnimalTag);
 
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 
 module.exports = router;

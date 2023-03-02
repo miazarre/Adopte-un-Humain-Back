@@ -5,16 +5,20 @@ const validation = require("../service/validation");
 const schemaUser = require("../schemas/userBody");
 const auth = require("../service/security");
 
-// Routes des membres
 
-router.get('/users', auth.checkToken, usersController.getAll);
-router.get('/user/:id', auth.checkToken, usersController.getUser);
-router.patch('/user/:id', validation.check(schemaUser.update(),"body"), usersController.updateUser);
-router.delete('/user/:id', auth.checkToken, usersController.deleteUser);
+// Routes des membres
+router.get('/users', auth.authMiddleware(['staff', 'admin']), usersController.getAll);
+router.get('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.getUser);
+router.patch('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), validation.check(schemaUser.update(),"body"), usersController.updateUser);
+router.delete('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUser);
+
+// Routes admin/staff
+router.get('/admin/user/:id', auth.authMiddleware(['staff', 'admin']), usersController.adminGetUser);
+router.patch('/admin/user/:id', auth.authMiddleware(['admin']), validation.check(schemaUser.updateAdmin(),"body"), usersController.adminUpdateUser);
+router.delete('/admin/user/:id', auth.authMiddleware(['admin']), usersController.adminDeleteUser);
 
 
 // Routes de la relation USER_HAS_TAG
-
 router.get('/user/:id/tag', usersController.getUserTags);
 router.post('/user/:id/tag', usersController.addUserTag);
 router.delete('/user/:id/tag/:tagId', usersController.deleteUserTag);
@@ -24,6 +28,7 @@ router.get('/user/:id/matching', usersController.matching);
 
 // Route du matching d'un animal
 router.get('/user/:id/matching/:animalId', usersController.matchingOne);
+
 
 module.exports = router;
 
@@ -129,5 +134,6 @@ module.exports = router;
  * @property {string} city - ville
  * @property {string} postal_code - code postal
  * @property {string} country - pays
- * @property {number} role_id - id du rôle de l'utilisateur
  */
+
+
