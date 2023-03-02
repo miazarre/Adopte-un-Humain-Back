@@ -18,16 +18,17 @@ router.patch('/admin/user/:id', auth.authMiddleware(['admin']), validation.check
 router.delete('/admin/user/:id', auth.authMiddleware(['admin']), usersController.adminDeleteUser);
 
 
+
 // Routes de la relation USER_HAS_TAG
-router.get('/user/:id/tag', usersController.getUserTags);
-router.post('/user/:id/tag', usersController.addUserTag);
-router.delete('/user/:id/tag/:tagId', usersController.deleteUserTag);
+router.get('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.getUserTags);
+router.post('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.addUserTag);
+router.delete('/user/:id/tag/:tagId', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUserTag);
 
 // Route du matching de tous les animaux
-router.get('/user/:id/matching', usersController.matching);
+router.get('/user/:id/matching', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.matching);
 
 // Route du matching d'un animal
-router.get('/user/:id/matching/:animalId', usersController.matchingOne);
+router.get('/user/:id/matching/:animalId', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.matchingOne);
 
 
 module.exports = router;
