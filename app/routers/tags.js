@@ -23,6 +23,7 @@ module.exports = router;
 /**
  * GET /api/tags
  * @summary Récupère tous les tags
+ * @security bearerAuth
  * @tags TAG
  * @return {string} 200 - all tags
  * @return {object} 500 - Unexpected error
@@ -31,6 +32,7 @@ module.exports = router;
 /**
  * POST /api/tag
  * @summary Crée un tag
+ * @security bearerAuth
  * @tags TAG
  * @param {Tag} request.body.required - Tag info
  * @return {string} 200 - new tag
@@ -40,6 +42,7 @@ module.exports = router;
 /**
  * GET /api/tag/:id
  * @summary Récupère un tag
+ * @security bearerAuth
  * @tags TAG
  * @return {string} 200 - one tag
  * @return {object} 500 - Unexpected error
@@ -48,6 +51,7 @@ module.exports = router;
 /**
  * PATCH /api/tag/:id
  * @summary Modifie un tag
+ * @security bearerAuth
  * @tags TAG
  * @param {TagUpdate} request.body.required - TagUpdate info
  * @return {string} 200 - update tag
@@ -57,6 +61,7 @@ module.exports = router;
 /**
  * DELETE /api/tag/:id
  * @summary Supprime un tag
+ * @security bearerAuth
  * @tags TAG
  * @return {string} 200 - delete tag
  * @return {object} 500 - Unexpected error
