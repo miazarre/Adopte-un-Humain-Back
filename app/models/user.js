@@ -18,8 +18,6 @@ class User extends Core {
         this.postal_code = obj.postal_code;
         this.country = obj.country;
         this.role_id = obj.role_id;
-        this.created_at = obj.created_at;
-        this.updated_at = obj.updated_at;
     }
 
 

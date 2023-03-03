@@ -9,8 +9,6 @@ class Avatar extends Core {
     this.id = obj.id;
     this.name = obj.name;
     this.picture = obj.picture;
-    this.created_at = obj.created_at;
-    this.updated_at = obj.updated_at;
   }
 
   // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

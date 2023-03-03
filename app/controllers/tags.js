@@ -3,10 +3,7 @@ const { Tag } = require("../models");
 
 const tagsController = {
 
-    /**
-     * Récupère la liste des tags
-     * @returns Liste des tags
-     */
+    // Récupère tous les tags
     async getAll(_, res, next) {
         try {
             const tags = await Tag.findAll();

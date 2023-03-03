@@ -2,6 +2,7 @@ const { Adopt } = require("../models");
 
 const adoptsController = {
 
+    //Récupère toutes les adoptions
     async getAll(_, res, next) {
         try {
             const adopts = await Adopt.findAll();
@@ -16,7 +17,6 @@ const adoptsController = {
             });
         } 
     },
-
    // Récupère une adoption
     async getAdopt(req, res, next) {
         try {      
@@ -70,7 +70,6 @@ const adoptsController = {
             });
         }      
     },
-
     // Modifie une adoption
     async updateAdopt(req, res, next) {
         try {
@@ -86,7 +85,6 @@ const adoptsController = {
             });
         }
     },
-
     // Supprime une adoption
     async deleteAdopt(req,res,next){
         try {

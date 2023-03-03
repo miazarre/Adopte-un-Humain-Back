@@ -13,8 +13,6 @@ class Adopt extends Core {
     this.form3 = obj.form3;
     this.status = obj.status;
     this.date_adopt = obj.date_adopt;
-    this.created_at = obj.created_at;
-    this.updated_at = obj.updated_at;
     this.user_id = obj.user_id;
     this.animal_id = obj.animal_id;
   }

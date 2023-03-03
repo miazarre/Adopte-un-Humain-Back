@@ -4,8 +4,6 @@ const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosR
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
-
-
 const path = require('path');
 app.use(express.static(path.join(__dirname, './public/')));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
@@ -18,7 +16,6 @@ app.use(cors())
 // Définition des options de configuration de Swagger
 
 const expressJSDocSwagger = require('express-jsdoc-swagger');
-
 
 const options = {
     info: {
@@ -42,22 +39,16 @@ const options = {
 
 // Appel de la fonction expressJSDocSwagger() pour lui passer les options de configuration
 expressJSDocSwagger(app)(options);
-// Montage de l'interface utilisateur Swagger sur une route spécifique
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup);
-
 
 /* Autorisation de recevoir des données de type JSON */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 /* Mise en place du router */
 app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter);
 
-
 app.listen(PORT, () => {
-  console.log(`Server ready : http://localhost:${PORT}`);
+  console.log(`Server ready : http://${process.env.APP_URL}:${PORT}`);
 });
-
 
 module.exports = app ;

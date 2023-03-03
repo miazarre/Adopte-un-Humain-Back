@@ -3,10 +3,7 @@ const { Role } = require("../models");
 
 const rolesController = {
 
-    /**
-     * Récupère la liste des roles
-     * @returns Liste des roles
-     */
+    // Récupère tous les rôles
     async getAll(_, res, next) {
         try {
             const roles = await Role.findAll();
@@ -22,7 +19,7 @@ const rolesController = {
         }
     },
 
-   // Récupère un role
+   // Récupère un rôle
     async getRole(req, res, next) {
         try {
             const role = await Role.findByPk(req.params.id);

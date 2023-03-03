@@ -17,9 +17,6 @@ static tableName = 'animal';
         this.photo2 = obj.photo2;
         this.photo3 = obj.photo3;
         this.photo4 = obj.photo4;
-        this.created_at = obj.created_at;
-        this.updated_at = obj.updated_at;
-        this.user_id = obj.user_id;
 }
 
 // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

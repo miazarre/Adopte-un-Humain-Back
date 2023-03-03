@@ -3,10 +3,7 @@ const clean = require("../script/cleanPhoto");
 
 const animalsController = {
 
-    /**
-     * Récupère la liste des animaux
-     * @returns Liste des animaux
-     */
+    // Récupère tous les animaux
     async getAll(_, res, next) {
         try {
             const animals = await Animal.findAll();
@@ -164,8 +161,7 @@ const animalsController = {
         }
     },
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+    // Récupère les tags de l'animal
     async getAnimalTags(req, res) {
         const animalId = req.params.id;
         try {
@@ -175,7 +171,7 @@ const animalsController = {
           res.status(500).json({ error: 'Error getting animal tags - controller' });
         }
       },
-      
+    // Ajoute un tag à l'animal 
     async addAnimalTag(req, res) {
         try {
         const tag = new Tag(req.body);
@@ -202,7 +198,7 @@ const animalsController = {
           res.status(500).json({ error: 'Error adding animal tag' });
         }
       },
-
+    // Supprime un tag à l'animal
     async deleteAnimalTag(req, res) {
         try {
           await Animal.deleteAnimalTag(req.params.id, req.params.tagId);
@@ -214,7 +210,6 @@ const animalsController = {
           res.status(500).json({ error: 'Error deleting animal tag' });
         }
       }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
 module.exports = animalsController;
