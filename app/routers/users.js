@@ -3,6 +3,7 @@ const { usersController } = require('../controllers');
 const router = express.Router();
 const validation = require("../service/validation");
 const schemaUser = require("../schemas/userBody");
+const schemaHasTag = require("../schemas/hasTagBody");
 const auth = require("../service/security");
 
 
@@ -21,7 +22,7 @@ router.delete('/admin/user/:id', auth.authMiddleware(['admin']), usersController
 
 // Routes de la relation USER_HAS_TAG
 router.get('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.getUserTags);
-router.post('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.addUserTag);
+router.post('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), validation.check(schemaHasTag.addTag(),"body"), usersController.addUserTag);
 router.delete('/user/:id/tag/:tagId', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUserTag);
 
 // Route du matching de tous les animaux
@@ -33,7 +34,7 @@ router.get('/user/:id/matching/:animalId', auth.authMiddleware(['membre', 'staff
 
 module.exports = router;
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/users
@@ -143,6 +144,8 @@ module.exports = router;
  * @return {string} 200 - animal/user tags
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
   * User

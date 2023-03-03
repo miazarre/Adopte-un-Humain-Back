@@ -12,7 +12,7 @@ router.get('/images/avatar/:filename', photosController.getPhotoAvatar);
 
 module.exports = router;
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/images/animal/:filename

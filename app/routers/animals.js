@@ -4,13 +4,19 @@ const router = express.Router();
 const auth = require("../service/security");
 const multer = require('multer');
 const upload = multer({dest: 'public/images/animals'});
+const validation = require("../service/validation");
+const schemaAnimal = require("../schemas/animalBody");
+const schemaHasTag = require("../schemas/hasTagBody");
 
 
 
 // Routes des animaux
 
 router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  animalsController.getAll);
-router.post('/animal', auth.authMiddleware(['staff', 'admin']), upload.fields([{
+router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  animalsController.deleteAnimal);
+router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
+
+router.post('/animal', auth.authMiddleware(['staff', 'admin']),validation.check(schemaAnimal.create(),"body"), upload.fields([{
   name: 'photo1', maxCount: 1
 }, {
   name: 'photo2', maxCount: 1
@@ -19,9 +25,8 @@ router.post('/animal', auth.authMiddleware(['staff', 'admin']), upload.fields([{
 }, {
   name: 'photo4', maxCount: 1
 }]), animalsController.addAnimal);
-router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
 
-router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fields([{
+router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAnimal.update(),"body"), upload.fields([{
     name: 'photo1', maxCount: 1
   }, {
     name: 'photo2', maxCount: 1
@@ -31,27 +36,18 @@ router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fiel
     name: 'photo4', maxCount: 1
   }]), animalsController.updateAnimal);
 
-router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  animalsController.deleteAnimal);
-
 
 // Routes de la relation ANIMAL_HAS_TAG 
 
-// Récupérer tous les tags d'un animal spécifique
 router.get('/animal/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimalTags);
-
-// Ajouter un tag à un animal spécifique
-router.post('/animal/:id/tag', auth.authMiddleware(['staff', 'admin']),  animalsController.addAnimalTag);
-
-// Supprimer un tag d'un animal spécifique
+router.post('/animal/:id/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaHasTag.addTag(),"body"), animalsController.addAnimalTag);
 router.delete('/animal/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), animalsController.deleteAnimalTag);
-
-
 
 
 module.exports = router;
 
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/animals
@@ -127,6 +123,7 @@ module.exports = router;
  * @return {object} 500 - Unexpected error
  */
 
+//  SCHEMA SWAGGER \\
 
 /**
  * Animal

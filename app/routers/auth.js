@@ -11,7 +11,7 @@ router.post("/register", validation.check(schemaRegister.create(),"body"), users
 
 module.exports = router;
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * POST /api/login
@@ -31,6 +31,8 @@ module.exports = router;
  * @return {string} 200 - new user
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
  * Register
