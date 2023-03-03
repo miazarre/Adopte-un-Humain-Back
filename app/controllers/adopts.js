@@ -1,4 +1,4 @@
-const { Adopt } = require("../models");
+import { Adopt } from "../models/index.js";
 
 const adoptsController = {
 
@@ -105,4 +105,4 @@ const adoptsController = {
     },
 }
 
-module.exports = adoptsController;
+export { adoptsController };

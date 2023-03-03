@@ -1,37 +1,33 @@
-const express = require('express');
-const { avatarsController } = require('../controllers');
-const router = express.Router();
-const auth = require("../service/security");
-const multer = require('multer');
+import express from 'express';
+import { avatarsController } from '../controllers/index.js';
+import securityService from "../service/security.js";
+import multer from 'multer';
 const upload = multer({dest: 'public/images/avatars'});
-
+const router = express.Router();
+const authMiddleware = securityService.authMiddleware;
 
 
 // Routes des avatars
 
-router.get('/avatars', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAll);
-router.post('/avatar', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.addAvatar);
-router.get('/avatar/:id', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatar);
-router.patch('/avatar/:id', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.updateAvatar);
-router.delete('/avatar/:id', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatar);
+router.get('/avatars', authMiddleware(['membre','staff', 'admin']), avatarsController.getAll);
+router.post('/avatar', authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.addAvatar);
+router.get('/avatar/:id', authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatar);
+router.patch('/avatar/:id', authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.updateAvatar);
+router.delete('/avatar/:id', authMiddleware(['staff', 'admin']), avatarsController.deleteAvatar);
 
 // Routes de la relation AVATAR_HAS_TAG
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 // Récupérer tous les tags d'un avatar spécifique
-router.get('/avatar/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatarTags);
+router.get('/avatar/:id/tag', authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatarTags);
 
 // Ajouter un tag à un avatar spécifique
-router.post('/avatar/:id/tag', auth.authMiddleware(['staff', 'admin']), avatarsController.addAvatarTag);
+router.post('/avatar/:id/tag', authMiddleware(['staff', 'admin']), avatarsController.addAvatarTag);
 
 // Supprimer un tag d'un avatar spécifique
-router.delete('/avatar/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatarTag);
-
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+router.delete('/avatar/:id/tag/:tagId', authMiddleware(['staff', 'admin']), avatarsController.deleteAvatarTag);
 
 
-module.exports = router;
+export { router as avatarsRouter };
 
 // doc swagger : http://localhost:3000/api-docs
 

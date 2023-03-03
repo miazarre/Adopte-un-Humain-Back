@@ -1,7 +1,7 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import dbClient from '../service/dbClient.js';
 
-class Animal extends Core {
+export class Animal extends Core {
 static tableName = 'animal';
 
     constructor(obj){
@@ -21,8 +21,6 @@ static tableName = 'animal';
         this.updated_at = obj.updated_at;
         this.user_id = obj.user_id;
 }
-
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 static async getAnimalTags(animalId) {
   try {
@@ -95,7 +93,6 @@ static async deleteAnimalTag(animalId, tagId) {
           return false;
       }
   }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-module.exports = Animal;
+export default Animal;

@@ -1,7 +1,7 @@
-const client = require("../service/dbClient")
+import client from "../service/dbClient.js";
 
 class Core {
-    tableName;
+  static tableName;
 
     constructor() {
     }
@@ -174,4 +174,4 @@ class Core {
     }
 }
 
-module.exports = Core;
+export default Core;

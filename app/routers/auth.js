@@ -1,15 +1,14 @@
-const express = require('express');
-const authController  = require('../controllers/auth');
+import express from 'express';
 const router = express.Router();
-const validation = require("../service/validation");
-const { usersController } = require('../controllers');
-const schemaRegister = require("../schemas/registerBody");
+import { usersController, authController } from '../controllers/index.js';
+import validation from '../service/validation.js';
+import schemaRegister from '../schemas/registerBody.js';
 
 
 router.post("/login", validation.check(schemaRegister.login(),"body"), authController.checkLogin);
 router.post("/register", validation.check(schemaRegister.create(),"body"), usersController.addUser);
 
-module.exports = router;
+export { router as authRouter };
 
 // doc swagger : http://localhost:3000/api-docs
 

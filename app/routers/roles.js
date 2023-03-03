@@ -1,21 +1,24 @@
-const express = require('express');
-const { rolesController } = require('../controllers');
+import express from 'express';
+import { rolesController } from '../controllers/index.js';
 const router = express.Router();
-const validation = require("../service/validation");
-const auth = require("../service/security");
-const schemaRole = require("../schemas/roleBody");
+import validation from '../service/validation.js';
+
+import schemaRole from '../schemas/roleBody.js';
+
+import securityService from "../service/security.js";
+const authMiddleware = securityService.authMiddleware;
 
 
 // Routes des Rôles
 
-router.get('/roles', auth.authMiddleware(['staff', 'admin']), rolesController.getAll);
-router.post('/role', auth.authMiddleware(['admin']), validation.check(schemaRole.create(),"body"), rolesController.addRole);
-router.get('/role/:id', auth.authMiddleware(['staff', 'admin']), rolesController.getRole);
-router.patch('/role/:id', auth.authMiddleware(['admin']), validation.check(schemaRole.update(),"body"), rolesController.updateRole);
-router.delete('/role/:id', auth.authMiddleware(['admin']), rolesController.deleteRole);
+router.get('/roles', authMiddleware(['staff', 'admin']), rolesController.getAll);
+router.post('/role', authMiddleware(['admin']), validation.check(schemaRole.create(),"body"), rolesController.addRole);
+router.get('/role/:id', authMiddleware(['staff', 'admin']), rolesController.getRole);
+router.patch('/role/:id', authMiddleware(['admin']), validation.check(schemaRole.update(),"body"), rolesController.updateRole);
+router.delete('/role/:id', authMiddleware(['admin']), rolesController.deleteRole);
 
 
-module.exports = router;
+export { router as rolesRouter };
 
 
 // doc swagger : http://localhost:3000/api-docs

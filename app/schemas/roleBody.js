@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from 'joi';
 
 const roleSchema = {
 	create() {
@@ -14,4 +14,4 @@ const roleSchema = {
 	}
 }
 
-module.exports = roleSchema;
+export default roleSchema;

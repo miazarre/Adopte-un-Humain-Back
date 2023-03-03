@@ -1,8 +1,8 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
-const bcrypt = require('bcrypt');
+import Core from './core.js';
+import dbClient from '../service/dbClient.js';
+import bcrypt from 'bcrypt';
 
-class User extends Core {
+export class User extends Core {
     static tableName = 'user';
 
     constructor(obj){
@@ -247,4 +247,4 @@ static async getUserTags(userId) {
 
 }
 
-module.exports = User;
+export default User;

@@ -1,19 +1,20 @@
-const express = require('express');
-const { animalsController } = require('../controllers');
+import express from 'express';
+import { animalsController } from '../controllers/index.js';
 const router = express.Router();
-const auth = require("../service/security");
-const multer = require('multer');
+import multer from 'multer';
 const upload = multer({dest: 'public/images/animals'});
 
+import securityService from "../service/security.js";
+const authMiddleware = securityService.authMiddleware;
 
 
 // Routes des animaux
 
-router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  animalsController.getAll);
-router.post('/animal', auth.authMiddleware(['staff', 'admin']),  upload.array('files'), animalsController.addAnimal);
-router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
+router.get('/animals', authMiddleware(['membre','staff', 'admin']),  animalsController.getAll);
+router.post('/animal', authMiddleware(['staff', 'admin']),  upload.array('files'), animalsController.addAnimal);
+router.get('/animal/:id', authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
 
-router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fields([{
+router.patch('/animal/:id', authMiddleware(['staff', 'admin']), upload.fields([{
     name: 'photo1', maxCount: 1
   }, {
     name: 'photo2', maxCount: 1
@@ -23,24 +24,22 @@ router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fiel
     name: 'photo4', maxCount: 1
   }]), animalsController.updateAnimal);
 
-router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  animalsController.deleteAnimal);
+router.delete('/animal/:id', authMiddleware(['staff', 'admin']),  animalsController.deleteAnimal);
 
 
 // Routes de la relation ANIMAL_HAS_TAG 
 
 // Récupérer tous les tags d'un animal spécifique
-router.get('/animal/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimalTags);
+router.get('/animal/:id/tag', authMiddleware(['membre','staff', 'admin']), animalsController.getAnimalTags);
 
 // Ajouter un tag à un animal spécifique
-router.post('/animal/:id/tag', auth.authMiddleware(['staff', 'admin']),  animalsController.addAnimalTag);
+router.post('/animal/:id/tag', authMiddleware(['staff', 'admin']),  animalsController.addAnimalTag);
 
 // Supprimer un tag d'un animal spécifique
-router.delete('/animal/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), animalsController.deleteAnimalTag);
+router.delete('/animal/:id/tag/:tagId', authMiddleware(['staff', 'admin']), animalsController.deleteAnimalTag);
 
 
-
-
-module.exports = router;
+export { router as animalsRouter };
 
 
 // doc swagger : http://localhost:3000/api-docs

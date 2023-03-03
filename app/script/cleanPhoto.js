@@ -1,12 +1,16 @@
-const fs = require('fs');
-require("dotenv").config();
-const path = require('path');
-const { Pool } = require('pg');
+import fs from 'fs';
+import dotenv from "dotenv";
+import path from 'path';
+import pg from 'pg';
+
+dotenv.config();
+
+const { Pool } = pg;
 const pool = new Pool();
 
 // Script qui supprime les images qui ne sont pas stockées dans la BDD
 
-const cleanPhotos = {
+export const cleanPhotos = {
 
   async deleteAnimalsFiles() {
       // Récupération des noms de fichiers présents dans le répertoire des images animals
@@ -70,4 +74,4 @@ const cleanPhotos = {
 
 }
 
-module.exports = cleanPhotos;
+export default cleanPhotos;

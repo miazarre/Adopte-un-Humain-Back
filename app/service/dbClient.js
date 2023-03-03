@@ -1,10 +1,10 @@
-const { Pool } = require('pg');
+import pg from 'pg';
 
-const pool = new Pool();
+const pool = new pg.Pool();
 
 let queryCount = 0;
 
-module.exports = {
+export default {
   // On expose quand même le client original "au cas ou"
   originalClient: pool,
 
@@ -22,5 +22,5 @@ module.exports = {
       // // de variables / paramétre ce qui fait que la méthode query du client sera
       // // appelé exactement de la même façon que celle de notre module
       return this.originalClient.query(...params);
-  },
-};
+    },
+  };

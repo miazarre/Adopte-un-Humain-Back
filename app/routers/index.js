@@ -1,22 +1,24 @@
+// ./app/routers/index.js
 
-const usersRouter = require("./users");
-const authRouter = require("./auth");
-const animalsRouter = require("./animals");
-const tagsRouter = require("./tags");
-const rolesRouter = require("./roles");
-const photosRouter = require("./photos");
-const avatarsRouter = require("./avatars");
-const adoptRouter = require("./adopts");
+import express from 'express';
+import { adoptRouter } from './adopts.js';
+import { authRouter } from './auth.js';
+import { usersRouter } from './users.js';
+import { animalsRouter } from './animals.js';
+import { tagsRouter } from './tags.js';
+import { rolesRouter } from './roles.js';
+import { photosRouter } from './photos.js';
+import { avatarsRouter } from './avatars.js';
 
+const router = express.Router();
 
+router.use(adoptRouter);
+router.use(authRouter);
+router.use(usersRouter);
+router.use(animalsRouter);
+router.use(tagsRouter);
+router.use(rolesRouter);
+router.use(photosRouter);
+router.use(avatarsRouter);
 
-module.exports = {
-     usersRouter,
-     authRouter,
-     animalsRouter,
-     tagsRouter,
-     rolesRouter,
-     photosRouter,
-     avatarsRouter,
-     adoptRouter
-};
+export { router as default, adoptRouter, authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter };

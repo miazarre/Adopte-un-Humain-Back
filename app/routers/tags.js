@@ -1,20 +1,22 @@
-const express = require('express');
-const { tagsController } = require('../controllers');
-const validation = require("../service/validation");
-const schemaTag = require("../schemas/tagBody");
-const auth = require("../service/security");
+import express from 'express';
+import { tagsController } from '../controllers/index.js';
+import validation from '../service/validation.js';
+import schemaTag from '../schemas/tagBody.js';
 const router = express.Router();
+
+import securityService from "../service/security.js";
+const authMiddleware = securityService.authMiddleware;
 
 // Routes des tags
 
-router.get('/tags', auth.authMiddleware(['membre','staff', 'admin']),  tagsController.getAll);
-router.post('/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.create(),"body"), tagsController.addTag);
-router.get('/tag/:id', auth.authMiddleware(['membre','staff', 'admin']), tagsController.getTag);
-router.patch('/tag/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.update(),"body"), tagsController.updateTag);
-router.delete('/tag/:id', auth.authMiddleware(['staff', 'admin']), tagsController.deleteTag);
+router.get('/tags', authMiddleware(['membre','staff', 'admin']),  tagsController.getAll);
+router.post('/tag', authMiddleware(['staff', 'admin']), validation.check(schemaTag.create(),"body"), tagsController.addTag);
+router.get('/tag/:id', authMiddleware(['membre','staff', 'admin']), tagsController.getTag);
+router.patch('/tag/:id', authMiddleware(['staff', 'admin']), validation.check(schemaTag.update(),"body"), tagsController.updateTag);
+router.delete('/tag/:id', authMiddleware(['staff', 'admin']), tagsController.deleteTag);
 
 
-module.exports = router;
+export { router as tagsRouter };
 
 
 

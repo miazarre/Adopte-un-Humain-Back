@@ -1,7 +1,7 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import dbClient from '../service/dbClient.js';
 
-class Adopt extends Core {
+export class Adopt extends Core {
     static tableName = 'adoption';
 
   constructor(obj) {
@@ -20,4 +20,4 @@ class Adopt extends Core {
   }
 }
 
-module.exports = Adopt;
+export default Adopt;

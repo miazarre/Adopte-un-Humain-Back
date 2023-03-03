@@ -1,5 +1,5 @@
-const express = require('express');
-const { photosController } = require('../controllers');
+import express from 'express';
+import { photosController } from '../controllers/index.js';
 const router = express.Router();
 
 
@@ -10,7 +10,7 @@ router.get('/images/animal/:filename', photosController.getPhotoAnimal);
 router.get('/images/avatar/:filename', photosController.getPhotoAvatar);
 
 
-module.exports = router;
+export { router as photosRouter };
 
 // doc swagger : http://localhost:3000/api-docs
 

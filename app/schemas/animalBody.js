@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const animalSchema = {
 	create() {
@@ -21,4 +21,4 @@ const animalSchema = {
 	}
 }
 
-module.exports = animalSchema;
+export default animalSchema;

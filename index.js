@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require('express');
-const { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter } = require("./app/routers/index");
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter } from "./app/routers/index.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
+import cors from "cors";
 
-
-const path = require('path');
+import path from "path";
 app.use(express.static(path.join(__dirname, './public/')));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use(cors())
@@ -17,7 +17,7 @@ app.use(cors())
 
 // Définition des options de configuration de Swagger
 
-const expressJSDocSwagger = require('express-jsdoc-swagger');
+import expressJSDocSwagger from 'express-jsdoc-swagger';
 
 
 const options = {
@@ -60,4 +60,4 @@ app.listen(PORT, () => {
 });
 
 
-module.exports = app ;
+export default app;

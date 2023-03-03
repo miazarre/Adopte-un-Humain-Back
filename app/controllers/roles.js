@@ -1,5 +1,4 @@
-const { Role } = require("../models");
-
+import { Role } from "../models/index.js";
 
 const rolesController = {
 
@@ -96,4 +95,4 @@ const rolesController = {
     },
 }
 
-module.exports = rolesController;
+export { rolesController };

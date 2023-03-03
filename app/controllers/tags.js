@@ -1,4 +1,4 @@
-const { Tag } = require("../models");
+import { Tag } from "../models/index.js";
 
 
 const tagsController = {
@@ -113,4 +113,4 @@ const tagsController = {
     },
 }
 
-module.exports = tagsController;
+export { tagsController };

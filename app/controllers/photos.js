@@ -1,5 +1,5 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
 const photosController = {
     async getPhotoAnimal(req, res, next) {
@@ -44,4 +44,4 @@ const photosController = {
     }      
 }
 
-module.exports = photosController;
+export { photosController };

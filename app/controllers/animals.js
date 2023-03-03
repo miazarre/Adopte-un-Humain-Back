@@ -1,5 +1,5 @@
-const { Animal, Tag } = require("../models");
-const clean = require("../script/cleanPhoto");
+import { Animal, Tag } from "../models/index.js";
+import { cleanPhotos } from "../script/cleanPhoto.js";
 
 const animalsController = {
 
@@ -140,8 +140,6 @@ const animalsController = {
         }
     },
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     async getAnimalTags(req, res) {
         const animalId = req.params.id;
         try {
@@ -190,7 +188,6 @@ const animalsController = {
           res.status(500).json({ error: 'Error deleting animal tag' });
         }
       }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-module.exports = animalsController;
+export {animalsController };

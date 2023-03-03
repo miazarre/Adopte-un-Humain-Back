@@ -1,20 +1,22 @@
-const express = require('express');
-const { adoptsController } = require('../controllers');
+import express from 'express';
+import { adoptsController } from '../controllers/index.js';
 const router = express.Router();
-const auth = require("../service/security");
+
+import securityService from "../service/security.js";
+const authMiddleware = securityService.authMiddleware;
 
 
 // Routes des demandes d'adoptions
 
-router.get('/adopts', auth.authMiddleware(['staff', 'admin']), adoptsController.getAll);
-router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), adoptsController.addAdopt);
-router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), adoptsController.getAdopt);
-// router.get('/admin/adopt/:id', auth.authMiddleware(['staff', 'admin']), adoptsController.adminGetAdopt);
-router.patch('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.updateAdopt);
-router.delete('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.deleteAdopt);
+router.get('/adopts', authMiddleware(['staff', 'admin']), adoptsController.getAll);
+router.post('/adopt', authMiddleware(['membre','staff', 'admin']), adoptsController.addAdopt);
+router.get('/adopt/:id', authMiddleware(['staff', 'admin']), adoptsController.getAdopt);
+// router.get('/admin/adopt/:id', authMiddleware(['staff', 'admin']), adoptsController.adminGetAdopt);
+router.patch('/adopt/:id', authMiddleware(['staff', 'admin']), adoptsController.updateAdopt);
+router.delete('/adopt/:id', authMiddleware(['staff', 'admin']), adoptsController.deleteAdopt);
 
 
-module.exports = router;
+export { router as adoptRouter };
 
 
 // doc swagger : http://localhost:3000/api-docs
