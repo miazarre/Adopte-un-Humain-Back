@@ -38,6 +38,7 @@ module.exports = router;
 /**
  * GET /api/users
  * @summary Récupère tous les users
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - all users
  * @return {object} 500 - Unexpected error
@@ -46,6 +47,7 @@ module.exports = router;
 /**
  * GET /api/user/:id
  * @summary Récupère un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - one user
  * @return {object} 500 - Unexpected error
@@ -54,6 +56,7 @@ module.exports = router;
 /**
  * PATCH /api/user/:id
  * @summary Modifie un user
+ * @security bearerAuth
  * @tags USER
  * @param {UserUpdate} request.body.required - UserUpdate info
  * @return {string} 200 - update user
@@ -63,6 +66,7 @@ module.exports = router;
 /**
  * DELETE /api/user/:id
  * @summary Supprime un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - delete user (by user, staff or admin)
  * @return {object} 500 - Unexpected error
@@ -71,6 +75,7 @@ module.exports = router;
 /**
  * GET /api/admin/user/:id
  * @summary Récupère le profil d'un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - users profile
  * @return {object} 500 - Unexpected error
@@ -79,6 +84,7 @@ module.exports = router;
 /**
  * PATCH /api/admin/user/:id
  * @summary Modifie le rôle d'un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - new user role
  * @return {object} 500 - Unexpected error
@@ -87,6 +93,7 @@ module.exports = router;
 /**
  * DELETE /api/admin/user/:id
  * @summary supprime un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - delete user (by admin only)
  * @return {object} 500 - Unexpected error
@@ -95,6 +102,7 @@ module.exports = router;
 /**
  * GET /api/user/:id/tag
  * @summary Récupère le tag lié au user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - one user tag
  * @return {object} 500 - Unexpected error
@@ -103,6 +111,7 @@ module.exports = router;
 /**
  * POST /api/user/:id/tag
  * @summary Crée une association
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - new association
  * @return {object} 500 - Unexpected error
@@ -111,6 +120,7 @@ module.exports = router;
 /**
  * DELETE /api/user/:id/tag/:tagId
  * @summary Supprime une association
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - delete association
  * @return {object} 500 - Unexpected error
@@ -119,6 +129,7 @@ module.exports = router;
 /**
  * GET /api/user/:id/matching
  * @summary Récupère la liste des animaux qui ont les mêmes tags
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - animals with same tags
  * @return {object} 500 - Unexpected error
@@ -127,6 +138,7 @@ module.exports = router;
 /**
  * GET /api/user/:id/matching/:id
  * @summary Compare les tags d'un animal et d'un user
+ * @security bearerAuth
  * @tags USER
  * @return {string} 200 - animal/user tags
  * @return {object} 500 - Unexpected error

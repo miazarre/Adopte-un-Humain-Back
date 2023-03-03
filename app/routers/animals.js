@@ -48,6 +48,7 @@ module.exports = router;
 /**
  * GET /api/animals
  * @summary Récupère tous les animals
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - all animals
  * @return {object} 500 - Unexpected error
@@ -56,6 +57,7 @@ module.exports = router;
 /**
  * POST /api/animal
  * @summary Crée un animal
+ * @security bearerAuth
  * @tags ANIMAL
  * @param {Animal} request.body.required - Animal info
  * @return {string} 200 - new animal
@@ -65,6 +67,7 @@ module.exports = router;
 /**
  * GET /api/animal/:id
  * @summary Récupère un animal
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - one animal
  * @return {object} 500 - Unexpected error
@@ -73,6 +76,7 @@ module.exports = router;
 /**
  * PATCH /api/animal/:id
  * @summary Modifie un animal
+ * @security bearerAuth
  * @tags ANIMAL
  * @param {AnimalUpdate} request.body.required - Animal info
  * @return {string} 200 - update animal
@@ -82,6 +86,7 @@ module.exports = router;
 /**
  * DELETE /api/animal/:id
  * @summary Supprime un animal
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - delete animal
  * @return {object} 500 - Unexpected error
@@ -90,6 +95,7 @@ module.exports = router;
 /**
  * GET /api/animal/:id/tag
  * @summary Récupère le tag lié à l'animal
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - one animal tag
  * @return {object} 500 - Unexpected error
@@ -98,6 +104,7 @@ module.exports = router;
 /**
  * POST /api/animal/:id/tag
  * @summary Crée une association
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - new association
  * @return {object} 500 - Unexpected error
@@ -106,6 +113,7 @@ module.exports = router;
 /**
  * DELETE /api/animal/:id/tag/:tagId
  * @summary Supprime une association
+ * @security bearerAuth
  * @tags ANIMAL
  * @return {string} 200 - delete association
  * @return {object} 500 - Unexpected error

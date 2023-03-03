@@ -38,6 +38,7 @@ module.exports = router;
 /**
  * GET /api/avatars
  * @summary Récupère tous les avatars
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - all avatars
  * @return {object} 500 - Unexpected error
@@ -46,6 +47,7 @@ module.exports = router;
 /**
  * POST /api/avatar
  * @summary Crée un avatar
+ * @security bearerAuth
  * @tags AVATAR
  * @param {Avatar} request.body.required - Avatar info
  * @return {string} 200 - new avatar
@@ -55,6 +57,7 @@ module.exports = router;
 /**
  * GET /api/avatar/:id
  * @summary Récupère un avatar
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - one avatar
  * @return {object} 500 - Unexpected error
@@ -63,6 +66,7 @@ module.exports = router;
 /**
  * PATCH /api/avatar/:id
  * @summary Modifie un avatar
+ * @security bearerAuth
  * @tags AVATAR
  * @param {AvatarUpdate} request.body.required - AvatarUpdate info
  * @return {string} 200 - update avatar
@@ -72,6 +76,7 @@ module.exports = router;
 /**
  * DELETE /api/avatar/:id
  * @summary Supprime un avatar
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - delete avatar
  * @return {object} 500 - Unexpected error
@@ -80,6 +85,7 @@ module.exports = router;
 /**
  * GET /api/avatar/:id/tag
  * @summary Récupère le tag lié à l'avatar
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - one avatar tag
  * @return {object} 500 - Unexpected error
@@ -88,6 +94,7 @@ module.exports = router;
 /**
  * POST /api/avatar/:id/tag
  * @summary Crée une association
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - new association
  * @return {object} 500 - Unexpected error
@@ -96,6 +103,7 @@ module.exports = router;
 /**
  * DELETE /api/avatar/:id/tag
  * @summary Supprime l'association entre l'avatar et le tag
+ * @security bearerAuth
  * @tags AVATAR
  * @return {string} 200 - delete association
  * @return {object} 500 - Unexpected error
