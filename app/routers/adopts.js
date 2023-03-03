@@ -22,6 +22,7 @@ module.exports = router;
 /**
  * GET /api/adopts
  * @summary Récupère toutes les adoptions
+ * @security bearerAuth
  * @tags ADOPT
  * @return {string} 200 - all adopts
  * @return {object} 500 - Unexpected error
@@ -30,6 +31,7 @@ module.exports = router;
 /**
  * POST /api/adopt
  * @summary Crée une adoption
+ * @security bearerAuth
  * @tags ADOPT
  * @param {Adopt} request.body.required - Adopt info
  * @return {string} 200 - new adopt
@@ -39,6 +41,7 @@ module.exports = router;
 /**
  * GET /api/adopt/:id
  * @summary Récupère une adoption
+ * @security bearerAuth
  * @tags ADOPT
  * @return {string} 200 - one adopt
  * @return {object} 500 - Unexpected error
@@ -47,6 +50,7 @@ module.exports = router;
 /**
  * PATCH /api/adopt/:id
  * @summary Modifie une adoption
+ * @security bearerAuth
  * @tags ADOPT
  * @param {AdoptUpdate} request.body.required - AdoptUpdate info
  * @return {string} 200 - update adopt
@@ -56,6 +60,7 @@ module.exports = router;
 /**
  * DELETE /api/adopt/:id
  * @summary Supprime une adoption
+ * @security bearerAuth
  * @tags ADOPT
  * @return {string} 200 - delete adopt
  * @return {object} 500 - Unexpected error

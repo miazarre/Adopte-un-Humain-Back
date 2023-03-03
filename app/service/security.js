@@ -4,7 +4,7 @@ const { User, Role } = require('../models');
 const securityService = {
 
     authMiddleware(roles) {
-        return async function(req, res, next) {  
+        return async function(req, res, next) {    
           
           try {
             // Récupérer le token JWT depuis l'en-tête Authorization
