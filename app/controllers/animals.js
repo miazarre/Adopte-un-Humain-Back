@@ -40,16 +40,40 @@ const animalsController = {
     // Ajoute un animal
     async addAnimal(req, res, next) {
         try {        
-            // Pour chaque images récupérer je les mets dans mon req.body
-            if(req.files) {
-                for (let i = 0; i < req.files.length; i++) {
-                    let count = i + 1;
-                    req.body[`photo${count}`] = req.files[i].filename;
-                }
+            const data = {}                 
+            if(req.files.photo1) {
+                data.photo1 = req.files.photo1[0].filename
             }
-
+            if(req.files.photo2) {
+                data.photo2 = req.files.photo2[0].filename
+            }
+            if(req.files.photo3) {
+                data.photo3 = req.files.photo3[0].filename
+            }
+            if(req.files.photo4) {
+                data.photo4 = req.files.photo4[0].filename
+            }
+            if(req.body.name) {
+                data.name = req.body.name
+            }
+            if(req.body.description) {
+                data.description = req.body.description
+            }
+            if(req.body.needs) {
+                data.needs = req.body.needs
+            }
+            if(req.body.status) {
+                data.status = req.body.status
+            }
+            if(req.body.resume) {
+                data.resume = req.body.resume
+            }
+            if(req.body.birthdate) {
+                data.birthdate = req.body.birthdate
+            }
+                
             // const animal = new Animal(req.body);
-            const addAnimal = await Animal.create(req.body);
+            const addAnimal = await Animal.create(data);
             if (addAnimal) {
                 clean.deleteAnimalsFiles();
                 res.json(addAnimal);

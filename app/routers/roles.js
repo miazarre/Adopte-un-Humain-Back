@@ -18,7 +18,7 @@ router.delete('/role/:id', auth.authMiddleware(['admin']), rolesController.delet
 module.exports = router;
 
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/roles
@@ -66,6 +66,8 @@ module.exports = router;
  * @return {string} 200 - delete role
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
  * Role
