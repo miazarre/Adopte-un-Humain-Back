@@ -23,6 +23,7 @@ module.exports = router;
 /**
  * GET /api/roles
  * @summary Récupère tous les roles
+ * @security bearerAuth
  * @tags ROLE
  * @return {string} 200 - all roles
  * @return {object} 500 - Unexpected error
@@ -31,6 +32,7 @@ module.exports = router;
 /**
  * POST /api/role
  * @summary Crée un role
+ * @security bearerAuth
  * @tags ROLE
  * @param {Role} request.body.required - Role info
  * @return {string} 200 - new role
@@ -40,6 +42,7 @@ module.exports = router;
 /**
  * GET /api/role/:id
  * @summary Récupère un role
+ * @security bearerAuth
  * @tags ROLE
  * @return {string} 200 - one role
  * @return {object} 500 - Unexpected error
@@ -48,6 +51,7 @@ module.exports = router;
 /**
  * PATCH /api/role/:id
  * @summary Modifie un role
+ * @security bearerAuth
  * @tags ROLE
  * @param {RoleUpdate} request.body.required - RoleUpdate info
  * @return {string} 200 - update role
@@ -57,6 +61,7 @@ module.exports = router;
 /**
  * DELETE /api/role/:id
  * @summary Supprime un role
+ * @security bearerAuth
  * @tags ROLE
  * @return {string} 200 - delete role
  * @return {object} 500 - Unexpected error
