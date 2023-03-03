@@ -1,17 +1,17 @@
 const Joi = require("joi");
 
 const roleSchema = {
-	create() {
-		return Joi.object({
-			name:Joi.string().required()
-		});
-	},
+  create() {
+    return Joi.object({
+      name: Joi.string().required(),
+    });
+  },
 
-	update() {
-		return Joi.object({
-			name:Joi.string()
-		});
-	}
-}
+  update() {
+    return Joi.object({
+      name: Joi.string(),
+    });
+  },
+};
 
 module.exports = roleSchema;
