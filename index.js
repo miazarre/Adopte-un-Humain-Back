@@ -30,15 +30,9 @@ const options = {
         },
     },
     security: {
-        // BasicAuth: {
-        //     type: 'http',
-        //     scheme: 'basic',
-        // },
         bearerAuth: {
             type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT'
-
+            scheme: 'bearer'
         }
     },
     baseDir: __dirname,
