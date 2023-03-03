@@ -7,8 +7,10 @@ const PORT = process.env.PORT || 3000;
 import cors from "cors";
 
 import path from "path";
-app.use(express.static(path.join(__dirname, './public/')));
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+const currentFileUrl = import.meta.url;
+const currentDirPath = path.dirname(currentFileUrl);
+app.use(express.static(path.join(currentDirPath, 'public')));
+app.use('/images', express.static(path.join(currentDirPath, 'public/images')));
 app.use(cors())
 
 /****************************/
@@ -35,7 +37,7 @@ const options = {
             scheme: 'bearer'
         }
     },
-    baseDir: __dirname,
+    baseDir: currentDirPath,
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js'
 };

@@ -1,37 +1,39 @@
-const express = require('express');
-const { usersController } = require('../controllers');
+import express from 'express';
+import { usersController } from '../controllers/index.js';
 const router = express.Router();
-const validation = require("../service/validation");
-const schemaUser = require("../schemas/userBody");
-const auth = require("../service/security");
+import validation from '../service/validation.js';
+import schemaUser from '../schemas/userBody.js';
+
+import securityService from "../service/security.js";
+const authMiddleware = securityService.authMiddleware;
 
 
 // Routes des membres
-router.get('/users', auth.authMiddleware(['staff', 'admin']), usersController.getAll);
-router.get('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.getUser);
-router.patch('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), validation.check(schemaUser.update(),"body"), usersController.updateUser);
-router.delete('/user/:id', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUser);
+router.get('/users', authMiddleware(['staff', 'admin']), usersController.getAll);
+router.get('/user/:id', authMiddleware(['membre', 'staff', 'admin']), usersController.getUser);
+router.patch('/user/:id', authMiddleware(['membre', 'staff', 'admin']), validation.check(schemaUser.update(),"body"), usersController.updateUser);
+router.delete('/user/:id', authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUser);
 
 // Routes admin/staff
-router.get('/admin/user/:id', auth.authMiddleware(['staff', 'admin']), usersController.adminGetUser);
-router.patch('/admin/user/:id', auth.authMiddleware(['admin']), validation.check(schemaUser.updateAdmin(),"body"), usersController.adminUpdateUser);
-router.delete('/admin/user/:id', auth.authMiddleware(['admin']), usersController.adminDeleteUser);
+router.get('/admin/user/:id', authMiddleware(['staff', 'admin']), usersController.adminGetUser);
+router.patch('/admin/user/:id', authMiddleware(['admin']), validation.check(schemaUser.updateAdmin(),"body"), usersController.adminUpdateUser);
+router.delete('/admin/user/:id', authMiddleware(['admin']), usersController.adminDeleteUser);
 
 
 
 // Routes de la relation USER_HAS_TAG
-router.get('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.getUserTags);
-router.post('/user/:id/tag', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.addUserTag);
-router.delete('/user/:id/tag/:tagId', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUserTag);
+router.get('/user/:id/tag', authMiddleware(['membre', 'staff', 'admin']), usersController.getUserTags);
+router.post('/user/:id/tag', authMiddleware(['membre', 'staff', 'admin']), usersController.addUserTag);
+router.delete('/user/:id/tag/:tagId', authMiddleware(['membre', 'staff', 'admin']), usersController.deleteUserTag);
 
 // Route du matching de tous les animaux
-router.get('/user/:id/matching', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.matching);
+router.get('/user/:id/matching', authMiddleware(['membre', 'staff', 'admin']), usersController.matching);
 
 // Route du matching d'un animal
-router.get('/user/:id/matching/:animalId', auth.authMiddleware(['membre', 'staff', 'admin']), usersController.matchingOne);
+router.get('/user/:id/matching/:animalId', authMiddleware(['membre', 'staff', 'admin']), usersController.matchingOne);
 
 
-module.exports = router;
+export { router as usersRouter };
 
 // doc swagger : http://localhost:3000/api-docs
 
