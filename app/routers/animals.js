@@ -10,7 +10,15 @@ const upload = multer({dest: 'public/images/animals'});
 // Routes des animaux
 
 router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  animalsController.getAll);
-router.post('/animal', auth.authMiddleware(['staff', 'admin']),  upload.array('files'), animalsController.addAnimal);
+router.post('/animal', auth.authMiddleware(['staff', 'admin']),  upload.fields([{
+  name: 'photo1', maxCount: 1
+}, {
+  name: 'photo2', maxCount: 1
+}, {
+  name: 'photo3', maxCount: 1
+}, {
+  name: 'photo4', maxCount: 1
+}]), animalsController.addAnimal);
 router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), animalsController.getAnimal);
 
 router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), upload.fields([{
