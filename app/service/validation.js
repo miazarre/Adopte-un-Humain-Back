@@ -1,3 +1,5 @@
+import Joi from 'joi';
+
 const validation = {
     /**
      * Méthode pour vérifier un objet suivant un schéma JOI
