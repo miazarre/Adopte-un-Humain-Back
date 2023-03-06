@@ -13,7 +13,7 @@ const authController = {
             const user = new User(req.body);
             if(await user.checkEmailLogin()){
                 // Génération du token
-                const token = jwt.sign({email:user.email}, process.env.SESSION_SECRET, { expiresIn: '3h'});
+                const token = jwt.sign({email:user.email}, process.env.SESSION_SECRET, { expiresIn: '24h'});
                 // const token = jwt.sign({email:user.email}, process.env.SESSION_SECRET);
                 console.log("TOKEN : ",token);
                 const userAuth = await User.findAll({ $where: {email:user.email} });  
