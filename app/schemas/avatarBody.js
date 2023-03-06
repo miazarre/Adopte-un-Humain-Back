@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const avatarSchema = {
   create() {
@@ -16,4 +16,5 @@ const avatarSchema = {
   },
 };
 
-module.exports = avatarSchema;
+export default avatarSchema;
+

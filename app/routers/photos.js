@@ -1,16 +1,15 @@
-const express = require('express');
-const { photosController } = require('../controllers');
+import express from 'express';
+import controller from '../controllers/index.js';
+
 const router = express.Router();
 
-
 // Route pour récupérer les images d'animaux
-router.get('/images/animal/:filename', photosController.getPhotoAnimal);
+router.get('/images/animal/:filename', controller.photosController.getPhotoAnimal);
 
 // Route pour récupérer les images d'avatars
-router.get('/images/avatar/:filename', photosController.getPhotoAvatar);
+router.get('/images/avatar/:filename', controller.photosController.getPhotoAvatar);
 
-
-module.exports = router;
+export default router;
 
 // doc swagger : /api-docs
 

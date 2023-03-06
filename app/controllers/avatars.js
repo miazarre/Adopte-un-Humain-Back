@@ -1,5 +1,5 @@
-const { Avatar, Tag } = require("../models");
-const clean = require("../script/cleanPhoto");
+import { Avatar, Tag } from "../models/index.js";
+import clean from "../script/cleanPhoto.js";
 
 
 const avatarsController = {
@@ -158,4 +158,4 @@ const avatarsController = {
 
 }
 
-module.exports = avatarsController;
+export default avatarsController;

@@ -1,6 +1,5 @@
-const { User } = require("../models");
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+import { User } from "../models/index.js";
+import jwt from 'jsonwebtoken';
 
 const authController = {
     /**
@@ -47,4 +46,4 @@ const authController = {
     }
 };
 
-module.exports = authController;
+export default authController;

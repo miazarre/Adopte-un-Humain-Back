@@ -1,5 +1,5 @@
-const { Animal, Tag } = require("../models");
-const clean = require("../script/cleanPhoto");
+import { Animal, Tag } from "../models/index.js";
+import clean from "../script/cleanPhoto.js";
 
 const animalsController = {
 
@@ -212,4 +212,4 @@ const animalsController = {
       }
 }
 
-module.exports = animalsController;
+export default animalsController;
