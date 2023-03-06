@@ -45,6 +45,6 @@ const authController = {
             });
         }
     }
-};
+}
 
 export { authController };
