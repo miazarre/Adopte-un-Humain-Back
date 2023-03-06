@@ -1,20 +1,19 @@
-const animalsController = require("./animals");
-const usersController = require("./users");
-const authController = require("./auth");
-const tagsController = require("./tags");
-const rolesController = require("./roles");
-const photosController = require("./photos");
-const adoptsController = require("./adopts");
-const avatarsController = require("./avatars");
+import animalsController from './animals.js';
+import usersController from './users.js';
+import authController from './auth.js';
+import tagsController from './tags.js';
+import rolesController from './roles.js';
+import photosController from './photos.js';
+import adoptsController from './adopts.js';
+import avatarsController from './avatars.js';
 
-
-module.exports =  { 
-    authController,
-    usersController,
-    animalsController,
-    tagsController,
-    rolesController,
-    photosController,
-    adoptsController,
-    avatarsController
- };
+export default {
+  authController,
+  usersController,
+  animalsController,
+  tagsController,
+  rolesController,
+  photosController,
+  adoptsController,
+  avatarsController
+};

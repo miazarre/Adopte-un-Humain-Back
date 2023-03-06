@@ -1,5 +1,5 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import client from '../service/dbClient.js';
 
 class Tag extends Core {
     static tableName = 'tag';
@@ -38,4 +38,4 @@ class Tag extends Core {
     }
 }
 
-module.exports = Tag;
+export default Tag;

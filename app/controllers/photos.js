@@ -1,7 +1,9 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
 const photosController = {
+
+    // Supprime toutes les photos du repertoire images/animals qui ne sont pas présentes dans la BDD
     async getPhotoAnimal(req, res, next) {
         try {
             const filename = req.params.filename;
@@ -22,6 +24,7 @@ const photosController = {
             });
         }
     },
+    // Supprime toutes les photos du repertoire images/avatars qui ne sont pas présentes dans la BDD
     async getPhotoAvatar(req, res, next) {
         try {
             const filename = req.params.filename;
@@ -44,4 +47,4 @@ const photosController = {
     }      
 }
 
-module.exports = photosController;
+export default photosController;

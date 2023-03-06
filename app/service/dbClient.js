@@ -1,17 +1,13 @@
-const { Pool } = require('pg');
+import client from 'pg';
+const { Pool } = client;
 
 const pool = new Pool();
 
 let queryCount = 0;
 
-module.exports = {
-  // On expose quand même le client original "au cas ou"
+export default {
   originalClient: pool,
 
-  // On fait une méthode pour "intercepter"
-  // les requêtes afin de pouvoir les afficher
-  // L'opérateur de "rest" permet de transformer
-  // ici X variables en param. en un tableau
   async query(...params) {
       // debug(...params);
       // queryCount += 1;

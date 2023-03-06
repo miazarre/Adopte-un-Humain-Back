@@ -1,39 +1,29 @@
-const express = require('express');
-const { avatarsController } = require('../controllers');
+import express from 'express';
+import controller from '../controllers/index.js';
+import auth from "../service/security.js";
+import multer from 'multer';
+import validation from "../service/validation.js";
+import schemaAvatar from "../schemas/avatarBody.js";
+import schemaHasTag from "../schemas/hasTagBody.js";
+
 const router = express.Router();
-const auth = require("../service/security");
-const multer = require('multer');
 const upload = multer({dest: 'public/images/avatars'});
 
-
-
 // Routes des avatars
-
-router.get('/avatars', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAll);
-router.post('/avatar', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.addAvatar);
-router.get('/avatar/:id', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatar);
-router.patch('/avatar/:id', auth.authMiddleware(['staff', 'admin']), upload.array('files'), avatarsController.updateAvatar);
-router.delete('/avatar/:id', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatar);
+router.get('/avatars', auth.authMiddleware(['membre','staff', 'admin']), controller.avatarsController.getAll);
+router.post('/avatar', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAvatar.create(),"body"), upload.array('files'), controller.avatarsController.addAvatar);
+router.get('/avatar/:id', auth.authMiddleware(['membre','staff', 'admin']), controller.avatarsController.getAvatar);
+router.patch('/avatar/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAvatar.update(),"body"), upload.array('files'), controller.avatarsController.updateAvatar);
+router.delete('/avatar/:id', auth.authMiddleware(['staff', 'admin']), controller.avatarsController.deleteAvatar);
 
 // Routes de la relation AVATAR_HAS_TAG
+router.get('/avatar/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), controller.avatarsController.getAvatarTags);
+router.post('/avatar/:id/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaHasTag.addTag(),"body"), controller.avatarsController.addAvatarTag);
+router.delete('/avatar/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), controller.avatarsController.deleteAvatarTag);
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+export default router;
 
-// Récupérer tous les tags d'un avatar spécifique
-router.get('/avatar/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), avatarsController.getAvatarTags);
-
-// Ajouter un tag à un avatar spécifique
-router.post('/avatar/:id/tag', auth.authMiddleware(['staff', 'admin']), avatarsController.addAvatarTag);
-
-// Supprimer un tag d'un avatar spécifique
-router.delete('/avatar/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), avatarsController.deleteAvatarTag);
-
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-module.exports = router;
-
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/avatars
@@ -108,6 +98,8 @@ module.exports = router;
  * @return {string} 200 - delete association
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
  * Avatar

@@ -1,24 +1,25 @@
-const express = require('express');
-const { tagsController } = require('../controllers');
-const validation = require("../service/validation");
-const schemaTag = require("../schemas/tagBody");
-const auth = require("../service/security");
+import express from 'express';
+import controller from '../controllers/index.js';
+import validation from '../service/validation.js';
+import schemaTag from '../schemas/tagBody.js';
+import auth from "../service/security.js";
+
 const router = express.Router();
 
 // Routes des tags
 
-router.get('/tags', auth.authMiddleware(['membre','staff', 'admin']),  tagsController.getAll);
-router.post('/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.create(),"body"), tagsController.addTag);
-router.get('/tag/:id', auth.authMiddleware(['membre','staff', 'admin']), tagsController.getTag);
-router.patch('/tag/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.update(),"body"), tagsController.updateTag);
-router.delete('/tag/:id', auth.authMiddleware(['staff', 'admin']), tagsController.deleteTag);
+router.get('/tags', auth.authMiddleware(['membre','staff', 'admin']),  controller.tagsController.getAll);
+router.post('/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.create(),"body"), controller.tagsController.addTag);
+router.get('/tag/:id', auth.authMiddleware(['membre','staff', 'admin']), controller.tagsController.getTag);
+router.patch('/tag/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaTag.update(),"body"), controller.tagsController.updateTag);
+router.delete('/tag/:id', auth.authMiddleware(['staff', 'admin']), controller.tagsController.deleteTag);
+
+export default router;
 
 
-module.exports = router;
 
 
-
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/tags
@@ -66,6 +67,8 @@ module.exports = router;
  * @return {string} 200 - delete tag
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
  * Tag

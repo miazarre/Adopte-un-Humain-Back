@@ -1,23 +1,23 @@
-const express = require('express');
-const { adoptsController } = require('../controllers');
-const router = express.Router();
-const auth = require("../service/security");
+import express from 'express';
+import controller from '../controllers/index.js';
+import auth from "../service/security.js";
+import validation from "../service/validation.js";
+import schemaAdopt from "../schemas/adoptBody.js";
 
+const router = express.Router();
 
 // Routes des demandes d'adoptions
 
-router.get('/adopts', auth.authMiddleware(['staff', 'admin']), adoptsController.getAll);
-router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), adoptsController.addAdopt);
-router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), adoptsController.getAdopt);
-// router.get('/admin/adopt/:id', auth.authMiddleware(['staff', 'admin']), adoptsController.adminGetAdopt);
-router.patch('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.updateAdopt);
-router.delete('/adopt/:id',auth.authMiddleware(['staff', 'admin']), adoptsController.deleteAdopt);
+router.get('/adopts', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.getAll);
+router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), validation.check(schemaAdopt.create(),"body"), controller.adoptsController.addAdopt);
+router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.getAdopt);
+router.patch('/adopt/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAdopt.update(),"body"), controller.adoptsController.updateAdopt);
+router.delete('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.deleteAdopt);
+
+export default router;
 
 
-module.exports = router;
-
-
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * GET /api/adopts
@@ -66,6 +66,7 @@ module.exports = router;
  * @return {object} 500 - Unexpected error
  */
 
+//  SCHEMA SWAGGER \\
 
 /**
  * Adopt

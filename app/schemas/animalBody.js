@@ -1,24 +1,33 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const animalSchema = {
-	create() {
-		return Joi.object({
-			name:Joi.string().trim(),
-            description:Joi.string().trim(),
-            resume:Joi.string().trim(),
-            needs:Joi.string().trim(),
-            birthdate:Joi.string().pattern(new RegExp('^0[1-9]([-. ]?[0-9]{2}){4}$')),
-            address:Joi.string(),
-            city:Joi.string(),
-            postal_code:Joi.string().pattern(new RegExp('^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$')),
-            country:Joi.string()
-		});																					  
-	},
-    update() {
-		return Joi.object({
-			role_id:Joi.number(),
-		});																					  
-	}
-}
-
-module.exports = animalSchema;
+  create() {
+    return Joi.object({
+      name: Joi.string(),
+      description: Joi.string(),
+      resume: Joi.string(),
+      needs: Joi.string(),
+      birthdate: Joi.date(),
+      status: Joi.string(),
+      photo1: Joi.binary(),
+      photo2: Joi.binary(),
+      photo3: Joi.binary(),
+      photo4: Joi.binary(),
+    });
+  },
+  update() {
+    return Joi.object({
+      name: Joi.string(),
+      description: Joi.string(),
+      resume: Joi.string(),
+      needs: Joi.string(),
+      birthdate: Joi.date(),
+      status: Joi.string(),
+      photo1: Joi.binary(),
+      photo2: Joi.binary(),
+      photo3: Joi.binary(),
+      photo4: Joi.binary(),
+    });
+  },
+};
+export default animalSchema;

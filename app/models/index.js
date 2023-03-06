@@ -1,15 +1,15 @@
-const User = require("./user");
-const Animal = require("./animal");
-const Tag = require("./tag");
-const Role = require("./role");
-const Adopt = require("./adopt");
-const Avatar = require("./avatar");
+import User from "./user.js";
+import Animal from "./animal.js";
+import Tag from "./tag.js";
+import Role from "./role.js";
+import Adopt from "./adopt.js";
+import Avatar from "./avatar.js";
 
-module.exports = {
-    User,
-    Animal,
-    Tag,
-    Role,
-    Adopt,
-    Avatar
+export {
+  User,
+  Animal,
+  Tag,
+  Role,
+  Adopt,
+  Avatar
 };

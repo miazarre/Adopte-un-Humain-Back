@@ -1,17 +1,17 @@
-const express = require('express');
-const authController  = require('../controllers/auth');
-const router = express.Router();
-const validation = require("../service/validation");
-const { usersController } = require('../controllers');
-const schemaRegister = require("../schemas/registerBody");
+import express from 'express';
+import authController from '../controllers/auth.js';
+import usersController from '../controllers/users.js';
+import validation from "../service/validation.js";
+import schemaRegister from "../schemas/registerBody.js";
 
+const router = express.Router();
 
 router.post("/login", validation.check(schemaRegister.login(),"body"), authController.checkLogin);
 router.post("/register", validation.check(schemaRegister.create(),"body"), usersController.addUser);
 
-module.exports = router;
+export default router;
 
-// doc swagger : http://localhost:3000/api-docs
+// doc swagger : /api-docs
 
 /**
  * POST /api/login
@@ -31,6 +31,8 @@ module.exports = router;
  * @return {string} 200 - new user
  * @return {object} 500 - Unexpected error
  */
+
+//  SCHEMA SWAGGER \\
 
 /**
  * Register

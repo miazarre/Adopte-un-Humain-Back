@@ -1,5 +1,5 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import client from '../service/dbClient.js';
 
 class Avatar extends Core {
     static tableName = 'avatar';
@@ -9,11 +9,7 @@ class Avatar extends Core {
     this.id = obj.id;
     this.name = obj.name;
     this.picture = obj.picture;
-    this.created_at = obj.created_at;
-    this.updated_at = obj.updated_at;
   }
-
-  // START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 static async getAvatarTags(avatarId) {
   try {
@@ -86,7 +82,6 @@ static async deleteAvatarTag(avatarId, tagId) {
           return false;
       }
   }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-module.exports = Avatar;
+export default Avatar;
