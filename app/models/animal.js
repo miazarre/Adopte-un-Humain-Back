@@ -1,5 +1,5 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import client from '../service/dbClient.js';
 
 class Animal extends Core {
 static tableName = 'animal';
@@ -95,4 +95,4 @@ static async deleteAnimalTag(animalId, tagId) {
 // END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-module.exports = Animal;
+export default Animal;

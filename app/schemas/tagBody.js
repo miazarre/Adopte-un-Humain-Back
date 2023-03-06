@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const tagSchema = {
 	create() {
@@ -16,4 +16,5 @@ const tagSchema = {
 	}
 }
 
-module.exports = tagSchema;
+export default tagSchema;
+

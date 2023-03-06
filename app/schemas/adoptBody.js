@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const adoptSchema = {
   create() {
@@ -20,4 +20,4 @@ const adoptSchema = {
     });
   },
 };
-module.exports = adoptSchema;
+export default adoptSchema;

@@ -1,7 +1,11 @@
-const fs = require('fs');
-require("dotenv").config();
-const path = require('path');
-const { Pool } = require('pg');
+import fs from 'fs';
+import dotenv from 'dotenv';
+import path from 'path';
+import client from 'pg';
+const { Pool } = client;
+
+dotenv.config();
+
 const pool = new Pool();
 
 // Script qui supprime les images qui ne sont pas stockées dans la BDD
@@ -68,6 +72,6 @@ const cleanPhotos = {
     });
   }
 
-}
+};
 
-module.exports = cleanPhotos;
+export default cleanPhotos;

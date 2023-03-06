@@ -1,5 +1,5 @@
-const Core = require('./core');
-const client = require('../service/dbClient');
+import Core from './core.js';
+import client from '../service/dbClient.js';
 
 class Role extends Core {
     static tableName = 'role';
@@ -25,4 +25,4 @@ class Role extends Core {
 
 }
 
-module.exports = Role;
+export default Role;

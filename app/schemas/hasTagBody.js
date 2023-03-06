@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const hasTagSchema = {
   addTag() {
@@ -8,4 +8,4 @@ const hasTagSchema = {
   },
 };
 
-module.exports = hasTagSchema;
+export default hasTagSchema;

@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const userSchema = {
   create() {
@@ -21,4 +21,5 @@ const userSchema = {
   },
 };
 
-module.exports = userSchema;
+export default userSchema;
+
