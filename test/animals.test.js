@@ -1,14 +1,15 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import fs from 'fs';
-import path from 'path';
 import sinon from 'sinon';
 import Animal from "../app/models/animal.js"
-
-chai.use(chaiHttp);
-const expect = chai.expect;
+import animalsController from '../app/controllers/animals.js';
+import { expect } from 'chai';
 
 describe('getAll', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('should return all animals', async () => {
     // Arrange
     const fakeAnimals = [{ name: 'Animal 1' }, { name: 'Animal 2' }];
@@ -23,9 +24,6 @@ describe('getAll', () => {
     expect(findAllStub.calledOnce).to.be.true;
     expect(res.json.calledOnceWithExactly(fakeAnimals)).to.be.true;
     expect(next.notCalled).to.be.true;
-
-    // Restore
-    findAllStub.restore();
   });
 
   it('should handle database errors', async () => {
@@ -43,9 +41,6 @@ describe('getAll', () => {
     expect(res.status.calledOnceWithExactly(500)).to.be.true;
     expect(res.status().json.calledOnceWithExactly({ error: errorMessage })).to.be.true;
     expect(next.notCalled).to.be.true;
-
-    // Restore
-    findAllStub.restore();
   });
 
   it('should handle empty result from database', async () => {
@@ -63,8 +58,5 @@ describe('getAll', () => {
     expect(next.calledOnce).to.be.true;
     expect(next.args[0][0]).to.be.an.instanceOf(Error);
     expect(next.args[0][0].message).to.equal('Problème de BDD');
-
-    // Restore
-    findAllStub.restore();
   });
 });

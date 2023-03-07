@@ -19,8 +19,6 @@ static tableName = 'animal';
         this.photo4 = obj.photo4;
 }
 
-// START : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 static async getAnimalTags(animalId) {
   try {
     const preparedQuery = {
@@ -40,9 +38,9 @@ static async getAnimalTags(animalId) {
 
      return result.rows;
 
-  } catch (err) {
-    console.error(err);
-    throw new Error('Error getting animal tags - model');
+  } catch (error) {
+    console.error(`Error in getAnimalTags() : ${error.message}`)
+    throw error;
   }
 }
 
@@ -57,9 +55,9 @@ static async addAnimalTag(animalId, tagId) {
 
       return row;
 
-  } catch (err) {
-      console.error(err);
-      throw new Error('Error adding animal tag');
+  } catch (error) {
+      console.error(`Error in addAnimalTag() : ${error.message}`)
+      throw error;
   }
 }
 
@@ -73,14 +71,15 @@ static async deleteAnimalTag(animalId, tagId) {
       const row = result.rows[0];
 
       return row;
-    } catch (err) {
-      console.error(err);
-      throw new Error('Error deleting animal tag');
+    } catch (error) {
+      console.error(`Error in deleteAnimalTag() : ${error.message}`)
+        throw error;
     }
   }
 
     // Permet de vérifier si ca existe
   static  async checkAnimal(id) {
+    try {
       const sqlQuery = "SELECT * FROM \"animal\" WHERE id=$1";
       const values = [id];
       const response = await client.query(sqlQuery, values);
@@ -91,8 +90,11 @@ static async deleteAnimalTag(animalId, tagId) {
       else {
           return false;
       }
+    } catch(error) {
+        console.error(`Error in checkAnimal() : ${error.message}`)
+        throw error;
+    }
   }
-// END : MON CODE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
 export default Animal;
