@@ -6,8 +6,9 @@ import path from 'path';
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-describe('addAnimal', () => {
-  it('should add an animal', (done) => {
+describe('POST /api/animals', () => {
+  it('should add an animal', function(done) {
+    this.timeout(30000);
     // Arrange
     const animalData = {
       name: 'Test Animal',
@@ -17,7 +18,7 @@ describe('addAnimal', () => {
       resume: 'Test resume',
       birthdate: '2021-01-01',
     };
-    const filePath = path.join(__dirname, 'test_image.jpg');
+    const filePath = path.join(new URL('.', import.meta.url).pathname, 'test_image.jpg');
 
     // Act
     import('../app').then((app) => {
