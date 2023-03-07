@@ -25,7 +25,7 @@ class User extends Core {
         try {
             const preparedQuery = {
                 text:`
-                SELECT "user".*, role.name
+                SELECT "user".*, role.name AS name_role
                 FROM "user"
                 JOIN role ON role.id = "user".role_id
                 WHERE "user".id = $1
