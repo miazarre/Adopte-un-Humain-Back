@@ -71,6 +71,7 @@ static async deleteAvatarTag(avatarId, tagId) {
 
     // Permet de vérifier si ca existe
   static  async checkAvatar(id) {
+    try {
       const sqlQuery = "SELECT * FROM \"avatar\" WHERE id=$1";
       const values = [id];
       const response = await client.query(sqlQuery, values);
@@ -81,6 +82,10 @@ static async deleteAvatarTag(avatarId, tagId) {
       else {
           return false;
       }
+    } catch(error) {
+        console.error(`Error in checkAvatar() : ${error.message}`)
+        throw error;
+    }
   }
 }
 
