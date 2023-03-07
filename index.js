@@ -51,8 +51,8 @@ app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, 
 
 /* Lancement du serveur */
 const PORT = process.env.PORT ?? 3000;
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server ready : http://${process.env.APP_URL}:${PORT}`);
 });
 
-export { app, server };
+export default app;
