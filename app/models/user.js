@@ -21,82 +21,129 @@ class User extends Core {
     }
 
 
+    static async userFindByPk(id) {
+        try {
+            const preparedQuery = {
+                text:`
+                SELECT "user".*, role.name
+                FROM "user"
+                JOIN role ON role.id = "user".role_id
+                WHERE "user".id = $1
+                ;`,
+                values: [id] 
+            };
+            const result = await client.query(preparedQuery);
+            if (!result.rows) {
+                return null;
+            }       
+            return result.rows;
+        } catch(error) {
+            console.error(`Error in userFindByPk() : ${error.message}`)
+            throw error;
+        }
+
+    }
+
     /**
      * Méthode d'instance permettant de vérifier en base de donnée la validatité du couple username/password
      * @returns boolean
      */
     async checkPassword() {
+        try {
+            const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
+            const values = [this.email, this.password];
 
-        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1 AND password=$2";
-        const values = [this.email, this.password];
+            const response = await client.query(sqlQuery, values);
+            
+            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+            if (response.rows.length == 1) {
+                // je mets à jour le this (user qui appelle le checkPassword)
+                this.firstname = response.rows[0].firstname;
+                this.lastname = response.rows[0].lastname;
 
-        const response = await client.query(sqlQuery, values);
-        
-        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-        if (response.rows.length == 1) {
-            // je mets à jour le this (user qui appelle le checkPassword)
-            this.firstname = response.rows[0].firstname;
-            this.lastname = response.rows[0].lastname;
-
-            return true;
-        }
-        else {
-            return false;
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch(error) {
+            console.error(`Error in checkPassword() : ${error.message}`)
+            throw error;
         }
     }
 
     // Permet de vérifier si le mail est déjà utilisé
     async checkEmail() {
-        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
-        const values = [this.email];
-        const response = await client.query(sqlQuery, values);
-        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-        if (response.rows.length == 1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        try {
+            const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
+            const values = [this.email];
+            const response = await client.query(sqlQuery, values);
+            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+            if (response.rows.length == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch(error) {
+            console.error(`Error in checkEmail() : ${error.message}`)
+            throw error;
+    }
     }
 
     // Permet de vérifier si le mail est déjà utilisé
     async checkEmailLogin() {
-        const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
-        const values = [this.email];
-        const response = await client.query(sqlQuery, values);
-        
-        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-        if (response.rows.length == 1) {
-            if(await bcrypt.compare(this.password, response.rows[0].password)) {
-                return true;
-            } else {
+        try {
+            const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
+            const values = [this.email];
+            const response = await client.query(sqlQuery, values);
+            
+            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+            if (response.rows.length == 1) {
+                if(await bcrypt.compare(this.password, response.rows[0].password)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else {
                 return false;
             }
-        }
-        else {
-            return false;
-        }
+        } catch(error) {
+                console.error(`Error in checkEmailLogin() : ${error.message}`)
+                throw error;
+    }
     }
 
     // Permet de vérifier si l'adresse mail est conforme
     async regexEmail() {
-        const email = /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email);
-        if(email) {
-            return true;
-        }
-        else {
-            return false;
+        try {
+            const email = /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email);
+            if(email) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch(error) {
+            console.error(`Error in regexEmail() : ${error.message}`)
+            throw error;
         }
     }
 
     // Permet de vérifier si l'adresse mail est conforme
     async regexPhone() {
-        const phone = /^0[1-9]([-. ]?[0-9]{2}){4}$/.test(this.phone);
-        if(phone) {
-            return true;
-        }
-        else {
-            return false;
+        try {
+            const phone = /^0[1-9]([-. ]?[0-9]{2}){4}$/.test(this.phone);
+            if(phone) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch(error) {
+            console.error(`Error in findByPk() : ${error.message}`)
+            throw error;
         }
     }
 
@@ -120,14 +167,14 @@ static async getUserTags(userId) {
   
        return result.rows;
   
-    } catch (err) {
-      console.error(err);
-      throw new Error('Error getting user tags - model');
+    } catch (error) {
+        console.error(`Error in getUserTags() : ${error.message}`)
+        throw error;
     }
   }
   
   static async addUserTag(userId, tagId) {
-      try {
+    try {
         const preparedQuery = {
         text:'INSERT INTO user_has_tag (user_id, tag_id) VALUES ($1, $2) RETURNING *',
         values: [userId, tagId]
@@ -137,14 +184,14 @@ static async getUserTags(userId) {
   
         return row;
   
-    } catch (err) {
-        console.error(err);
-        throw new Error('Error adding user tag');
+    } catch (error) {
+        console.error(`Error in addUserTag() : ${error.message}`)
+        throw error;
     }
   }
   
   static async deleteUserTag(userId, tagId) {
-      try {
+    try {
         const preparedQuery =  {
         text:'DELETE FROM user_has_tag WHERE user_id = $1 AND tag_id = $2 RETURNING *',
         values: [userId, tagId]
@@ -153,23 +200,28 @@ static async getUserTags(userId) {
         const row = result.rows[0];
   
         return row;
-      } catch (err) {
-        console.error(err);
-        throw new Error('Error deleting user tag');
-      }
+    } catch (error) {
+        console.error(`Error in addUserTag() : ${error.message}`)
+        throw error;
     }
+}
   
       // Permet de vérifier si ca existe
     static  async checkUser(id) {
-        const sqlQuery = "SELECT * FROM \"user\" WHERE id=$1";
-        const values = [id];
-        const response = await client.query(sqlQuery, values);
-        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-        if (response.rows.length == 1) {
-            return true;
-        }
-        else {
-            return false;
+        try {
+            const sqlQuery = "SELECT * FROM \"user\" WHERE id=$1";
+            const values = [id];
+            const response = await client.query(sqlQuery, values);
+            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+            if (response.rows.length == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }catch(error) {
+            console.error(`Error in checkUser() : ${error.message}`)
+            throw error;
         }
     }
 
@@ -195,6 +247,8 @@ static async getUserTags(userId) {
             return result.rows;
         
         } catch(error) {
+            console.error(`Error in matchingAll() : ${error.message}`)
+            throw error;
 
         }
     }
@@ -238,7 +292,8 @@ static async getUserTags(userId) {
             return result.rows;
         
         } catch(error) {
-
+            console.error(`Error in matchingOne() : ${error.message}`)
+            throw error;
         }
     }
 
