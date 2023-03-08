@@ -7,6 +7,7 @@ import expressJSDocSwagger from 'express-jsdoc-swagger';
 import * as url from 'url';
 import errorService from "./app/service/errorHandling.js";
 const app = express();
+import https from 'https';
 dotenv.config();
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 app.use(express.static(path.join(__dirname, './public/')));
@@ -55,6 +56,7 @@ app.use(errorService.manage);
 
 /* Lancement du serveur */
 const PORT = process.env.PORT ?? 3000;
+
 app.listen(PORT, () => {
   console.log(`Server ready : http://${process.env.APP_URL}:${PORT}`);
 });
