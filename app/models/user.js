@@ -89,11 +89,6 @@ class User extends Core {
             }
         } catch(error) {
             console.error(`Erreur checkEmail() : ${error.message}`)
-            errorLog.error({
-                url: req.url,
-                method: req.method,
-                message: `checkEmail() - ${error}`
-              })
             throw error;
     }
     }
@@ -270,7 +265,7 @@ static async getUserTags(userId) {
     // Si la valeur entre les 2 sont nulles alors elle renvoie "null"
     // COALESCE(user_tags.id, animal_tags.id) AS tag_id,         Récupère l'id que l'utilisateur et l'animal ont en commun par le tag_id
     // COALESCE(user_tags.name, animal_tags.name) AS tag_name    Récupère le nom du tag que l'utilisateur et l'animal ont en commun
-    // COUNT(CASE WHEN user_tags.id IS NOT NULL AND animal_tags.id IS NOT NULL THEN 1 END) AS match_count, Compte le nombre de tags en commun (alias match_count)
+    // COUNT(CASE WHEN user_tags.id IS NOT NULL AND animal_tags.id IS NOT NULL THEN 1 END) AS match_count, Si le tag est en commun ajoute un compte 1 au match_count (alias match_count)
     // CASE WHEN compte le nombre ou les tags entre l'utilisateur et l'animal tous les 2 non nuls, si c'est le cas ajoute la valeur 1.
     // Si CASE WHEN user_tags.id est non null et animal_tags.id est null renvoie le nom du tag lié à l'utilisateur concaténé à - utilisateur
     // Si CASE WHEN user_tags.id est null et animal_tags.id est non null renvoie le nom du tag lié à l'animal concaténé à - animal

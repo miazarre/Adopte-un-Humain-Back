@@ -21,20 +21,10 @@ const usersController = {
           res.json(user);
         } else {
           const error = new Error("Problème de BDD");
-          errorLog.error({
-            url: req.url,
-            method: req.method,
-            message: `getUser() - ${error}`
-          });
           next(error);
         }
       } catch (error) {
           const err = error;
-          errorLog.error({
-            url: req.url,
-            method: req.method,
-            message: `${err.message}`
-          });
           next(err);
       }
     } else {
