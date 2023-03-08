@@ -6,7 +6,7 @@ const validation = {
      * @returns 
      */
     check(schema,prop){
-        return (req, _, next)=>{
+        return (req, res, next)=>{
             const {error} = schema.validate(req[prop]); // si j'ai une erreur, le validate retourne un objet au format {error:... , value:...}
         
             if(!error){
@@ -15,8 +15,9 @@ const validation = {
             }
             else{
                 // je gère l'erreur
+                res.status(400).send({ message: error.details[0].message });
                 next(error);
-                throw new Error("Schéma non validé !!!");
+                throw new Error("Schéma non validé !");                
             }
         };
     }

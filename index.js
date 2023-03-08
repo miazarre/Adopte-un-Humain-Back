@@ -4,9 +4,10 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter } from './app/routers/index.js';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
+import * as url from 'url';
+import errorService from "./app/service/errorHandling.js";
 const app = express();
 dotenv.config();
-import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 app.use(express.static(path.join(__dirname, './public/')));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
@@ -48,11 +49,14 @@ app.use(express.urlencoded({ extended: true }));
 /* Mise en place du router */
 app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter);
 
+/* gestion globale des erreurs */
+app.use(errorService.manage);
+
 
 /* Lancement du serveur */
 const PORT = process.env.PORT ?? 3000;
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server ready : http://${process.env.APP_URL}:${PORT}`);
 });
 
-export { app, server };
+export default app;

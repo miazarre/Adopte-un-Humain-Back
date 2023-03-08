@@ -1,6 +1,7 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
 import bcrypt from 'bcrypt';
+import { errorLog } from "../service/logger.js";
 
 class User extends Core {
     static tableName = 'user';
@@ -20,7 +21,7 @@ class User extends Core {
         this.role_id = obj.role_id;
     }
 
-
+    // Recherche un utilisateur par son id, join la table role afin de récupérer le nom du role lié à son role_id
     static async userFindByPk(id) {
         try {
             const preparedQuery = {
@@ -38,8 +39,9 @@ class User extends Core {
             }       
             return result.rows;
         } catch(error) {
-            console.error(`Error in userFindByPk() : ${error.message}`)
-            throw error;
+            console.error(`Error in userFindByPk() : ${error}`)
+            const message = `Error in userFindByPk() : ${error.message}`
+            throw new Error(message);
         }
 
     }
@@ -67,13 +69,13 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in checkPassword() : ${error.message}`)
             throw error;
+            
         }
     }
 
     // Permet de vérifier si le mail est déjà utilisé
-    async checkEmail() {
+    async checkEmail(req) {
         try {
             const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
             const values = [this.email];
@@ -86,7 +88,7 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in checkEmail() : ${error.message}`)
+            console.error(`Erreur checkEmail() : ${error.message}`)
             throw error;
     }
     }
@@ -131,7 +133,7 @@ class User extends Core {
         }
     }
 
-    // Permet de vérifier si l'adresse mail est conforme
+    // Permet de vérifier si le téléphone est conforme
     async regexPhone() {
         try {
             const phone = /^0[1-9]([-. ]?[0-9]{2}){4}$/.test(this.phone);
@@ -147,7 +149,7 @@ class User extends Core {
         }
     }
 
-
+// Récupère tous les tags lié à l'utilisateur 
 static async getUserTags(userId) {
     try {
       const preparedQuery = {
@@ -173,6 +175,7 @@ static async getUserTags(userId) {
     }
   }
   
+  // Ajoute un tag à l'utilisateur
   static async addUserTag(userId, tagId) {
     try {
         const preparedQuery = {
@@ -190,6 +193,7 @@ static async getUserTags(userId) {
     }
   }
   
+  // Supprime un tag à l'utilisateur
   static async deleteUserTag(userId, tagId) {
     try {
         const preparedQuery =  {
@@ -206,7 +210,7 @@ static async getUserTags(userId) {
     }
 }
   
-      // Permet de vérifier si ca existe
+      // Permet de vérifier si l'utilisateur existe
     static  async checkUser(id) {
         try {
             const sqlQuery = "SELECT * FROM \"user\" WHERE id=$1";
@@ -225,6 +229,7 @@ static async getUserTags(userId) {
         }
     }
 
+    // Requête qui permet d'afficher tous les animaux et les tags qui sont en commun avec l'utilisateur
     static async matchingAll(id) {
         try {
             const preparedQuery = {
@@ -253,6 +258,18 @@ static async getUserTags(userId) {
         }
     }
 
+    // Affiche tous les tags en entre un utilisateur et un animal, Affiche les tags en commun entre les 2, 
+    // affiche également les tags de l'utilisateur et de l'animal qui ne sont pas en commun.
+
+    // COALESCE renvoie la première valeur non nulle  de user_tags.id, animal_tags.id; user_tags.name, animal_tags.name et user_tags.priority, animal_tags.priority
+    // Si la valeur entre les 2 sont nulles alors elle renvoie "null"
+    // COALESCE(user_tags.id, animal_tags.id) AS tag_id,         Récupère l'id que l'utilisateur et l'animal ont en commun par le tag_id
+    // COALESCE(user_tags.name, animal_tags.name) AS tag_name    Récupère le nom du tag que l'utilisateur et l'animal ont en commun
+    // COUNT(CASE WHEN user_tags.id IS NOT NULL AND animal_tags.id IS NOT NULL THEN 1 END) AS match_count, Si le tag est en commun ajoute un compte 1 au match_count (alias match_count)
+    // CASE WHEN compte le nombre ou les tags entre l'utilisateur et l'animal tous les 2 non nuls, si c'est le cas ajoute la valeur 1.
+    // Si CASE WHEN user_tags.id est non null et animal_tags.id est null renvoie le nom du tag lié à l'utilisateur concaténé à - utilisateur
+    // Si CASE WHEN user_tags.id est null et animal_tags.id est non null renvoie le nom du tag lié à l'animal concaténé à - animal
+    // Si CASE WHEN user_tags.id sont non null renvoie le nom du tag lié à l'utilisateur concaténé à - utilisateur
     static async matchingOne(userId, animalId) {
         try {
             const preparedQuery = {

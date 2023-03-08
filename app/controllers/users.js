@@ -1,5 +1,6 @@
 import { User, Tag } from "../models/index.js";
 import bcrypt from "bcrypt";
+import { errorLog, adminLog } from "../service/logger.js";
 
 const usersController = {
   // Récupère tous les utilisateurs
@@ -14,11 +15,17 @@ const usersController = {
   // Récupère un utilisateur dont le params.id correspond à l'id du token
   async getUser(req, res, next) {
     if (req.params.id == req.userProfil[0].id) {
-      const user = await User.userFindByPk(req.params.id);
-      if (user) {
-        res.json(user);
-      } else {
-        next(new Error("Problème de BDD"));
+      try {
+        const user = await User.userFindByPk(req.params.id);
+        if (user) {
+          res.json(user);
+        } else {
+          const error = new Error("Problème de BDD");
+          next(error);
+        }
+      } catch (error) {
+          const err = error;
+          next(err);
       }
     } else {
       res.status(500).json({
@@ -39,7 +46,7 @@ const usersController = {
   // Ajoute un utilisateur
   async addUser(req, res, next) {
     const email = new User(req.body);
-    const emailExist = await email.checkEmail(); // Controle si le mail existe déjà
+    const emailExist = await email.checkEmail(req); // Controle si le mail existe déjà
     if (!emailExist) {
       req.body.password = await bcrypt.hash(req.body.password, 10); // Crypt password
       req.body.phone = req.body.phone.replace(/[-. ]/g, ""); // Supprime les espaces, tirets et points
@@ -50,9 +57,10 @@ const usersController = {
         next(new Error("Problème de BDD"));
       }
     } else {
-      res.status(500).json({
-        error: "L'e-mail est déjà utilisé !",
+        res.status(500).json({
+        message: "L'e-mail est déjà utilisé !",
       });
+      
     }
   },
   // Modification du profil utilisateur par son propriétaire
@@ -94,6 +102,13 @@ const usersController = {
     const user = await User.update(req.params.id, req.body);
     if (user) {
       res.json(user);
+      adminLog.log('info', {
+        url: req.url,
+        method: req.method,
+        user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+        role: req.user.name,
+        message: `Update de l'utilisateur avec l'id : ${req.params.id} au Role id de : ${req.body.role_id}`
+      })
     } else {
       next(new Error("Problème de BDD"));
     }
@@ -126,6 +141,13 @@ const usersController = {
         message: "l'utilisateur a bien été supprimé",
         user: user,
       });
+      adminLog.log('info', {
+        url: req.url,
+        method: req.method,
+        user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+        role: req.user.name,
+        message: `Suppression de l'utilisateur : ${req.params.id} - ${user[0].email} - role_id : ${user[0].role_id}`
+      })
     } else {
       next(new Error("Problème de BDD"));
     }
