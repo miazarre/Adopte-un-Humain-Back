@@ -3,13 +3,20 @@ import bcrypt from "bcrypt";
 
 const usersController = {
   // Récupère tous les utilisateurs
-  async getAll(_, res, next) {
+  async getAll(req, res, next) {
+    try {
     const users = await User.findAll();
     if (users) {
       res.json(users);
     } else {
-      next(new Error("Problème de BDD"));
+      res.status(500).json({
+        message: "Il y a une erreur interne"
+      });
     }
+  }
+  catch {
+    next(new Error("Problème de BDD"));
+  }
   },
   // Récupère un utilisateur dont le params.id correspond à l'id du token
   async getUser(req, res, next) {
