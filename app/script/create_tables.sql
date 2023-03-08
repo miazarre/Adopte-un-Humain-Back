@@ -40,14 +40,6 @@ CREATE TABLE "user" (
     "role_id"       INTEGER REFERENCES "role"("id") DEFAULT 1
 );
 
-CREATE TABLE "avatar" (
-    "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name"          TEXT NOT NULL UNIQUE,
-    "picture"       TEXT,
-    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
-    "updated_at"    TEXT
-);
-
 CREATE TABLE "animal" (
     "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"          TEXT NOT NULL,
@@ -88,14 +80,6 @@ CREATE TABLE "tag" (
     "priority"      BOOLEAN NOT NULL DEFAULT FALSE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT
-);
-
-CREATE TABLE "avatar_has_tag" (
-    "avatar_id"     INTEGER REFERENCES "avatar"("id") ON DELETE CASCADE,
-    "tag_id"        INTEGER REFERENCES "tag"("id") ON DELETE CASCADE,
-    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
-    "updated_at"    TEXT,
-    PRIMARY KEY ("avatar_id", "tag_id")
 );
 
 CREATE TABLE "user_has_tag" (

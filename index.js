@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
-import { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter } from './app/routers/index.js';
+import { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, adoptRouter } from './app/routers/index.js';
 import expressJSDocSwagger from 'express-jsdoc-swagger';
 import * as url from 'url';
 import errorService from "./app/service/errorHandling.js";
@@ -48,7 +48,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, avatarsRouter, adoptRouter);
+app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, adoptRouter);
 
 /* gestion globale des erreurs */
 app.use(errorService.manage);
