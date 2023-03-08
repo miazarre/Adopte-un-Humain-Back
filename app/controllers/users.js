@@ -20,18 +20,20 @@ const usersController = {
   },
   // Récupère un utilisateur dont le params.id correspond à l'id du token
   async getUser(req, res, next) {
+    try {
     if (req.params.id == req.userProfil[0].id) {
       const user = await User.userFindByPk(req.params.id);
       if (user) {
         res.json(user);
-      } else {
-        next(new Error("Problème de BDD"));
-      }
     } else {
       res.status(500).json({
-        error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
+        message: "Ce n'est pas votre fiche, l'id ne correspond pas !"
       });
     }
+  }}
+  catch {
+    next(new Error("Problème de BDD"));
+  }
   },
 
   // Récupère un utilisateur par un admin

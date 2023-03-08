@@ -28,28 +28,19 @@ describe('getAll', () => {
   });
 
   it('devrait appeler next avec une erreur quand il y a un problème avec la BDD', async () => {
+
     jest.spyOn(User, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
     const req = {};
     const res = { json: jest.fn() };
     const next = jest.fn();
+
     await usersController.getAll(req, res, next);
+
     expect(User.findAll).toHaveBeenCalledTimes(1);
     expect(res.json).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith(expect.any(Error));
+    
     // Nettoie le mock
     User.findAll.mockRestore();
   });
-
-//   it('devrait appeler next avec une erreur quand il y a un problème avec la BDD', async () => {
-//     jest.spyOn(User, 'findAll').mockResolvedValue(new Error('Erreur BDD'));
-//     const req = {};
-//     const res = { json: jest.fn() };
-//     const next = jest.fn();
-
-//     await usersController.getAll(req, res, next);
-
-//     expect(User.findAll).toHaveBeenCalledTimes(1);
-//     expect(res.json).not.toHaveBeenCalled();
-//     expect(next).toHaveBeenCalledWith(expect.any(Error));
-// });
 });
