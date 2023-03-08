@@ -1,14 +1,14 @@
 import { Adopt } from "../models/index.js";
 
 const adoptsController = {
-  //Récupère toutes les adoptions
-  async getAll(_, res, next) {
-    const adopts = await Adopt.findAll();
-    if (adopts) {
-      res.json(adopts);
-    } else {
-      next(new Error("Problème de BDD"));
-    }
+    //Récupère toutes les adoptions
+    async getAll(_, res, next) {
+        const adopts = await Adopt.findAll();
+        if (adopts) {
+        res.json(adopts);
+        } else {
+        next(new Error("Problème de BDD"));
+        }
   },
   // Récupère une adoption
   async getAdopt(req, res, next) {
