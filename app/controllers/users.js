@@ -1,242 +1,326 @@
-import { User, Tag } from "../models/index.js";
+import { User, Tag, Animal } from "../models/index.js";
 import bcrypt from "bcrypt";
 import { adminLog } from "../service/logger.js";
 
 const usersController = {
+
   // Récupère tous les utilisateurs
   async getAll(_, res, next) {
-    const users = await User.findAll();
-    if (users) {
+    try {
+        const users = await User.findAll();
         res.json(users);
-    } else {
-        next(new Error("Problème de BDD"));
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Récupère un utilisateur dont le params.id correspond à l'id du token
   async getUser(req, res, next) {
-    if (req.params.id == req.userProfil[0].id) {
-      try {
-        const user = await User.userFindByPk(req.params.id);
-        if (user) {
-          res.json(user);
+    try {
+        if (req.params.id == req.userProfil[0].id) {
+            const user = await User.userFindByPk(req.params.id);
+            res.json(user);
         } else {
-          const error = new Error("Problème de BDD");
-          next(error);
+            res.status(500).json({
+                error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
+            });
         }
-      } catch (error) {
-          const err = error;
-          next(err);
-      }
-    } else {
-      res.status(500).json({
-        error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
-      });
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Récupère un utilisateur par un admin
   async adminGetUser(req, res, next) {
-    const user = await User.userFindByPk(req.params.id);
-    if (user) {
-      res.json(user);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if(userExist) {
+            const user = await User.userFindByPk(req.params.id);
+            res.json(user);
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Ajoute un utilisateur
   async addUser(req, res, next) {
-    const email = new User(req.body);
-    const emailExist = await email.checkEmail(req); // Controle si le mail existe déjà
-    if (!emailExist) {
-      req.body.password = await bcrypt.hash(req.body.password, 10); // Crypt password
-      req.body.phone = req.body.phone.replace(/[-. ]/g, ""); // Supprime les espaces, tirets et points
-      const user = await User.create(req.body);
-      if (user) {
-        res.json(user);
-      } else {
-        next(new Error("Problème de BDD"));
-      }
-    } else {
-        res.status(500).json({
-        message: "L'e-mail est déjà utilisé !",
-      });
-      
+    try {
+        const email = new User(req.body);
+        const emailExist = await email.checkEmail(req); // Controle si le mail existe déjà
+        if (!emailExist) {
+            req.body.password = await bcrypt.hash(req.body.password, 10); // Crypt password
+            req.body.phone = req.body.phone.replace(/[-. ]/g, ""); // Supprime les espaces, tirets et points
+            const user = await User.create(req.body);
+            res.json({
+                message: "l'utilisateur a bien été crée",
+                user: user,
+            });
+        } else {
+            res.status(500).json({
+            message: "L'e-mail est déjà utilisé !",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Modification du profil utilisateur par son propriétaire
   async updateUser(req, res, next) {
-    if (req.params.id == req.userProfil[0].id) {
-      const userExist = new User(req.body);
-      const emailExist = await userExist.checkEmail(); // Controle si le mail existe déjà
-      if (!emailExist) {
-        if (req.body.password) {
-          req.body.password = await bcrypt.hash(req.body.password, 10);
-          const user = await User.update(req.params.id, req.body);
-          if (user) {
-            res.json(user);
-          } else {
-            next(new Error("Problème de BDD"));
-          }
+    try {
+        if (req.params.id == req.userProfil[0].id) {        // Controle si l'id en param est == à l'id de l'utilisateur connecté,
+        const userExist = new User(req.body);               // info enregistré dans req.userProfil lors de l'authentification, pendant la vérification du token
+        const emailExist = await userExist.checkEmail();    // Controle si le mail existe déjà
+        if (!emailExist) {
+            if (req.body.password) {
+                req.body.password = await bcrypt.hash(req.body.password, 10);    // Hash du mot de passe avec bcrypt
+                const user = await User.update(req.params.id, req.body);
+                res.json({
+                    message: "l'utilisateur a bien été modifié",
+                    user: user,
+                });
+            } else {                                                             // Uniquement si le mot de passe n'est pas modifié
+                const user = await User.update(req.params.id, req.body);
+                res.json({
+                    message: "l'utilisateur a bien été modifié",
+                    user: user,
+                });
+            }
         } else {
-          const user = await User.update(req.params.id, req.body);
-          if (user) {
-            res.json(user);
-          } else {
-            next(new Error("Problème de BDD"));
-          }
+            res.status(500).json({
+                error: "L'e-mail est déjà utilisé !",
+            });
         }
-      } else {
-        res.status(500).json({
-          error: "L'e-mail est déjà utilisé !",
-        });
-      }
-    } else {
-      res.status(500).json({
-        error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
-      });
+        } else {
+            res.status(500).json({
+                error: "Ce n'est pas la bonne fiche, l'id ne correspond pas !",
+            });
+        }
+    } catch {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Modifie un utilisateur par un admin
   async adminUpdateUser(req, res, next) {
-    const user = await User.update(req.params.id, req.body);
-    if (user) {
-      res.json(user);
-      adminLog.log('info', {
-        url: req.url,
-        method: req.method,
-        user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
-        role: req.user.name,
-        message: `Update de l'utilisateur avec l'id : ${req.params.id} au Role id de : ${req.body.role_id}`
-      })
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if(userExist) {
+            const user = await User.update(req.params.id, req.body);
+            res.json(user);
+            adminLog.log('info', {                                          // Log l'action de changement du role de l'utilisateur par l'admin
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Update de l'utilisateur avec l'id : ${req.params.id} au Role id de : ${req.body.role_id}`
+            })
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Supprime son compte utilisateur
   async deleteUser(req, res, next) {
-    if (req.params.id == req.userProfil[0].id) {
-      const user = await User.delete(req.params.id);
-      if (user) {
-        res.json({
-          message: "l'utilisateur a bien été supprimé",
-          user: user,
-        });
-      } else {
-        next(new Error("Problème de BDD"));
-      }
-    } else {
-      res.status(500).json({
-        error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
-      });
+    try {
+        if (req.params.id == req.userProfil[0].id) {
+            const user = await User.delete(req.params.id);
+            res.json({
+                message: "l'utilisateur a bien été supprimé",
+                user: user,
+            });
+        } else {
+            res.status(500).json({
+                error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Supprime un utilisateur par un admin
   async adminDeleteUser(req, res, next) {
-    const user = await User.delete(req.params.id);
-    if (user) {
-      res.json({
-        message: "l'utilisateur a bien été supprimé",
-        user: user,
-      });
-      adminLog.log('info', {
-        url: req.url,
-        method: req.method,
-        user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
-        role: req.user.name,
-        message: `Suppression de l'utilisateur : ${req.params.id} - ${user[0].email} - role_id : ${user[0].role_id}`
-      })
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if(userExist) {
+            const user = await User.delete(req.params.id);
+            res.json({
+                message: "l'utilisateur a bien été supprimé",
+                user: user,
+            });
+            adminLog.log('info', {                                                  // Log l'action de suppression d'un utilisateur par l'admin
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Suppression de l'utilisateur : ${req.params.id} - ${user[0].email} - role_id : ${user[0].role_id}`
+            })
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   //  Récupère les tags de l'utilisateur
   async getUserTags(req, res) {
-    const userId = req.params.id;
-    const tags = await User.getUserTags(userId);
-    if (tags) {
-      res.json(tags);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if(userExist) {
+            const userId = req.params.id;
+            const tags = await User.getUserTags(userId);
+            res.json(tags);
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Ajoute un tag à l'utilisateur
   async addUserTag(req, res) {
-    const tag = new Tag(req.body);
-    const tagExist = await tag.checkTagId(req.body.tag_id);
-    const userExist = await User.checkUser(req.params.id);
-    if (tagExist) {
-      if (userExist) {
-        const userHasTag = await User.addUserTag(
-          req.params.id,
-          req.body.tag_id
-        );
-        res.json(userHasTag);
-      } else {
-        res.status(500).json({
-          error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
-        });
-      }
-    } else {
-      res.status(500).json({
-        error: `Le tag avec l'id = ${req.body.tag_id} n'existe pas !`,
-      });
+    try {
+        const tag = new Tag(req.body);
+        const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if (tagExist) {
+            if (userExist) {
+                const userHasTag = await User.addUserTag(
+                req.params.id,
+                req.body.tag_id
+                );
+                res.json({
+                    message: "le tag a bien été ajouté",
+                    user: userHasTag,
+                });
+            } else {
+                res.status(404).json({
+                    error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+                });
+            }
+        } else {
+            res.status(404).json({
+                error: `Le tag avec l'id = ${req.body.tag_id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Supprime le tag d'un utilisateur
   async deleteUserTag(req, res) {
-    await User.deleteUserTag(req.params.id, req.params.tagId);
-    res.json({
-      message: `L'association user id = ${req.params.id} et tag id = ${req.params.tagId} a bien été supprimée`,
-    });
+    try {
+        const tag = new Tag(req.body);
+        const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe
+        const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
+        if(userExist) {
+            if(tagExist) {
+                await User.deleteUserTag(req.params.id, req.params.tagId);
+                res.json({
+                    message: `L'association user id = ${req.params.id} et tag id = ${req.params.tagId} a bien été supprimée`,
+                });
+            } else {
+                res.status(404).json({
+                    error: `Le tag avec l'id = ${req.body.tag_id} n'existe pas !`,
+                });
+            }
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
+    }
   },
 
   // Système de matching - Compare les tags d'un utilisateur à ceux de tous les animaux
   async matching(req, res, next) {
-    const matching = await User.matchingAll(req.params.id);
-    if (matching) {
-      // Créer un objet qui contient les informations regroupées par nom d'animal
-      const animals = {};
-      matching.forEach((row) => {
-        const animalId = row.animal_id;
-        const animalName = row.animal_name;
-        console.log("animalName : ", matching);
-        if (!animals[animalName]) {
-          animals[animalName] = {
-            id: animalId,
-            name: animalName,
-            tags: [],
-          };
+    try {
+        const userExist = await User.checkUser(req.params.id);      // Vérifie si l'utilisateur existe
+        if(userExist) {
+            const matching = await User.matchingAll(req.params.id);
+            const animals = {};                                     // Créer un objet qui contient les informations regroupées par nom d'animal
+            matching.forEach((row) => {
+                const animalId = row.animal_id;
+                const animalName = row.animal_name;
+                if (!animals[animalName]) {
+                    animals[animalName] = {
+                        id: animalId,
+                        name: animalName,
+                        tags: [],
+                    };
+                }
+                animals[animalName].tags.push({
+                    tag_id: row.tag_id,
+                    tag_name: row.tag_name,
+                    priority: row.priority,
+                });
+            });           
+            const finalResult = Object.values(animals);             // Convertir l'objet en tableau
+            res.json(finalResult);
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
         }
-        animals[animalName].tags.push({
-          tag_id: row.tag_id,
-          tag_name: row.tag_name,
-          priority: row.priority,
-        });
-      });
-
-      // Convertir l'objet en tableau
-      const finalResult = Object.values(animals);
-
-      // Renvoyer la réponse JSON
-      res.json(finalResult);
-    } else {
-      next(new Error("Problème de BDD"));
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Compare les tags d'un utilisateur à un animal
   async matchingOne(req, res, next) {
-    const matching = await User.matchingOne(req.params.id, req.params.animalId);
-    if (matching) {
-      res.json(matching);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const userExist = await User.checkUser(req.params.id);                  // Vérifie si l'utilisateur existe
+        const animalExist = await Animal.checkAnimal(req.params.animalId);      // Vérifie si l'animal existe
+        if(userExist) {
+            if(animalExist) {
+                const matching = await User.matchingOne(req.params.id, req.params.animalId);
+                res.json(matching);
+            } else {
+                res.status(404).json({
+                    error: `L'animal' avec l'id = ${req.params.animalId} n'existe pas !`,
+                });
+            }
+        } else {
+            res.status(404).json({
+                error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 };
