@@ -31,6 +31,7 @@ class Core {
         }
     }
 
+    // Recherche générique 
     static async findAll(params) {
         try {
             let filter = '';
@@ -82,6 +83,7 @@ class Core {
         
     }
 
+    // Création générique, permet d'ajouter dans une table des valeurs
     static async create(inputData) {
         try {
             const fields = [];
@@ -115,6 +117,7 @@ class Core {
         }
     }
 
+    // Modification générique, permet de modifier les données d'une table
     static async update( id , inputData) {
         try {
             const fieldsAndPlaceholders = [];
@@ -150,6 +153,7 @@ class Core {
         }
     }
 
+    // Permet de supprimer les données d'une table qui correspond à l'id envoyé
     static async delete(id) {
         try {
             const result = await client.query(`DELETE FROM "${this.tableName}" WHERE id = $1 RETURNING *`, [id]);
@@ -160,6 +164,7 @@ class Core {
         }
     }
 
+    // Permet de vérifie si l'id existe dans la table
     static async checkExist(id) {
         const sqlQuery = `SELECT * FROM "${this.tableName}" WHERE id=$1`;
         const values = [id];

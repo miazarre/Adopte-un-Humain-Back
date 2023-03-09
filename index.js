@@ -7,12 +7,12 @@ import expressJSDocSwagger from 'express-jsdoc-swagger';
 import * as url from 'url';
 import errorService from "./app/service/errorHandling.js";
 const app = express();
-import https from 'https';
 dotenv.config();
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 app.use(express.static(path.join(__dirname, './public/')));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
-app.use(cors('https://adopte-un-humain.netlify.app/'))
+app.use(cors('https://adopte-un-humain.netlify.app/'));
+
 
 /****************************/
 /**** Swagger generator  ****/
@@ -36,7 +36,6 @@ const options = {
         }
     },
     baseDir: __dirname,
-    // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js'
 };
 
@@ -52,7 +51,6 @@ app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, 
 
 /* gestion globale des erreurs */
 app.use(errorService.manage);
-
 
 /* Lancement du serveur */
 const PORT = process.env.PORT ?? 3000;

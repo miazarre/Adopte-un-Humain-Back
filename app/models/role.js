@@ -9,7 +9,7 @@ class Role extends Core {
         this.id = obj.id;
         this.name = obj.name;
     }
-    // Permet de vérifier si ca existe
+    // Permet de vérifier si le role existe
     async checkRole() {
         try {
             const sqlQuery = "SELECT * FROM \"role\" WHERE name=$1";

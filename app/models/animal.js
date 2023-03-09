@@ -19,77 +19,80 @@ static tableName = 'animal';
         this.photo4 = obj.photo4;
 }
 
+// Récupère les tags d'un animal
 static async getAnimalTags(animalId) {
   try {
     const preparedQuery = {
-      text:`
-      SELECT t.name AS "tag_name", t.id AS "tag_id", t.priority
-      FROM animal_has_tag aht
-      JOIN tag t ON aht.tag_id = t.id
-	    JOIN animal ON aht.animal_id = animal.id
-      WHERE aht.animal_id = $1;`,
-      values: [animalId] 
+        text:`
+        SELECT t.name AS "tag_name", t.id AS "tag_id", t.priority
+        FROM animal_has_tag aht
+        JOIN tag t ON aht.tag_id = t.id
+            JOIN animal ON aht.animal_id = animal.id
+        WHERE aht.animal_id = $1;`,
+        values: [animalId] 
     };
 
     const result = await client.query(preparedQuery);
-      if (!result.rows) {
-        return null;
-      }
+        if (!result.rows) {
+            return null;
+    }
 
-     return result.rows;
+        return result.rows;
 
   } catch (error) {
-    console.error(`Error in getAnimalTags() : ${error.message}`)
-    throw error;
+        console.error(`Error in getAnimalTags() : ${error.message}`)
+        throw error;
   }
 }
 
+// Ajoute un tag à un animal
 static async addAnimalTag(animalId, tagId) {
     try {
-      const preparedQuery = {
-      text:'INSERT INTO animal_has_tag (animal_id, tag_id) VALUES ($1, $2) RETURNING *',
-      values: [animalId, tagId]
-      };
-      const result = await client.query(preparedQuery);
-      const row = result.rows[0];
+        const preparedQuery = {
+        text:'INSERT INTO animal_has_tag (animal_id, tag_id) VALUES ($1, $2) RETURNING *',
+        values: [animalId, tagId]
+        };
+        const result = await client.query(preparedQuery);
+        const row = result.rows[0];
 
-      return row;
+        return row;
 
   } catch (error) {
-      console.error(`Error in addAnimalTag() : ${error.message}`)
-      throw error;
+        console.error(`Error in addAnimalTag() : ${error.message}`)
+        throw error;
   }
 }
 
+// Supprime le tag d'un animal
 static async deleteAnimalTag(animalId, tagId) {
     try {
-      const preparedQuery =  {
-      text:'DELETE FROM animal_has_tag WHERE animal_id = $1 AND tag_id = $2 RETURNING *',
-      values: [animalId, tagId]
-      };
-      const result = await client.query(preparedQuery);
-      const row = result.rows[0];
+        const preparedQuery =  {
+        text:'DELETE FROM animal_has_tag WHERE animal_id = $1 AND tag_id = $2 RETURNING *',
+        values: [animalId, tagId]
+        };
+        const result = await client.query(preparedQuery);
+        const row = result.rows[0];
 
-      return row;
+        return row;
     } catch (error) {
-      console.error(`Error in deleteAnimalTag() : ${error.message}`)
+        console.error(`Error in deleteAnimalTag() : ${error.message}`)
         throw error;
     }
   }
 
-    // Permet de vérifier si ca existe
+  // Permet de vérifier si l'animal existe
   static  async checkAnimal(id) {
     try {
-      const sqlQuery = "SELECT * FROM \"animal\" WHERE id=$1";
-      const values = [id];
-      const response = await client.query(sqlQuery, values);
-      // si j'ai une réponse c'est que l'animal a été trouvé en BDD
-      if (response.rows.length == 1) {
-          return true;
-      }
-      else {
-          return false;
-      }
+        const sqlQuery = "SELECT * FROM \"animal\" WHERE id=$1";
+        const values = [id];
+        const response = await client.query(sqlQuery, values);
+        // si j'ai une réponse c'est que l'animal a été trouvé en BDD
+        if (response.rows.length == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     } catch(error) {
         console.error(`Error in checkAnimal() : ${error.message}`)
         throw error;

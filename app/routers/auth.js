@@ -1,4 +1,5 @@
 import express from 'express';
+import auth from '../service/security.js';
 import authController from '../controllers/auth.js';
 import usersController from '../controllers/users.js';
 import validation from "../service/validation.js";
@@ -8,6 +9,7 @@ const router = express.Router();
 
 router.post("/login", validation.check(schemaRegister.login(),"body"), authController.checkLogin);
 router.post("/register", validation.check(schemaRegister.create(),"body"), usersController.addUser);
+router.get("/token", auth.checkToken);
 
 export default router;
 

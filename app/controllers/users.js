@@ -1,15 +1,15 @@
 import { User, Tag } from "../models/index.js";
 import bcrypt from "bcrypt";
-import { errorLog, adminLog } from "../service/logger.js";
+import { adminLog } from "../service/logger.js";
 
 const usersController = {
   // Récupère tous les utilisateurs
   async getAll(_, res, next) {
     const users = await User.findAll();
     if (users) {
-      res.json(users);
+        res.json(users);
     } else {
-      next(new Error("Problème de BDD"));
+        next(new Error("Problème de BDD"));
     }
   },
   // Récupère un utilisateur dont le params.id correspond à l'id du token

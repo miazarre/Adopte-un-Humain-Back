@@ -8,6 +8,7 @@ router.get('/images/animal/:filename', controller.photosController.getPhotoAnima
 
 
 
+
 export default router;
 
 // doc swagger : /api-docs
