@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/adopts', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.getAll);
 router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), validation.check(schemaAdopt.create(),"body"), controller.adoptsController.addAdopt);
-router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.getAdopt);
+router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.adminGetAdopt);
 router.patch('/adopt/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAdopt.update(),"body"), controller.adoptsController.updateAdopt);
 router.delete('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.deleteAdopt);
 

@@ -1,60 +1,126 @@
 import { Role } from "../models/index.js";
+import { adminLog } from "../service/logger.js";
 
 const rolesController = {
   // Récupère tous les rôles
   async getAll(_, res, next) {
-    const roles = await Role.findAll();
-    if (roles) {
-      res.json(roles);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const roles = await Role.findAll();
+        res.json(roles);
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Récupère un rôle
   async getRole(req, res, next) {
-    const role = await Role.findByPk(req.params.id);
-    if (role) {
-      res.json(role);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const roleExist = await Role.checkExist(req.params.id);            // Controle si le role existe
+        if(roleExist) {
+            const role = await Role.findByPk(req.params.id);
+            res.json(role);
+        } else {
+            res.status(404).json({
+                error: `Le role avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Ajoute un role
   async addRole(req, res, next) {
-    const role = new Role(req.body);
-    const roleExist = await role.checkRole(); // Controle si le role existe déjà
-    if (!roleExist) {
-      const addRole = await Role.create(req.body);
-      if (addRole) {
-        res.json(addRole);
-      } else {
-        next(new Error("Problème de BDD"));
-      }
-    } else {
-      // Le rôle existe déjà
-      res.status(500).json({
-        error: "Le rôle existe déjà !",
-      });
+    try {
+        const roleExist = await Role.checkRole(req.body);                   // Controle si le role existe
+        if (!roleExist) {
+            const addRole = await Role.create(req.body);
+            res.json({
+                message: "le role a bien été crée",
+                tag: addRole,
+            });
+            adminLog.log('info', {                                          // Log l'action de création d'un role
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Création du role ${req.body.name}`
+            });
+        } else {
+            res.status(409).json({
+                error: "Le nom du rôle existe déjà !",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Modifie un role
   async updateRole(req, res, next) {
-    const role = await Role.update(req.params.id, req.body);
-    if (role) {
-      res.json(role);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const roleExist = await Role.checkExist(req.params.id);                   // Controle si l'id du role existe
+        if(roleExist) {
+            const getRole = await Role.findByPk(req.params.id);                   // Récupère les infos du role qui va être modifié
+            const roleNameExist = await Role.checkRole(req.body);                 // Controle si le nom du role existe
+            if(!roleNameExist) {
+                const role = await Role.update(req.params.id, req.body);
+                res.json({
+                    message: "le role a bien été mise à jour",
+                    role: role,
+                });
+                adminLog.log('info', {                                            // Log l'action de modification d'un role
+                    url: req.url,
+                    method: req.method,
+                    user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                    role: req.user.name,
+                    message: `modification role  name : ${getRole.name} - id : ${getRole.id} par = name : ${req.body.name}`
+                });
+            } else {
+                res.status(409).json({
+                    error: "Le nom du role existe déjà",
+                });
+            }
+        } else {
+            res.status(404).json({
+                error: "L'id du role n'existe pas",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Supprime un role
   async deleteRole(req, res, next) {
-    const role = await Role.delete(req.params.id);
-    if (role) {
-      res.json(role);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const roleExist = await Role.checkExist(req.params.id);         // Controle si l'id du role existe
+        const getRole = await Role.findByPk(req.params.id);             // Récupère les infos du role  à supprimer
+        if(roleExist) {
+            const role = await Role.delete(req.params.id);
+            res.json({
+                message: "le tag a bien été supprimé",
+                role: role,
+            });
+            adminLog.log('info', {                                      // Log l'action de suppression d'un role
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Suppression du role  name : ${getRole.name} - id : ${req.params.id}`
+            }); 
+        } else {
+            res.status(404).json({
+                error: "L'id du role n'existe pas",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 };

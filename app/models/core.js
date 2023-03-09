@@ -166,15 +166,20 @@ class Core {
 
     // Permet de vérifie si l'id existe dans la table
     static async checkExist(id) {
-        const sqlQuery = `SELECT * FROM "${this.tableName}" WHERE id=$1`;
-        const values = [id];
-        const response = await client.query(sqlQuery, values);
-        // si l'id existe je retourne true
-        if (response.rows.length == 1) {
-            return true;
-        }
-        else {
-            return false;
+        try {
+            const sqlQuery = `SELECT * FROM "${this.tableName}" WHERE id=$1`;
+            const values = [id];
+            const response = await client.query(sqlQuery, values);
+            // si l'id existe je retourne true
+            if (response.rows.length == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch(error) {
+            console.error(`Error in checkExist() : ${error.message}`)
+            throw error;
         }
     }
 }

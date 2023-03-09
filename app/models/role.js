@@ -10,13 +10,12 @@ class Role extends Core {
         this.name = obj.name;
     }
     // Permet de vérifier si le role existe
-    async checkRole() {
+    static async checkRole(req) {
         try {
             const sqlQuery = "SELECT * FROM \"role\" WHERE name=$1";
-            const values = [this.name];
+            const values = [req.name];
             const response = await client.query(sqlQuery, values);
-            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-            if (response.rows.length == 1) {
+            if (response.rows.length == 1) {                        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
                 return true;
             }
             else {

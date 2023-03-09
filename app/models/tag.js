@@ -11,13 +11,12 @@ class Tag extends Core {
         this.priority = obj.priority
     }
     // Permet de vérifier si le nom existe
-    async checkTag() {
+    static async checkTag(req) {
         try {
             const sqlQuery = "SELECT * FROM \"tag\" WHERE name=$1";
-            const values = [this.name];
+            const values = [req.name];
             const response = await client.query(sqlQuery, values);
-            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-            if (response.rows.length == 1) {
+            if (response.rows.length == 1) {                        // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
                 return true;
             }
             else {
@@ -28,24 +27,24 @@ class Tag extends Core {
             throw error;
         }
     }
-    // Permet de vérifier si l'id existe
-    async checkTagId(id) {
-        try {
-            const sqlQuery = "SELECT * FROM \"tag\" WHERE id=$1";
-            const values = [id];
-            const response = await client.query(sqlQuery, values);
-            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-            if (response.rows.length == 1) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        } catch(error) {
-            console.error(`Error in checkTagId() : ${error.message}`)
-            throw error;
-        }
-    }
+    // // Permet de vérifier si l'id existe
+    // static async checkTagId(id) {
+    //     try {
+    //         const sqlQuery = "SELECT * FROM \"tag\" WHERE id=$1";
+    //         const values = [id];
+    //         const response = await client.query(sqlQuery, values);
+    //         // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
+    //         if (response.rows.length == 1) {
+    //             return true;
+    //         }
+    //         else {
+    //             return false;
+    //         }
+    //     } catch(error) {
+    //         console.error(`Error in checkTagId() : ${error.message}`)
+    //         throw error;
+    //     }
+    // }
 }
 
 export default Tag;
