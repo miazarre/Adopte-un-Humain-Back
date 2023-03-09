@@ -4,8 +4,11 @@ require('@babel/register')({
 
 import request from 'supertest';
 import express from 'express';
-import app from '../app'; // Importe l'application Express
-import UserModel from '../app/models/user';
+import usersController from '../app/controllers/users.js';
+import User from '../app/models/user.js';
+
+// Création de l'application Express
+const app = express();
 
 // Définit un groupe de tests pour la méthode `getAll` du contrôleur d'utilisateurs
 describe('getAll', () => {
@@ -24,7 +27,7 @@ describe('getAll', () => {
     ];
 
     // Espionne la méthode `findAll` du modèle d'utilisateur et la configure pour qu'elle renvoie la liste `mockUsers`
-    jest.spyOn(UserModel, 'findAll').mockResolvedValue(mockUsers);
+    jest.spyOn(User, 'findAll').mockResolvedValue(mockUsers);
 
     // Test de la requête HTTP GET '/users'
     const res = await request(app).get('/users');
@@ -36,13 +39,13 @@ describe('getAll', () => {
     expect(res.body).toEqual(mockUsers);
 
     // Nettoie le mock
-    UserModel.findAll.mockRestore();
+    User.findAll.mockRestore();
   });
 
   // Teste si la méthode `getAll` appelle `next` avec une erreur quand il y a un problème avec la base de données
   it('devrait appeler next avec une erreur quand il y a un problème avec la BDD', async () => {
     // Espionne la méthode `findAll` du modèle d'utilisateur et la configure pour qu'elle renvoie une erreur
-    jest.spyOn(UserModel, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
+    jest.spyOn(User, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
 
     // Test de la requête HTTP GET '/users'
     const res = await request(app).get('/users');
@@ -51,6 +54,6 @@ describe('getAll', () => {
     expect(res.status).toBe(500);
 
     // Nettoie le mock
-    UserModel.findAll.mockRestore();
+    User.findAll.mockRestore();
   });
 });
