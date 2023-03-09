@@ -2,9 +2,10 @@ require('@babel/register')({
   presets: ['@babel/preset-env']
 });
 
-// Importe supertest pour tester les requêtes HTTP
 import request from 'supertest';
+import express from 'express';
 import app from '../app'; // Importe l'application Express
+import UserModel from '../app/models/user';
 
 // Définit un groupe de tests pour la méthode `getAll` du contrôleur d'utilisateurs
 describe('getAll', () => {
@@ -22,10 +23,10 @@ describe('getAll', () => {
       { id: 2, firstname: 'Cy', lastname: 'De Graeve', email: 'cy@example.com', phone: '987654321', password: 'password2', address: '2 impasse de la Rue', city: 'Paris', country: 'France', role_id: 1 }
     ];
 
-    // Espionne la méthode `findAll` du modèle d'utilisateur (`User`) et la configure pour qu'elle renvoie la liste `mockUsers`
-    jest.spyOn(User, 'findAll').mockResolvedValue(mockUsers);
+    // Espionne la méthode `findAll` du modèle d'utilisateur et la configure pour qu'elle renvoie la liste `mockUsers`
+    jest.spyOn(UserModel, 'findAll').mockResolvedValue(mockUsers);
 
-    // Teste la requête HTTP GET '/users'
+    // Test de la requête HTTP GET '/users'
     const res = await request(app).get('/users');
 
     // Vérifie que le code de statut de la réponse est 200
@@ -35,21 +36,21 @@ describe('getAll', () => {
     expect(res.body).toEqual(mockUsers);
 
     // Nettoie le mock
-    User.findAll.mockRestore();
+    UserModel.findAll.mockRestore();
   });
 
   // Teste si la méthode `getAll` appelle `next` avec une erreur quand il y a un problème avec la base de données
   it('devrait appeler next avec une erreur quand il y a un problème avec la BDD', async () => {
-    // Espionne la méthode `findAll` du modèle d'utilisateur (`User`) et la configure pour qu'elle renvoie une erreur
-    jest.spyOn(User, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
+    // Espionne la méthode `findAll` du modèle d'utilisateur et la configure pour qu'elle renvoie une erreur
+    jest.spyOn(UserModel, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
 
-    // Teste la requête HTTP GET '/users'
+    // Test de la requête HTTP GET '/users'
     const res = await request(app).get('/users');
 
     // Vérifie que le code de statut de la réponse est 500
     expect(res.status).toBe(500);
 
     // Nettoie le mock
-    User.findAll.mockRestore();
+    UserModel.findAll.mockRestore();
   });
 });
