@@ -1,0 +1,55 @@
+require('@babel/register')({
+  presets: ['@babel/preset-env']
+});
+
+// Importe supertest pour tester les requêtes HTTP
+import request from 'supertest';
+import app from '../app'; // Importe l'application Express
+
+// Définit un groupe de tests pour la méthode `getAll` du contrôleur d'utilisateurs
+describe('getAll', () => {
+
+  // Réinitialise les mocks avant chaque test
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  // Teste si la méthode `getAll` renvoie tous les utilisateurs existants de la base de données, si elle est exécutée correctement
+  it('devrait retourner tous les users', async () => {
+    // Crée un objet `mockUsers` qui simule deux utilisateurs de la base de données
+    const mockUsers = [
+      { id: 1, firstname: 'Matt', lastname: 'Skrzypczak', email: 'matt@example.com', phone: '123456789', password: 'password1', address: '1 rue des Impasses', city: 'Miramas', country: 'France', role_id: 2 },
+      { id: 2, firstname: 'Cy', lastname: 'De Graeve', email: 'cy@example.com', phone: '987654321', password: 'password2', address: '2 impasse de la Rue', city: 'Paris', country: 'France', role_id: 1 }
+    ];
+
+    // Espionne la méthode `findAll` du modèle d'utilisateur (`User`) et la configure pour qu'elle renvoie la liste `mockUsers`
+    jest.spyOn(User, 'findAll').mockResolvedValue(mockUsers);
+
+    // Teste la requête HTTP GET '/users'
+    const res = await request(app).get('/users');
+
+    // Vérifie que le code de statut de la réponse est 200
+    expect(res.status).toBe(200);
+
+    // Vérifie que le corps de la réponse est égal à la liste `mockUsers`
+    expect(res.body).toEqual(mockUsers);
+
+    // Nettoie le mock
+    User.findAll.mockRestore();
+  });
+
+  // Teste si la méthode `getAll` appelle `next` avec une erreur quand il y a un problème avec la base de données
+  it('devrait appeler next avec une erreur quand il y a un problème avec la BDD', async () => {
+    // Espionne la méthode `findAll` du modèle d'utilisateur (`User`) et la configure pour qu'elle renvoie une erreur
+    jest.spyOn(User, 'findAll').mockRejectedValue(new Error('Erreur BDD'));
+
+    // Teste la requête HTTP GET '/users'
+    const res = await request(app).get('/users');
+
+    // Vérifie que le code de statut de la réponse est 500
+    expect(res.status).toBe(500);
+
+    // Nettoie le mock
+    User.findAll.mockRestore();
+  });
+});
