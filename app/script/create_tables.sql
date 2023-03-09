@@ -13,7 +13,7 @@ CREATE DOMAIN phone_number AS TEXT CHECK(VALUE ~ '^0[1-9]([-. ]?[0-9]{2}){4}$');
 
 -- Suppression des tables existantes
 
-DROP TABLE IF EXISTS "user", "role", "avatar", "adoption", "animal", "tag", "user_has_tag", "avatar_has_tag", "animal_has_tag" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "adoption", "animal", "tag", "user_has_tag", "animal_has_tag" CASCADE;
 
 -- Création des tables 
 
@@ -38,14 +38,6 @@ CREATE TABLE "user" (
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT,
     "role_id"       INTEGER REFERENCES "role"("id") DEFAULT 1
-);
-
-CREATE TABLE "avatar" (
-    "id"            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "name"          TEXT NOT NULL UNIQUE,
-    "picture"       TEXT,
-    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
-    "updated_at"    TEXT
 );
 
 CREATE TABLE "animal" (
@@ -88,14 +80,6 @@ CREATE TABLE "tag" (
     "priority"      BOOLEAN NOT NULL DEFAULT FALSE,
     "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
     "updated_at"    TEXT
-);
-
-CREATE TABLE "avatar_has_tag" (
-    "avatar_id"     INTEGER REFERENCES "avatar"("id") ON DELETE CASCADE,
-    "tag_id"        INTEGER REFERENCES "tag"("id") ON DELETE CASCADE,
-    "created_at"    TEXT NOT NULL DEFAULT TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Paris', 'DD-MM-YYYY HH24:MI:SS'),
-    "updated_at"    TEXT,
-    PRIMARY KEY ("avatar_id", "tag_id")
 );
 
 CREATE TABLE "user_has_tag" (

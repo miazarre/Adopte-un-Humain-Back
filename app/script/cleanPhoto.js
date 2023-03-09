@@ -41,37 +41,6 @@ const cleanPhotos = {
       }
     });
   },
-
-  async deleteAvatarsFiles() {
-      // Récupération des noms de fichiers présents dans le répertoire des images avatars
-    const imageDirectory = path.join(__dirname, '../../public/images/avatars');
-    const imageFiles = fs.readdirSync(imageDirectory);
-
-    // Récupération des noms de fichiers possibles depuis la bdd
-    pool.query('SELECT picture FROM avatar', (err, res) => {
-      if (err) throw err;
-
-      const possibleFiles = [];
-
-      for (const animal of res.rows) {
-        const animalPhotos = Object.values(animal).filter(value => value !== null);
-        animalPhotos.forEach(filename => {
-          possibleFiles.push(filename);
-        });
-      }
-
-      // Suppression des fichiers manquants
-      const missingFiles = imageFiles.filter(filename => !possibleFiles.includes(filename));
-      if (missingFiles.length > 0) {
-        missingFiles.forEach(filename => {
-          const filePath = path.join(imageDirectory, filename);
-          fs.unlinkSync(filePath);
-          console.log(`Le fichier "${filename}" a été supprimé.`);
-        });
-      }
-    });
-  }
-
 };
 
 export default cleanPhotos;

@@ -4,7 +4,6 @@ import animalsRouter from "./animals.js";
 import tagsRouter from "./tags.js";
 import rolesRouter from "./roles.js";
 import photosRouter from "./photos.js";
-import avatarsRouter from "./avatars.js";
 import adoptRouter from "./adopts.js";
 
 export {
@@ -14,6 +13,5 @@ export {
   tagsRouter,
   rolesRouter,
   photosRouter,
-  avatarsRouter,
   adoptRouter
 };

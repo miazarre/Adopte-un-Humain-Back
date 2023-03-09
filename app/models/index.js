@@ -3,7 +3,7 @@ import Animal from "./animal.js";
 import Tag from "./tag.js";
 import Role from "./role.js";
 import Adopt from "./adopt.js";
-import Avatar from "./avatar.js";
+
 
 export {
   User,
@@ -11,5 +11,4 @@ export {
   Tag,
   Role,
   Adopt,
-  Avatar
 };
