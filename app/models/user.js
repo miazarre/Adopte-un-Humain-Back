@@ -69,12 +69,15 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            throw error;
-            
+            console.error(`Erreur checkPassword() : ${error.message}`)
+            throw error;            
         }
     }
 
-    // Permet de vérifier si le mail est déjà utilisé
+    /**
+     * Méthode d'instance permettant de vérifier en base de donnée si l'adresse email existe
+     * @returns boolean
+     */
     async checkEmail(req) {
         try {
             const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
@@ -93,15 +96,16 @@ class User extends Core {
     }
     }
 
-    // Permet de vérifier si le mail est déjà utilisé
+    /**
+     * Méthode d'instance permettant de vérifier en base de donnée si l'email existe et si le password est celui de l'utilisateur
+     * @returns boolean
+     */
     async checkEmailLogin() {
         try {
             const sqlQuery = "SELECT * FROM \"user\" WHERE email=$1";
             const values = [this.email];
             const response = await client.query(sqlQuery, values);
-            
-            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
-            if (response.rows.length == 1) {
+            if (response.rows.length == 1) {                                            // si j'ai une réponse c'est que l'utilisateur a été trouvé en BDD
                 if(await bcrypt.compare(this.password, response.rows[0].password)) {
                     return true;
                 } else {
@@ -117,7 +121,10 @@ class User extends Core {
     }
     }
 
-    // Permet de vérifier si l'adresse mail est conforme
+    /**
+     * Méthode permettant de vérifier si l'adresse email est conforme
+     * @returns boolean
+     */
     async regexEmail() {
         try {
             const email = /^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email);
@@ -133,7 +140,10 @@ class User extends Core {
         }
     }
 
-    // Permet de vérifier si le téléphone est conforme
+    /**
+     * Méthode permettant de vérifier si le numéro de téléphone est conforme
+     * @returns boolean
+     */
     async regexPhone() {
         try {
             const phone = /^0[1-9]([-. ]?[0-9]{2}){4}$/.test(this.phone);
@@ -144,7 +154,7 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in findByPk() : ${error.message}`)
+            console.error(`Error in regexPhone() : ${error.message}`)
             throw error;
         }
     }
@@ -205,7 +215,7 @@ static async getUserTags(userId) {
   
         return row;
     } catch (error) {
-        console.error(`Error in addUserTag() : ${error.message}`)
+        console.error(`Error in deleteUserTag() : ${error.message}`)
         throw error;
     }
 }
@@ -313,8 +323,6 @@ static async getUserTags(userId) {
             throw error;
         }
     }
-
-
 }
 
 export default User;

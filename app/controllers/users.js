@@ -22,7 +22,7 @@ const usersController = {
             const user = await User.userFindByPk(req.params.id);
             res.json(user);
         } else {
-            res.status(500).json({
+            res.status(400).json({
                 error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
             });
         }
@@ -64,7 +64,7 @@ const usersController = {
                 user: user,
             });
         } else {
-            res.status(500).json({
+            res.status(409).json({
             message: "L'e-mail est déjà utilisé !",
             });
         }
@@ -96,12 +96,12 @@ const usersController = {
                 });
             }
         } else {
-            res.status(500).json({
+            res.status(409).json({
                 error: "L'e-mail est déjà utilisé !",
             });
         }
         } else {
-            res.status(500).json({
+            res.status(400).json({
                 error: "Ce n'est pas la bonne fiche, l'id ne correspond pas !",
             });
         }
@@ -117,14 +117,17 @@ const usersController = {
         const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
         if(userExist) {
             const user = await User.update(req.params.id, req.body);
-            res.json(user);
+            res.json({
+                message: "le role a bien été modifié",
+                user: user,
+            });
             adminLog.log('info', {                                          // Log l'action de changement du role de l'utilisateur par l'admin
                 url: req.url,
                 method: req.method,
                 user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
                 role: req.user.name,
                 message: `Update de l'utilisateur avec l'id : ${req.params.id} au Role id de : ${req.body.role_id}`
-            })
+            });
         } else {
             res.status(404).json({
                 error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
@@ -146,7 +149,7 @@ const usersController = {
                 user: user,
             });
         } else {
-            res.status(500).json({
+            res.status(403).json({
                 error: "Ce n'est pas votre fiche, l'id ne correspond pas !",
             });
         }
@@ -172,7 +175,7 @@ const usersController = {
                 user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
                 role: req.user.name,
                 message: `Suppression de l'utilisateur : ${req.params.id} - ${user[0].email} - role_id : ${user[0].role_id}`
-            })
+            });
         } else {
             res.status(404).json({
                 error: `L'utilisateur' avec l'id = ${req.params.id} n'existe pas !`,
@@ -185,7 +188,7 @@ const usersController = {
   },
 
   //  Récupère les tags de l'utilisateur
-  async getUserTags(req, res) {
+  async getUserTags(req, res, next) {
     try {
         const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
         if(userExist) {
@@ -204,7 +207,7 @@ const usersController = {
   },
 
   // Ajoute un tag à l'utilisateur
-  async addUserTag(req, res) {
+  async addUserTag(req, res, next) {
     try {
         const tag = new Tag(req.body);
         const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe
@@ -236,7 +239,7 @@ const usersController = {
   },
 
   // Supprime le tag d'un utilisateur
-  async deleteUserTag(req, res) {
+  async deleteUserTag(req, res, next) {
     try {
         const tag = new Tag(req.body);
         const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe

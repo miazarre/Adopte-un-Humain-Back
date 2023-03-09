@@ -54,7 +54,7 @@ const adminLog = createLogger({
             format: format.combine(
                 format.timestamp({ format: 'DD-MM-YYYY HH:mm:ss'}),
                 format.printf(( { level, message, timestamp, url, method, user, role }) => {
-                    return `Date:[${timestamp}] [${level.toUpperCase()}] Methode: [${method}] Route:[${url}] User:[${user}] Role:[${role}] Action:[${message}]`;
+                    return `Date:[${timestamp}] [${level.toUpperCase()}] Methode: [${method}] [ Route:${url} ] [ User: ${user} ] [ Role: ${role} ] [ Action: ${message} ]`;
                 })
             )
         })

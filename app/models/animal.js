@@ -27,17 +27,16 @@ static async getAnimalTags(animalId) {
         SELECT t.name AS "tag_name", t.id AS "tag_id", t.priority
         FROM animal_has_tag aht
         JOIN tag t ON aht.tag_id = t.id
-            JOIN animal ON aht.animal_id = animal.id
+        JOIN animal ON aht.animal_id = animal.id
         WHERE aht.animal_id = $1;`,
         values: [animalId] 
     };
 
     const result = await client.query(preparedQuery);
-        if (!result.rows) {
-            return null;
+    if (!result.rows) {
+        return null;
     }
-
-        return result.rows;
+    return result.rows;
 
   } catch (error) {
         console.error(`Error in getAnimalTags() : ${error.message}`)
@@ -49,8 +48,8 @@ static async getAnimalTags(animalId) {
 static async addAnimalTag(animalId, tagId) {
     try {
         const preparedQuery = {
-        text:'INSERT INTO animal_has_tag (animal_id, tag_id) VALUES ($1, $2) RETURNING *',
-        values: [animalId, tagId]
+            text:'INSERT INTO animal_has_tag (animal_id, tag_id) VALUES ($1, $2) RETURNING *',
+            values: [animalId, tagId]
         };
         const result = await client.query(preparedQuery);
         const row = result.rows[0];
@@ -67,8 +66,8 @@ static async addAnimalTag(animalId, tagId) {
 static async deleteAnimalTag(animalId, tagId) {
     try {
         const preparedQuery =  {
-        text:'DELETE FROM animal_has_tag WHERE animal_id = $1 AND tag_id = $2 RETURNING *',
-        values: [animalId, tagId]
+            text:'DELETE FROM animal_has_tag WHERE animal_id = $1 AND tag_id = $2 RETURNING *',
+            values: [animalId, tagId]
         };
         const result = await client.query(preparedQuery);
         const row = result.rows[0];
@@ -86,8 +85,7 @@ static async deleteAnimalTag(animalId, tagId) {
         const sqlQuery = "SELECT * FROM \"animal\" WHERE id=$1";
         const values = [id];
         const response = await client.query(sqlQuery, values);
-        // si j'ai une réponse c'est que l'animal a été trouvé en BDD
-        if (response.rows.length == 1) {
+        if (response.rows.length == 1) {            // si j'ai une réponse c'est que l'animal a été trouvé en BDD
             return true;
         }
         else {

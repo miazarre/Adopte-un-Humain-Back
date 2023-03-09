@@ -5,8 +5,9 @@ import client from 'pg';
 const { Pool } = client;
 
 dotenv.config();
-
 const pool = new Pool();
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 // Script qui supprime les images qui ne sont pas stockées dans la BDD
 

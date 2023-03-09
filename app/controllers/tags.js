@@ -1,78 +1,127 @@
 import { Tag } from "../models/index.js";
+import { adminLog } from "../service/logger.js";
 
 const tagsController = {
+
   // Récupère tous les tags
-  async getAll(_, res, next) {
-    const tags = await Tag.findAll();
-    if (tags) {
-      res.json(tags);
-    } else {
-      next(new Error("Problème de BDD"));
-    }
+    async getAll(_, res, next) {
+        try {
+            const tags = await Tag.findAll();
+            res.json(tags);
+        } catch(error) {
+            res.status(500).json(error.message);
+            next(error);
+        }
   },
 
   // Récupère un tag
   async getTag(req, res, next) {
-    const tag = await Tag.findByPk(req.params.id);
-    if (tag) {
-      res.json(tag);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const tagExist = await Tag.checkExist(req.params.id);               // Vérifie si le tag existe
+        if (tagExist) {
+            const getTag = await Tag.findByPk(req.params.id);
+            res.json(getTag);
+        } else {
+            res.status(404).json({
+                error: `Le tag avec l'id = ${req.params.id} n'existe pas !`,
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Ajoute un tag
   async addTag(req, res, next) {
-    const tag = new Tag(req.body);
-    const tagExist = await tag.checkTag(); // Controle si le tag existe déjà
-    if (!tagExist) {
-      const addTag = await Tag.create(req.body);
-
-      if (addTag) {
-        res.json(addTag);
-      } else {
-        next(new Error("Problème de BDD"));
-      }
-    } else {
-      // Le tag existe déjà
-      res.status(500).json({
-        error: "Le tag existe déjà !",
-      });
+    try {
+        const tagExist = await Tag.checkTag(req.body);                      // Controle si le nom du tag existe déjà
+        if (!tagExist) {
+            const addTag = await Tag.create(req.body);
+            res.json({
+                message: "le tag a bien été crée",
+                tag: addTag,
+            });
+            adminLog.log('info', {                                          // Log l'action de création d'un tag
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Création du tag ${req.body.name}`
+            });
+        } else {
+            res.status(409).json({
+                error: "Le tag existe déjà !",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
+
   // Modifie un tag
   async updateTag(req, res, next) {
-    const idExist = await Tag.checkExist(req.params.id); // Controle si l'id existe
-    if (idExist) {
-      const tagCheck = new Tag(req.body);
-      const tagExist = await tagCheck.checkTag(); // Controle si le tag existe déjà
-      if (!tagExist) {
-        const tag = await Tag.update(req.params.id, req.body);
-        if (tag) {
-          res.json(tag);
+    try {
+        const tagExist = await Tag.checkExist(req.params.id);                   // Controle si l'id du tag existe
+        if (tagExist) {
+            const getTag = await Tag.findByPk(req.params.id);                   // Récupère les infos du tag qui va être modifié
+            const tagNameExist = await Tag.checkTag(req.body);                  // Controle si le nom du tag existe
+            if (!tagNameExist) {
+                const tag = await Tag.update(req.params.id, req.body);
+                res.json({
+                    message: "le tag a bien été mise à jour",
+                    tag: tag,
+                });
+                adminLog.log('info', {                                          // Log l'action de modification d'un tag
+                    url: req.url,
+                    method: req.method,
+                    user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                    role: req.user.name,
+                    message: `modification tag  name : ${getTag.name} - id : ${getTag.id} - Priority : ${getTag.priority} par = name : ${req.body.name} - priority : ${req.body.priority}`
+                });
+            } else {
+                res.status(409).json({
+                    error: "Le nom du tag existe déjà",
+                });
+            }
         } else {
-          next(new Error("Problème de BDD"));
+            res.status(404).json({
+                error: "L'id du tag n'existe pas",
+            });
         }
-      } else {
-        // Le tag existe déjà
-        res.status(500).json({
-          error: "Le tag existe déjà",
-        });
-      }
-    } else {
-      // L'id n'existe pas
-      res.status(500).json({
-        error: "L'id n'existe pas",
-      });
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 
   // Supprime un tag
   async deleteTag(req, res, next) {
-    const tag = await Tag.delete(req.params.id);
-    if (tag) {
-      res.json(tag);
-    } else {
-      next(new Error("Problème de BDD"));
+    try {
+        const tagExist = await Tag.checkExist(req.params.id);           // Controle si l'id du tag existe
+        const getTag = await Tag.findByPk(req.params.id);               // Récupère les infos du tag  à supprimer
+        if(tagExist) {
+            const tag = await Tag.delete(req.params.id);
+            res.json({
+                message: "le tag a bien été supprimé",
+                tag: tag,
+            });
+            adminLog.log('info', {                                      // Log l'action de suppression d'un tag
+                url: req.url,
+                method: req.method,
+                user: `${req.userProfil[0].firstname} - ${req.userProfil[0].email}`,
+                role: req.user.name,
+                message: `Suppression du tag  name : ${getTag.name} - id : ${req.params.id} - Priority : ${getTag.priority}`
+            });   
+        } else {
+            res.status(404).json({
+                error: "L'id du tag n'existe pas",
+            });
+        }
+    } catch(error) {
+        res.status(500).json(error.message);
+        next(error);
     }
   },
 };
