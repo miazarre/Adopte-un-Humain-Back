@@ -13,7 +13,7 @@ CREATE DOMAIN phone_number AS TEXT CHECK(VALUE ~ '^0[1-9]([-. ]?[0-9]{2}){4}$');
 
 -- Suppression des tables existantes
 
-DROP TABLE IF EXISTS "user", "role", "avatar", "adoption", "animal", "tag", "user_has_tag", "avatar_has_tag", "animal_has_tag" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "adoption", "animal", "tag", "user_has_tag", "animal_has_tag" CASCADE;
 
 -- Création des tables 
 
