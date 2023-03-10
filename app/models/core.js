@@ -73,9 +73,8 @@ class Core {
             };
 
             const result = await client.query(preparedQuery);
-            // console.log(result.rows);
-
             return result.rows;
+            
         } catch (error) {
             console.error(`Error in findAll() : ${error.message}`)
             throw error;

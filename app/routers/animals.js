@@ -51,7 +51,7 @@ export default router;
  * @summary Récupère tous les animals
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - all animals
+ * @return {object} 200 - all animals
  * @return {object} 500 - Unexpected error
  */
 
@@ -61,7 +61,7 @@ export default router;
  * @security bearerAuth
  * @tags ANIMAL
  * @param {Animal} request.body.required - Animal info
- * @return {string} 200 - new animal
+ * @return {object} 200 - new animal
  * @return {object} 500 - Unexpected error
  */
 
@@ -70,7 +70,7 @@ export default router;
  * @summary Récupère un animal
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - one animal
+ * @return {object} 200 - one animal
  * @return {object} 500 - Unexpected error
  */
 
@@ -80,7 +80,7 @@ export default router;
  * @security bearerAuth
  * @tags ANIMAL
  * @param {AnimalUpdate} request.body.required - Animal info
- * @return {string} 200 - update animal
+ * @return {object} 200 - update animal
  * @return {object} 500 - Unexpected error
  */
 
@@ -89,7 +89,7 @@ export default router;
  * @summary Supprime un animal
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - delete animal
+ * @return {object} 200 - delete animal
  * @return {object} 500 - Unexpected error
  */
 
@@ -98,7 +98,7 @@ export default router;
  * @summary Récupère le tag lié à l'animal
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - one animal tag
+ * @return {object} 200 - one animal tag
  * @return {object} 500 - Unexpected error
  */
 
@@ -107,7 +107,7 @@ export default router;
  * @summary Crée une association
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - new association
+ * @return {object} 200 - new association
  * @return {object} 500 - Unexpected error
  */
 
@@ -116,7 +116,7 @@ export default router;
  * @summary Supprime une association
  * @security bearerAuth
  * @tags ANIMAL
- * @return {string} 200 - delete association
+ * @return {object} 200 - delete association
  * @return {object} 500 - Unexpected error
  */
 

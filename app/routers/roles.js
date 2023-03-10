@@ -24,7 +24,7 @@ export default router;
  * @summary Récupère tous les roles
  * @security bearerAuth
  * @tags ROLE
- * @return {string} 200 - all roles
+ * @return {object} 200 - all roles
  * @return {object} 500 - Unexpected error
  */
 
@@ -34,7 +34,7 @@ export default router;
  * @security bearerAuth
  * @tags ROLE
  * @param {Role} request.body.required - Role info
- * @return {string} 200 - new role
+ * @return {object} 200 - new role
  * @return {object} 500 - Unexpected error
  */
 
@@ -43,7 +43,7 @@ export default router;
  * @summary Récupère un role
  * @security bearerAuth
  * @tags ROLE
- * @return {string} 200 - one role
+ * @return {object} 200 - one role
  * @return {object} 500 - Unexpected error
  */
 
@@ -53,7 +53,7 @@ export default router;
  * @security bearerAuth
  * @tags ROLE
  * @param {RoleUpdate} request.body.required - RoleUpdate info
- * @return {string} 200 - update role
+ * @return {object} 200 - update role
  * @return {object} 500 - Unexpected error
  */
 
@@ -62,7 +62,7 @@ export default router;
  * @summary Supprime un role
  * @security bearerAuth
  * @tags ROLE
- * @return {string} 200 - delete role
+ * @return {object} 200 - delete role
  * @return {object} 500 - Unexpected error
  */
 

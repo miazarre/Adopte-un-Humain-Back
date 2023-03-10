@@ -26,7 +26,7 @@ export default router;
  * @summary Récupère tous les tags
  * @security bearerAuth
  * @tags TAG
- * @return {string} 200 - all tags
+ * @return {object} 200 - all tags
  * @return {object} 500 - Unexpected error
  */
 
@@ -36,7 +36,7 @@ export default router;
  * @security bearerAuth
  * @tags TAG
  * @param {Tag} request.body.required - Tag info
- * @return {string} 200 - new tag
+ * @return {object} 200 - new tag
  * @return {object} 500 - Unexpected error
  */
 
@@ -45,7 +45,7 @@ export default router;
  * @summary Récupère un tag
  * @security bearerAuth
  * @tags TAG
- * @return {string} 200 - one tag
+ * @return {object} 200 - one tag
  * @return {object} 500 - Unexpected error
  */
 
@@ -55,7 +55,7 @@ export default router;
  * @security bearerAuth
  * @tags TAG
  * @param {TagUpdate} request.body.required - TagUpdate info
- * @return {string} 200 - update tag
+ * @return {object} 200 - update tag
  * @return {object} 500 - Unexpected error
  */
 
@@ -64,7 +64,7 @@ export default router;
  * @summary Supprime un tag
  * @security bearerAuth
  * @tags TAG
- * @return {string} 200 - delete tag
+ * @return {object} 200 - delete tag
  * @return {object} 500 - Unexpected error
  */
 

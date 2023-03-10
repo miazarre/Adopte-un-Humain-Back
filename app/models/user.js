@@ -280,6 +280,10 @@ static async getUserTags(userId) {
     // Si CASE WHEN user_tags.id est non null et animal_tags.id est null renvoie le nom du tag lié à l'utilisateur concaténé à - utilisateur
     // Si CASE WHEN user_tags.id est null et animal_tags.id est non null renvoie le nom du tag lié à l'animal concaténé à - animal
     // Si CASE WHEN user_tags.id sont non null renvoie le nom du tag lié à l'utilisateur concaténé à - utilisateur
+    // FROM une sous requête qui selectionne les tags de l'utilisateur (en joignant la table user_has_tag et tag)
+    // FULL OUTER JOIN afin de permettre de joindre les tags de l'utilisateur et les tags de l'animal, elles sont jointes en fonction de l'id du tag
+    // GROUP BY permet de regrouper les résultats par ID de tag, nom de tag et priorité
+    // statut est le calcul afin de savoir si le tag est en commun avec l'utilisateur, ou si il appartient à l'animal ou l'utilisateur.
     static async matchingOne(userId, animalId) {
         try {
             const preparedQuery = {
