@@ -101,7 +101,7 @@ const animalsController = {
                 const updatedPhotoFileNames = [];
                 for (let i = 1; i <= 4; i++) {
                     const photoFieldName = `photo${i}`;
-                    const photoFile = req.files[photoFieldName] ? req.files[photoFieldName][0] : null;
+                    const photoFile = req.files[photoFieldName] ? req.files[photoFieldName][0] : null;  // Opérateur ternaire si une photo a été téléchargé
                     const oldPhotoFileName = animalPhotos[photoFieldName];
                     if (photoFile) {
                         const newPhotoFileName = photoFile.filename;
@@ -132,14 +132,16 @@ const animalsController = {
 
                 // Supprimer les anciennes photos du répertoire si elles ont été mises à jour
                 for (const updatedPhotoFileName of updatedPhotoFileNames) {
-                    const oldPhotoFilePath = path.join(imageDirectory, updatedPhotoFileName.oldFileName);
-                    fs.unlink(oldPhotoFilePath, err => {
-                        if (err) {
-                            console.error(`Erreur lors de la suppression du fichier ${oldPhotoFilePath}:`, err);
-                        } else {
-                            console.log(`Le fichier ${oldPhotoFilePath} a été supprimé.`);
-                        }
-                    });
+                    if(updatedPhotoFileNames.oldFileName) {
+                        const oldPhotoFilePath = path.join(imageDirectory, updatedPhotoFileName.oldFileName);
+                        fs.unlink(oldPhotoFilePath, err => {
+                            if (err) {
+                                console.error(`Erreur lors de la suppression du fichier ${oldPhotoFilePath}:`, err);
+                            } else {
+                                console.log(`Le fichier ${oldPhotoFilePath} a été supprimé.`);
+                            }
+                        });
+                    }
                 }
                 res.json({
                     message: "l'animal a bien été modifié",

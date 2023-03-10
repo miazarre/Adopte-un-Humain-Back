@@ -14,10 +14,11 @@ export default router;
 // doc swagger : /api-docs
 
 /**
- * GET /api/images/animal/:filename
- * @summary Récupère toutes les photos des animaux
+ * GET /api/images/animal/{filename}
+ * @summary Récupère et affiche une photo d'un animal
+ * @param {string} filename.path.required - Image filename
  * @tags IMAGES
- * @return {string} 200 - all animals photos
+ * @return {string} 200 - photo animal
  * @return {object} 500 - Unexpected error
+ * @produces image/png
  */
-

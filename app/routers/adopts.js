@@ -24,7 +24,7 @@ export default router;
  * @summary Récupère toutes les adoptions
  * @security bearerAuth
  * @tags ADOPT
- * @return {string} 200 - all adopts
+ * @return {object} 200 - all adopts
  * @return {object} 500 - Unexpected error
  */
 
@@ -34,7 +34,7 @@ export default router;
  * @security bearerAuth
  * @tags ADOPT
  * @param {Adopt} request.body.required - Adopt info
- * @return {string} 200 - new adopt
+ * @return {object} 200 - new adopt
  * @return {object} 500 - Unexpected error
  */
 
@@ -43,7 +43,7 @@ export default router;
  * @summary Récupère une adoption
  * @security bearerAuth
  * @tags ADOPT
- * @return {string} 200 - one adopt
+ * @return {object} 200 - one adopt
  * @return {object} 500 - Unexpected error
  */
 
@@ -53,7 +53,7 @@ export default router;
  * @security bearerAuth
  * @tags ADOPT
  * @param {AdoptUpdate} request.body.required - AdoptUpdate info
- * @return {string} 200 - update adopt
+ * @return {object} 200 - update adopt
  * @return {object} 500 - Unexpected error
  */
 
@@ -62,7 +62,7 @@ export default router;
  * @summary Supprime une adoption
  * @security bearerAuth
  * @tags ADOPT
- * @return {string} 200 - delete adopt
+ * @return {object} 200 - delete adopt
  * @return {object} 500 - Unexpected error
  */
 

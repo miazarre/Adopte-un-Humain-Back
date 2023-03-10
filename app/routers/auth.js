@@ -20,7 +20,7 @@ export default router;
  * @summary Identification
  * @tags REGISTER / LOGIN
  * @param {Login} request.body.required - Login info
- * @return {string} 200 - all ids
+ * @return {object} 200 - all ids
  * @return {object} 500 - Unexpected error
  */
 
@@ -30,7 +30,17 @@ export default router;
  * @tags  REGISTER / LOGIN
  * @param {Register} request.body.required - Register info
  * @type {Register}
- * @return {string} 200 - new user
+ * @return {object} 200 - new user
+ * @return {object} 500 - Unexpected error
+ */
+
+
+/**
+ * GET /api/token
+ * @summary Vérification de la validité du token
+ * @security bearerAuth
+ * @tags REGISTER / LOGIN
+ * @return {object} 200 - Token validation - user infos
  * @return {object} 500 - Unexpected error
  */
 
