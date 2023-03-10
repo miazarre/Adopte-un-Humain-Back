@@ -238,7 +238,10 @@ const animalsController = {
             if (tagExist) {
                 if (animalExist) {
                     const animalHasTag = await Animal.addAnimalTag(req.params.id,req.body.tag_id);
-                    res.json(animalHasTag);
+                    res.json({
+                        message: "le tag a bien été ajouté à l'animal",
+                        animal: animalHasTag,
+                    });
                 } else {
                     res.status(404).json({
                         error: `L'animal avec l'id = ${req.params.id} n'existe pas !`,
