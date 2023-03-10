@@ -1,5 +1,7 @@
 import { Tag } from "../models/index.js";
 import { adminLog } from "../service/logger.js";
+import debug from 'debug';
+const log = debug('controller:tags');
 
 const tagsController = {
 
@@ -10,6 +12,7 @@ const tagsController = {
             res.json(tags);
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
   },
@@ -28,6 +31,7 @@ const tagsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -57,6 +61,7 @@ const tagsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -96,6 +101,7 @@ const tagsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -125,6 +131,7 @@ const tagsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },

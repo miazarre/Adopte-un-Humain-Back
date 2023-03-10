@@ -1,5 +1,7 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
+import debug from 'debug';
+const log = debug('model:role');
 
 class Role extends Core {
     static tableName = 'role';
@@ -22,7 +24,8 @@ class Role extends Core {
                 return false;
             }
         } catch {
-            console.error(`Error in checkRole() : ${error.message}`)
+            console.error(`Error in checkRole() : ${error.message}`);
+            log(error);
             throw error;
         }
     }

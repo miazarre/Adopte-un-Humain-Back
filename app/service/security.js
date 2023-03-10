@@ -10,10 +10,9 @@ const securityService = {
           try {
             // Récupérer le token JWT depuis l'en-tête Authorization
             const token = req.headers.authorization.split(" ")[1];
-             // Vérifier si le token est valide
 
+            // Vérifier si le token est valide
             const userToken = jwt.verify(token, process.env.SESSION_SECRET);
-            // console.log("token validé !", userToken);
 
             // Récupère le role lié à l'utilisateur
             const userEmail = userToken.email;
@@ -35,7 +34,6 @@ const securityService = {
           }
       
           // L'utilisateur est authentifié et autorisé, passer au middleware suivant
-        //   console.log("role : ", req.user.name);
           next();
         }
       },
@@ -43,17 +41,15 @@ const securityService = {
       async checkToken(req, res) {
         // Vérification du Token
         try {
-          // Récupérer le token JWT depuis l'en-tête Authorization
-          const token = req.headers.authorization.split(" ")[1];
-           // Vérifier si le token est valide
-          const userToken = jwt.verify(token, process.env.SESSION_SECRET);
+            // Récupérer le token JWT depuis l'en-tête Authorization
+            const token = req.headers.authorization.split(" ")[1];
+            // Vérifier si le token est valide
+            const userToken = jwt.verify(token, process.env.SESSION_SECRET);
 
-          const user = await User.findAll({ $where: {email:userToken.email} });
-          res.json({ user, message: 'Token valide' });
-
-
-        } catch(err) {
-          return res.status(403).json({ message: 'Token invalide' });
+            const user = await User.findAll({ $where: {email:userToken.email} });
+            res.json({ user, message: 'Token valide' });
+        } catch(error) {
+            return res.status(403).json({ message: 'Token invalide' });
         }
       },
 };

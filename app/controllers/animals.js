@@ -3,7 +3,9 @@ import { adminLog } from "../service/logger.js";
 import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+import debug from 'debug';
+const log = debug('controller:animals');
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const imageDirectory = path.join(__dirname, '../../public/images/animals');
 
 const animalsController = {
@@ -15,6 +17,7 @@ const animalsController = {
             res.json(animals);
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -33,6 +36,7 @@ const animalsController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -85,6 +89,7 @@ const animalsController = {
             });
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -161,6 +166,7 @@ const animalsController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -204,6 +210,7 @@ const animalsController = {
             }
         } catch {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -223,6 +230,7 @@ const animalsController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -251,6 +259,7 @@ const animalsController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },
@@ -278,6 +287,7 @@ const animalsController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     },

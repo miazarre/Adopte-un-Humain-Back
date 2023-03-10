@@ -1,7 +1,8 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
 import bcrypt from 'bcrypt';
-
+import debug from 'debug';
+const log = debug('model:user');
 
 class User extends Core {
     static tableName = 'user';
@@ -39,8 +40,8 @@ class User extends Core {
             }       
             return result.rows;
         } catch(error) {
-            console.error(`Error in userFindByPk() : ${error}`)
-            const message = `Error in userFindByPk() : ${error.message}`
+            console.error(`Error in userFindByPk() : ${error}`);
+            log(error);
             throw new Error(message);
         }
 
@@ -69,7 +70,8 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Erreur checkPassword() : ${error.message}`)
+            console.error(`Erreur checkPassword() : ${error.message}`);
+            log(error);
             throw error;            
         }
     }
@@ -91,7 +93,8 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Erreur checkEmail() : ${error.message}`)
+            console.error(`Erreur checkEmail() : ${error.message}`);
+            log(error);
             throw error;
     }
     }
@@ -116,7 +119,8 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-                console.error(`Error in checkEmailLogin() : ${error.message}`)
+                console.error(`Error in checkEmailLogin() : ${error.message}`);
+                log(error);
                 throw error;
     }
     }
@@ -135,7 +139,8 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in regexEmail() : ${error.message}`)
+            console.error(`Error in regexEmail() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -154,7 +159,8 @@ class User extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in regexPhone() : ${error.message}`)
+            console.error(`Error in regexPhone() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -180,7 +186,8 @@ static async getUserTags(userId) {
        return result.rows;
   
     } catch (error) {
-        console.error(`Error in getUserTags() : ${error.message}`)
+        console.error(`Error in getUserTags() : ${error.message}`);
+        log(error);
         throw error;
     }
   }
@@ -198,7 +205,8 @@ static async getUserTags(userId) {
         return row;
   
     } catch (error) {
-        console.error(`Error in addUserTag() : ${error.message}`)
+        console.error(`Error in addUserTag() : ${error.message}`);
+        log(error);
         throw error;
     }
   }
@@ -215,7 +223,8 @@ static async getUserTags(userId) {
   
         return row;
     } catch (error) {
-        console.error(`Error in deleteUserTag() : ${error.message}`)
+        console.error(`Error in deleteUserTag() : ${error.message}`);
+        log(error);
         throw error;
     }
 }
@@ -234,7 +243,8 @@ static async getUserTags(userId) {
                 return false;
             }
         }catch(error) {
-            console.error(`Error in checkUser() : ${error.message}`)
+            console.error(`Error in checkUser() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -262,7 +272,8 @@ static async getUserTags(userId) {
             return result.rows;
         
         } catch(error) {
-            console.error(`Error in matchingAll() : ${error.message}`)
+            console.error(`Error in matchingAll() : ${error.message}`);
+            log(error);
             throw error;
 
         }
@@ -323,7 +334,8 @@ static async getUserTags(userId) {
             return result.rows;
         
         } catch(error) {
-            console.error(`Error in matchingOne() : ${error.message}`)
+            console.error(`Error in matchingOne() : ${error.message}`);
+            log(error);
             throw error;
         }
     }

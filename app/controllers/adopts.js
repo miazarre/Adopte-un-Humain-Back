@@ -1,5 +1,7 @@
 import { Adopt, Animal, User } from "../models/index.js";
 import { adminLog } from "../service/logger.js";
+import debug from 'debug';
+const log = debug('controller:adopts');
 
 const adoptsController = {
 
@@ -10,6 +12,7 @@ const adoptsController = {
             res.json(adopts);
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
   },
@@ -33,6 +36,7 @@ const adoptsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -50,6 +54,7 @@ const adoptsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -75,6 +80,7 @@ const adoptsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -103,6 +109,7 @@ const adoptsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -131,6 +138,7 @@ const adoptsController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
