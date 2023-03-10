@@ -1,5 +1,4 @@
 import { Animal, Tag } from "../models/index.js";
-import clean from "../script/cleanPhoto.js";
 import { adminLog } from "../service/logger.js";
 import fs from 'fs';
 import path from 'path';
@@ -73,7 +72,6 @@ const animalsController = {
             }
 
             const addAnimal = await Animal.create(data);
-            clean.deleteAnimalsFiles();
             res.json({
                 message: "l'animal a bien été crée",
                 animal: addAnimal,
@@ -99,29 +97,17 @@ const animalsController = {
                 const data = {};
                 const animalPhotos = await Animal.findByPk(req.params.id);
 
-                // // Mettre à jour les photos et enregistrer les noms de fichiers mis à jour
-                // const updatedPhotoFileNames = [];
-                // for (let i = 1; i <= 4; i++) {
-                //     const photoFieldName = `photo${i}`;
-                //     const photoFile = req.files[photoFieldName] ? req.files[photoFieldName][0] : null;
-                //     const oldPhotoFileName = animalPhotos[photoFieldName];
-                //     if (photoFile) {
-                //         const newPhotoFileName = photoFile.filename;
-                //         updatedPhotoFileNames.push({ fieldName: photoFieldName, oldFileName: oldPhotoFileName, newFileName: newPhotoFileName });
-                //         data[photoFieldName] = newPhotoFileName;
-                //     }
-                // }
-                if (req.files.photo1) {
-                    data.photo1 = req.files.photo1[0].filename;
-                }
-                if (req.files.photo2) {
-                    data.photo2 = req.files.photo2[0].filename;
-                }
-                if (req.files.photo3) {
-                    data.photo3 = req.files.photo3[0].filename;
-                }
-                if (req.files.photo4) {
-                    data.photo4 = req.files.photo4[0].filename;
+                // Mettre à jour les photos et enregistrer les noms de fichiers mis à jour
+                const updatedPhotoFileNames = [];
+                for (let i = 1; i <= 4; i++) {
+                    const photoFieldName = `photo${i}`;
+                    const photoFile = req.files[photoFieldName] ? req.files[photoFieldName][0] : null;
+                    const oldPhotoFileName = animalPhotos[photoFieldName];
+                    if (photoFile) {
+                        const newPhotoFileName = photoFile.filename;
+                        updatedPhotoFileNames.push({ fieldName: photoFieldName, oldFileName: oldPhotoFileName, newFileName: newPhotoFileName });
+                        data[photoFieldName] = newPhotoFileName;
+                    }
                 }
                 if (req.body.name) {
                     data.name = req.body.name;
@@ -143,7 +129,18 @@ const animalsController = {
                 }
 
                 const updatedAnimal = await Animal.update(req.params.id, data);
-                clean.deleteAnimalsFiles();
+
+                // Supprimer les anciennes photos du répertoire si elles ont été mises à jour
+                for (const updatedPhotoFileName of updatedPhotoFileNames) {
+                    const oldPhotoFilePath = path.join(imageDirectory, updatedPhotoFileName.oldFileName);
+                    fs.unlink(oldPhotoFilePath, err => {
+                        if (err) {
+                            console.error(`Erreur lors de la suppression du fichier ${oldPhotoFilePath}:`, err);
+                        } else {
+                            console.log(`Le fichier ${oldPhotoFilePath} a été supprimé.`);
+                        }
+                    });
+                }
                 res.json({
                     message: "l'animal a bien été modifié",
                     animal: updatedAnimal,
@@ -156,9 +153,8 @@ const animalsController = {
                     message: `Modification de l'animal nom : ${animalId.name}`
                 });
             } else {
-            clean.deleteAnimalsFiles();
-            res.status(400).json({
-                error: `l'animal avec l'id : ${req.params.id} n'existe pas !`,
+                res.status(400).json({
+                    error: `l'animal avec l'id : ${req.params.id} n'existe pas !`,
                 });
             }
         } catch(error) {
@@ -173,7 +169,7 @@ const animalsController = {
             const animalExist = await Animal.checkExist(req.params.id);
             if(animalExist) {
                 const animalPhotos = await Animal.findByPk(req.params.id);
-                for (let i = 1; i <= 4; i++) {
+                for (let i = 1; i <= 4; i++) {                                  // Récupère le nom des photos de l'animal et les supprimes
                     const photoFieldName = `photo${i}`;
                     const photoFileName = animalPhotos[photoFieldName];
                     if (photoFileName) {
@@ -232,7 +228,6 @@ const animalsController = {
     // Ajoute un tag à l'animal
     async addAnimalTag(req, res, next) {
         try {
-            // const tag = new Tag(req.body);
             const tagExist = await Tag.checkExist(req.body.tag_id);
             const animalExist = await Animal.checkAnimal(req.params.id);
             if (tagExist) {

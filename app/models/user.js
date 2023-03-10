@@ -1,7 +1,7 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
 import bcrypt from 'bcrypt';
-import { errorLog } from "../service/logger.js";
+
 
 class User extends Core {
     static tableName = 'user';

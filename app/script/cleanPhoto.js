@@ -41,7 +41,11 @@ const cleanPhotos = {
         });
       }
     });
+    pool.end();
+    console.log("Le script de Suppression de photo a bien été exécuté");
   },
 };
+
+cleanPhotos.deleteAnimalsFiles();
 
 export default cleanPhotos;
