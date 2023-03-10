@@ -35,8 +35,9 @@ const tagsController = {
   // Ajoute un tag
   async addTag(req, res, next) {
     try {
+        req.body.name = Tag.capitalizeFirstLetter(req.body.name);           // Transforme la première lettre en majuscule et le reste en minuscule
         const tagExist = await Tag.checkTag(req.body);                      // Controle si le nom du tag existe déjà
-        if (!tagExist) {
+        if (!tagExist) {            
             const addTag = await Tag.create(req.body);
             res.json({
                 message: "le tag a bien été crée",
@@ -66,6 +67,9 @@ const tagsController = {
         const tagExist = await Tag.checkExist(req.params.id);                   // Controle si l'id du tag existe
         if (tagExist) {
             const getTag = await Tag.findByPk(req.params.id);                   // Récupère les infos du tag qui va être modifié
+            if(req.body.name) {
+                req.body.name = Tag.capitalizeFirstLetter(req.body.name); 
+            }
             const tagNameExist = await Tag.checkTag(req.body);                  // Controle si le nom du tag existe
             if (!tagNameExist) {
                 const tag = await Tag.update(req.params.id, req.body);

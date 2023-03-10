@@ -53,11 +53,12 @@ const usersController = {
   // Ajoute un utilisateur
   async addUser(req, res, next) {
     try {
+        req.body.email = (req.body.email).toLowerCase();                    // passe l'email en minuscule
         const email = new User(req.body);
-        const emailExist = await email.checkEmail(req); // Controle si le mail existe déjà
+        const emailExist = await email.checkEmail(req);                      // Controle si le mail existe déjà
         if (!emailExist) {
-            req.body.password = await bcrypt.hash(req.body.password, 10); // Crypt password
-            req.body.phone = req.body.phone.replace(/[-. ]/g, ""); // Supprime les espaces, tirets et points
+            req.body.password = await bcrypt.hash(req.body.password, 10);   // Crypt password
+            req.body.phone = req.body.phone.replace(/[-. ]/g, "");          // Supprime les espaces, tirets et points
             const user = await User.create(req.body);
             res.json({
                 message: "l'utilisateur a bien été crée",
@@ -77,29 +78,32 @@ const usersController = {
   // Modification du profil utilisateur par son propriétaire
   async updateUser(req, res, next) {
     try {
-        if (req.params.id == req.userProfil[0].id) {        // Controle si l'id en param est == à l'id de l'utilisateur connecté,
-        const userExist = new User(req.body);               // info enregistré dans req.userProfil lors de l'authentification, pendant la vérification du token
-        const emailExist = await userExist.checkEmail();    // Controle si le mail existe déjà
-        if (!emailExist) {
-            if (req.body.password) {
-                req.body.password = await bcrypt.hash(req.body.password, 10);    // Hash du mot de passe avec bcrypt
-                const user = await User.update(req.params.id, req.body);
-                res.json({
-                    message: "l'utilisateur a bien été modifié",
-                    user: user,
-                });
-            } else {                                                             // Uniquement si le mot de passe n'est pas modifié
-                const user = await User.update(req.params.id, req.body);
-                res.json({
-                    message: "l'utilisateur a bien été modifié",
-                    user: user,
+        if (req.params.id == req.userProfil[0].id) {            // Controle si l'id en param est == à l'id de l'utilisateur connecté,
+            if(req.body.email) {                                // passe l'email en minuscule
+                req.body.email = (req.body.email).toLowerCase();
+            }
+            const userExist = new User(req.body);               // info enregistré dans req.userProfil lors de l'authentification, pendant la vérification du token
+            const emailExist = await userExist.checkEmail();    // Controle si le mail existe déjà
+            if (!emailExist) {
+                if (req.body.password) {
+                    req.body.password = await bcrypt.hash(req.body.password, 10);    // Hash du mot de passe avec bcrypt
+                    const user = await User.update(req.params.id, req.body);
+                    res.json({
+                        message: "l'utilisateur a bien été modifié",
+                        user: user,
+                    });
+                } else {                                                             // Uniquement si le mot de passe n'est pas modifié
+                    const user = await User.update(req.params.id, req.body);
+                    res.json({
+                        message: "l'utilisateur a bien été modifié",
+                        user: user,
+                    });
+                }
+            } else {
+                res.status(409).json({
+                    error: "L'e-mail est déjà utilisé !",
                 });
             }
-        } else {
-            res.status(409).json({
-                error: "L'e-mail est déjà utilisé !",
-            });
-        }
         } else {
             res.status(400).json({
                 error: "Ce n'est pas la bonne fiche, l'id ne correspond pas !",
