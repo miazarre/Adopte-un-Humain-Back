@@ -34,6 +34,7 @@ const rolesController = {
   // Ajoute un role
   async addRole(req, res, next) {
     try {
+        req.body.name = (req.body.name).toLowerCase(); 
         const roleExist = await Role.checkRole(req.body);                   // Controle si le role existe
         if (!roleExist) {
             const addRole = await Role.create(req.body);
@@ -65,6 +66,7 @@ const rolesController = {
         const roleExist = await Role.checkExist(req.params.id);                   // Controle si l'id du role existe
         if(roleExist) {
             const getRole = await Role.findByPk(req.params.id);                   // Récupère les infos du role qui va être modifié
+            req.body.name = (req.body.name).toLowerCase();
             const roleNameExist = await Role.checkRole(req.body);                 // Controle si le nom du role existe
             if(!roleNameExist) {
                 const role = await Role.update(req.params.id, req.body);
