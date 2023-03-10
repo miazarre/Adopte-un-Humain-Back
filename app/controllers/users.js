@@ -213,8 +213,8 @@ const usersController = {
   // Ajoute un tag à l'utilisateur
   async addUserTag(req, res, next) {
     try {
-        const tag = new Tag(req.body);
-        const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe
+        // const tag = new Tag(req.body);
+        const tagExist = await Tag.checkTag(req.body.tag_id);   // Vérifie si le tag existe
         const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
         if (tagExist) {
             if (userExist) {
@@ -245,8 +245,8 @@ const usersController = {
   // Supprime le tag d'un utilisateur
   async deleteUserTag(req, res, next) {
     try {
-        const tag = new Tag(req.body);
-        const tagExist = await tag.checkTagId(req.body.tag_id);   // Vérifie si le tag existe
+        // const tag = new Tag(req.body);
+        const tagExist = await Tag.checkTag(req.body.tag_id);   // Vérifie si le tag existe
         const userExist = await User.checkUser(req.params.id);    // Vérifie si l'utilisateur existe
         if(userExist) {
             if(tagExist) {

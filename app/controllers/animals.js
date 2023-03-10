@@ -1,6 +1,11 @@
 import { Animal, Tag } from "../models/index.js";
 import clean from "../script/cleanPhoto.js";
 import { adminLog } from "../service/logger.js";
+import fs from 'fs';
+import path from 'path';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const imageDirectory = path.join(__dirname, '../../public/images/animals');
 
 const animalsController = {
 
@@ -92,6 +97,20 @@ const animalsController = {
             const animalId = await Animal.findByPk(req.params.id); // Vérification si l'id existe
             if (animalId) {
                 const data = {};
+                const animalPhotos = await Animal.findByPk(req.params.id);
+
+                // // Mettre à jour les photos et enregistrer les noms de fichiers mis à jour
+                // const updatedPhotoFileNames = [];
+                // for (let i = 1; i <= 4; i++) {
+                //     const photoFieldName = `photo${i}`;
+                //     const photoFile = req.files[photoFieldName] ? req.files[photoFieldName][0] : null;
+                //     const oldPhotoFileName = animalPhotos[photoFieldName];
+                //     if (photoFile) {
+                //         const newPhotoFileName = photoFile.filename;
+                //         updatedPhotoFileNames.push({ fieldName: photoFieldName, oldFileName: oldPhotoFileName, newFileName: newPhotoFileName });
+                //         data[photoFieldName] = newPhotoFileName;
+                //     }
+                // }
                 if (req.files.photo1) {
                     data.photo1 = req.files.photo1[0].filename;
                 }
@@ -153,8 +172,22 @@ const animalsController = {
         try {
             const animalExist = await Animal.checkExist(req.params.id);
             if(animalExist) {
+                const animalPhotos = await Animal.findByPk(req.params.id);
+                for (let i = 1; i <= 4; i++) {
+                    const photoFieldName = `photo${i}`;
+                    const photoFileName = animalPhotos[photoFieldName];
+                    if (photoFileName) {
+                        const photoFilePath = path.join(imageDirectory, photoFileName);
+                        fs.unlink(photoFilePath, err => {
+                            if (err) {
+                                console.error(`Erreur lors de la suppression du fichier ${photoFilePath}:`, err);
+                            } else {
+                                console.log(`Le fichier ${photoFilePath} a été supprimé.`);
+                            }
+                        });
+                    }
+                }
                 const animal = await Animal.delete(req.params.id);
-                clean.deleteAnimalsFiles();
                 res.json({
                     message: "l'animal a bien été supprimé'",
                     animal: animal,
