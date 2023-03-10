@@ -1,5 +1,7 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
+import debug from 'debug';
+const log = debug('model:tag');
 
 class Tag extends Core {
     static tableName = 'tag';
@@ -23,7 +25,8 @@ class Tag extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in checkTag() : ${error.message}`)
+            console.error(`Error in checkTag() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -41,7 +44,8 @@ class Tag extends Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in checkTagId() : ${error.message}`)
+            console.error(`Error in checkTagId() : ${error.message}`);
+            log(error);
             throw error;
         }
     }

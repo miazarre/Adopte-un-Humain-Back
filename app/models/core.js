@@ -1,4 +1,6 @@
 import client from '../service/dbClient.js';
+import debug from 'debug';
+const log = debug('model:core');
 
 class Core {
     tableName;
@@ -26,7 +28,8 @@ class Core {
 
             return result.rows[0];
         } catch (error) {
-            console.error(`Error in findByPk() : ${error.message}`)
+            console.error(`Error in findByPk() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -76,7 +79,8 @@ class Core {
             return result.rows;
             
         } catch (error) {
-            console.error(`Error in findAll() : ${error.message}`)
+            console.error(`Error in findAll() : ${error.message}`);
+            log(error);
             throw error;
         }
         
@@ -111,7 +115,8 @@ class Core {
 
             return row;
         } catch (error) {
-            console.error(`Error in create() : ${error.message}`)
+            console.error(`Error in create() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -147,7 +152,8 @@ class Core {
 
             return row;
         }catch (error) {
-            console.error(`Error in update() : ${error.message}`)
+            console.error(`Error in update() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -158,7 +164,8 @@ class Core {
             const result = await client.query(`DELETE FROM "${this.tableName}" WHERE id = $1 RETURNING *`, [id]);
             return result.rows;
         } catch (error) {
-            console.error(`Error in delete() : ${error.message}`)
+            console.error(`Error in delete() : ${error.message}`);
+            log(error);
             throw error;
         }
     }
@@ -177,7 +184,8 @@ class Core {
                 return false;
             }
         } catch(error) {
-            console.error(`Error in checkExist() : ${error.message}`)
+            console.error(`Error in checkExist() : ${error.message}`);
+            log(error);
             throw error;
         }
     }

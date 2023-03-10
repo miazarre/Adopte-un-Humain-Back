@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import debug from 'debug';
+const log = debug('controller:photos');
 
 const photosController = {
   
@@ -19,6 +21,7 @@ const photosController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
     }      

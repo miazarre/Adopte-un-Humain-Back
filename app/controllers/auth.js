@@ -1,5 +1,7 @@
 import { User } from "../models/index.js";
 import jwt from "jsonwebtoken";
+import debug from 'debug';
+const log = debug('controller:auth');
 
 const authController = {
 
@@ -38,6 +40,7 @@ const authController = {
             }
         } catch(error) {
             res.status(500).json(error.message);
+            log(error);
             next(error);
         }
   },

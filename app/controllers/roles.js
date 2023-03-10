@@ -1,5 +1,7 @@
 import { Role } from "../models/index.js";
 import { adminLog } from "../service/logger.js";
+import debug from 'debug';
+const log = debug('controller:roles');
 
 const rolesController = {
   // Récupère tous les rôles
@@ -9,6 +11,7 @@ const rolesController = {
         res.json(roles);
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -27,6 +30,7 @@ const rolesController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -56,6 +60,7 @@ const rolesController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -93,6 +98,7 @@ const rolesController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -122,6 +128,7 @@ const rolesController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },

@@ -1,6 +1,8 @@
 import { User, Tag, Animal } from "../models/index.js";
 import bcrypt from "bcrypt";
 import { adminLog } from "../service/logger.js";
+import debug from 'debug';
+const log = debug('controller:users');
 
 const usersController = {
 
@@ -11,6 +13,7 @@ const usersController = {
         res.json(users);
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -28,6 +31,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -46,6 +50,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -71,6 +76,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -139,6 +145,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -159,6 +166,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -187,6 +195,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -206,6 +215,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -238,6 +248,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -266,6 +277,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -302,6 +314,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },
@@ -327,6 +340,7 @@ const usersController = {
         }
     } catch(error) {
         res.status(500).json(error.message);
+        log(error);
         next(error);
     }
   },

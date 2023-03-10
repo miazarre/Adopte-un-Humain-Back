@@ -1,5 +1,7 @@
 import Core from './core.js';
 import client from '../service/dbClient.js';
+import debug from 'debug';
+const log = debug('model:animal');
 
 class Animal extends Core {
 static tableName = 'animal';
@@ -39,7 +41,8 @@ static async getAnimalTags(animalId) {
     return result.rows;
 
   } catch (error) {
-        console.error(`Error in getAnimalTags() : ${error.message}`)
+        console.error(`Error in getAnimalTags() : ${error.message}`);
+        log(error);
         throw error;
   }
 }
@@ -57,7 +60,8 @@ static async addAnimalTag(animalId, tagId) {
         return row;
 
   } catch (error) {
-        console.error(`Error in addAnimalTag() : ${error.message}`)
+        console.error(`Error in addAnimalTag() : ${error.message}`);
+        log(error);
         throw error;
   }
 }
@@ -74,7 +78,8 @@ static async deleteAnimalTag(animalId, tagId) {
 
         return row;
     } catch (error) {
-        console.error(`Error in deleteAnimalTag() : ${error.message}`)
+        console.error(`Error in deleteAnimalTag() : ${error.message}`);
+        log(error);
         throw error;
     }
   }
@@ -92,7 +97,8 @@ static async deleteAnimalTag(animalId, tagId) {
             return false;
         }
     } catch(error) {
-        console.error(`Error in checkAnimal() : ${error.message}`)
+        console.error(`Error in checkAnimal() : ${error.message}`);
+        log(error);
         throw error;
     }
   }
