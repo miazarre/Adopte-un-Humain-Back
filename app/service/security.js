@@ -29,8 +29,9 @@ const securityService = {
           }
       
           // Vérifier si l'utilisateur a le rôle requis pour accéder à la route
-          if (roles.indexOf(req.user.name) === -1) {
-            return res.status(403).json({ message: "Vous n'êtes pas autorisé" });
+          // console.log("résultat roles : ", roles.indexOf(req.user.name));
+          if (roles.indexOf(req.user.name) === -1) {                                // Si le nom est présent renvoie son index dans le tableau (entier positif ou nul)
+            return res.status(403).json({ message: "Vous n'êtes pas autorisé" });   // Si le nom n'est pas trouvé renvoie -1
           }
       
           // L'utilisateur est authentifié et autorisé, passer au middleware suivant
@@ -42,7 +43,7 @@ const securityService = {
         // Vérification du Token
         try {
             // Récupérer le token JWT depuis l'en-tête Authorization
-            const token = req.headers.authorization.split(" ")[1];
+            const token = req.headers.authorization.split(" ")[1];                //On récupère la 2eme parties (séparation du type Bearer) pour garder l'élément indice [1] (le code token)
             // Vérifier si le token est valide
             const userToken = jwt.verify(token, process.env.SESSION_SECRET);
 

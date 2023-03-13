@@ -7,7 +7,9 @@ const validation = {
      */
     check(schema,prop){
         return (req, res, next)=>{
+            // console.log("erreur joi : ", schema.validate(req[prop]));
             const {error} = schema.validate(req[prop]); // si j'ai une erreur, le validate retourne un objet au format {error:... , value:...}
+            // console.log("erreur joi : ", error);
         
             if(!error){
                 // si tout va bien
