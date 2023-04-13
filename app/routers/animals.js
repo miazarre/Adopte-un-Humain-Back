@@ -10,7 +10,8 @@ const router = express.Router();
 const upload = multer({dest: 'public/images/animals'});
 
 // Routes des animaux
-router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  controller.animalsController.getAll);
+// router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  controller.animalsController.getAll);
+router.get('/animals',  controller.animalsController.getAll);
 router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  controller.animalsController.deleteAnimal);
 router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), controller.animalsController.getAnimal);
 
