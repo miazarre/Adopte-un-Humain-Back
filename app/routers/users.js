@@ -47,6 +47,7 @@ export default router;
  * @summary Récupère un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - one user
  * @return {object} 500 - Unexpected error
  */
@@ -56,6 +57,7 @@ export default router;
  * @summary Modifie un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @param {UserUpdate} request.body.required - UserUpdate info
  * @return {object} 200 - update user
  * @return {object} 500 - Unexpected error
@@ -66,6 +68,7 @@ export default router;
  * @summary Supprime un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - delete user (by user, staff or admin)
  * @return {object} 500 - Unexpected error
  */
@@ -75,6 +78,7 @@ export default router;
  * @summary Récupère le profil d'un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - users profile
  * @return {object} 500 - Unexpected error
  */
@@ -84,6 +88,7 @@ export default router;
  * @summary Modifie le rôle d'un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - new user role
  * @return {object} 500 - Unexpected error
  */
@@ -93,6 +98,7 @@ export default router;
  * @summary supprime un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - delete user (by admin only)
  * @return {object} 500 - Unexpected error
  */
@@ -102,6 +108,7 @@ export default router;
  * @summary Récupère le tag lié au user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - one user tag
  * @return {object} 500 - Unexpected error
  */
@@ -111,6 +118,7 @@ export default router;
  * @summary Crée une association
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - new association
  * @return {object} 500 - Unexpected error
  */
@@ -120,6 +128,8 @@ export default router;
  * @summary Supprime une association
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
+ * @property {integer} tagId.path - id du tag
  * @return {object} 200 - delete association
  * @return {object} 500 - Unexpected error
  */
@@ -129,15 +139,18 @@ export default router;
  * @summary Récupère la liste des animaux qui ont les mêmes tags
  * @security bearerAuth
  * @tags USER
+ * @property {integer} id.path - id utilisateur
  * @return {object} 200 - animals with same tags
  * @return {object} 500 - Unexpected error
  */
 
 /**
- * GET /api/user/:id/matching/:id
+ * GET /api/user/:userId/matching/:animalId
  * @summary Compare les tags d'un animal et d'un user
  * @security bearerAuth
  * @tags USER
+ * @property {integer} userId.path - id utilisateur
+ * @property {integer} animalId.path - id animal
  * @return {object} 200 - animal/user tags
  * @return {object} 500 - Unexpected error
  */

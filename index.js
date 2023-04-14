@@ -11,7 +11,9 @@ dotenv.config();
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 app.use(express.static(path.join(__dirname, './public/')));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
-app.use(cors('https://adopte-un-humain.netlify.app/'));
+
+/* Configuration cors */
+app.use(cors());
 
 
 /****************************/
