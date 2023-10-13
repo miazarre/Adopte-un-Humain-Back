@@ -1,20 +1,27 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import dotenv from 'dotenv';
-import { authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, adoptRouter } from './app/routers/index.js';
-import expressJSDocSwagger from 'express-jsdoc-swagger';
-import * as url from 'url';
+import express from "express";
+import cors from "cors";
+import path from "path";
+import dotenv from "dotenv";
+import {
+  authRouter,
+  usersRouter,
+  animalsRouter,
+  tagsRouter,
+  rolesRouter,
+  photosRouter,
+  adoptRouter,
+} from "./app/routers/index.js";
+import expressJSDocSwagger from "express-jsdoc-swagger";
+import * as url from "url";
 import errorService from "./app/service/errorHandling.js";
 const app = express();
 dotenv.config();
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
-app.use(express.static(path.join(__dirname, './public/')));
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+app.use(express.static(path.join(__dirname, "./public/")));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 /* Configuration cors */
 app.use(cors());
-
 
 /****************************/
 /**** Swagger generator  ****/
@@ -23,22 +30,22 @@ app.use(cors());
 // Définition des options de configuration de Swagger
 
 const options = {
-    info: {
-        version: '1.0.0',
-        title: 'J\'Adopte un humain',
-		description: 'My API with Swagger documentation',
-        license: {
-            name: 'MIT',
-        },
+  info: {
+    version: "1.0.0",
+    title: "J'Adopte un humain",
+    description: "My API with Swagger documentation",
+    license: {
+      name: "MIT",
     },
-    security: {
-        bearerAuth: {
-            type: 'http',
-            scheme: 'bearer'
-        }
+  },
+  security: {
+    bearerAuth: {
+      type: "http",
+      scheme: "bearer",
     },
-    baseDir: __dirname,
-    filesPattern: './**/*.js'
+  },
+  baseDir: __dirname,
+  filesPattern: "./**/*.js",
 };
 
 // Appel de la fonction expressJSDocSwagger() pour lui passer les options de configuration
@@ -49,7 +56,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* Mise en place du router */
-app.use("/api",authRouter, usersRouter, animalsRouter, tagsRouter, rolesRouter, photosRouter, adoptRouter);
+app.use(
+  "/api",
+  authRouter,
+  usersRouter,
+  animalsRouter,
+  tagsRouter,
+  rolesRouter,
+  photosRouter,
+  adoptRouter
+);
 
 /* gestion globale des erreurs */
 app.use(errorService.manage);

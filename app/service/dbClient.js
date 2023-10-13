@@ -1,4 +1,4 @@
-import client from 'pg';
+import client from "pg";
 const { Pool } = client;
 const pool = new Pool();
 
@@ -9,6 +9,6 @@ export default {
   originalClient: pool,
 
   async query(...params) {
-      return this.originalClient.query(...params);
+    return this.originalClient.query(...params);
   },
 };

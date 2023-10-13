@@ -4,11 +4,4 @@ import Tag from "./tag.js";
 import Role from "./role.js";
 import Adopt from "./adopt.js";
 
-
-export {
-  User,
-  Animal,
-  Tag,
-  Role,
-  Adopt,
-};
+export { User, Animal, Tag, Role, Adopt };

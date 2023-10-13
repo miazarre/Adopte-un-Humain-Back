@@ -1,7 +1,7 @@
-import Core from './core.js';
+import Core from "./core.js";
 
 class Adopt extends Core {
-  static tableName = 'adoption';
+  static tableName = "adoption";
 
   constructor(obj) {
     super(obj);

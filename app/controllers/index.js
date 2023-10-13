@@ -6,7 +6,6 @@ import rolesController from "./roles.js";
 import photosController from "./photos.js";
 import adoptsController from "./adopts.js";
 
-
 export default {
   authController,
   usersController,

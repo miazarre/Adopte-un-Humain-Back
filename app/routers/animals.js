@@ -1,50 +1,98 @@
-import express from 'express';
-import controller from '../controllers/index.js';
+import express from "express";
+import controller from "../controllers/index.js";
 import auth from "../service/security.js";
-import multer from 'multer';
+import multer from "multer";
 import validation from "../service/validation.js";
 import schemaAnimal from "../schemas/animalBody.js";
 import schemaHasTag from "../schemas/hasTagBody.js";
 
 const router = express.Router();
-const upload = multer({dest: 'public/images/animals'});
+const upload = multer({ dest: "public/images/animals" });
 
 // Routes des animaux
 // router.get('/animals', auth.authMiddleware(['membre','staff', 'admin']),  controller.animalsController.getAll);
 
-router.get('/animals', controller.animalsController.getAll);
-router.delete('/animal/:id', auth.authMiddleware(['staff', 'admin']),  controller.animalsController.deleteAnimal);
-router.get('/animal/:id', auth.authMiddleware(['membre','staff', 'admin']), controller.animalsController.getAnimal);
+router.get("/animals", controller.animalsController.getAll);
+router.delete(
+  "/animal/:id",
+  auth.authMiddleware(["staff", "admin"]),
+  controller.animalsController.deleteAnimal
+);
+router.get(
+  "/animal/:id",
+  auth.authMiddleware(["membre", "staff", "admin"]),
+  controller.animalsController.getAnimal
+);
 
-router.post('/animal', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAnimal.create(),"body"), upload.fields([{
-  name: 'photo1', maxCount: 1
-}, {
-  name: 'photo2', maxCount: 1
-}, {
-  name: 'photo3', maxCount: 1
-}, {
-  name: 'photo4', maxCount: 1
-}]), controller.animalsController.addAnimal);
+router.post(
+  "/animal",
+  auth.authMiddleware(["staff", "admin"]),
+  validation.check(schemaAnimal.create(), "body"),
+  upload.fields([
+    {
+      name: "photo1",
+      maxCount: 1,
+    },
+    {
+      name: "photo2",
+      maxCount: 1,
+    },
+    {
+      name: "photo3",
+      maxCount: 1,
+    },
+    {
+      name: "photo4",
+      maxCount: 1,
+    },
+  ]),
+  controller.animalsController.addAnimal
+);
 
-router.patch('/animal/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAnimal.update(),"body"), upload.fields([{
-    name: 'photo1', maxCount: 1
-  }, {
-    name: 'photo2', maxCount: 1
-  }, {
-    name: 'photo3', maxCount: 1
-  }, {
-    name: 'photo4', maxCount: 1
-  }]), controller.animalsController.updateAnimal);
-
+router.patch(
+  "/animal/:id",
+  auth.authMiddleware(["staff", "admin"]),
+  validation.check(schemaAnimal.update(), "body"),
+  upload.fields([
+    {
+      name: "photo1",
+      maxCount: 1,
+    },
+    {
+      name: "photo2",
+      maxCount: 1,
+    },
+    {
+      name: "photo3",
+      maxCount: 1,
+    },
+    {
+      name: "photo4",
+      maxCount: 1,
+    },
+  ]),
+  controller.animalsController.updateAnimal
+);
 
 // Routes de la relation ANIMAL_HAS_TAG
-router.get('/animal/:id/tag', auth.authMiddleware(['membre','staff', 'admin']), controller.animalsController.getAnimalTags);
-router.post('/animal/:id/tag', auth.authMiddleware(['staff', 'admin']), validation.check(schemaHasTag.addTag(),"body"), controller.animalsController.addAnimalTag);
-router.delete('/animal/:id/tag/:tagId', auth.authMiddleware(['staff', 'admin']), controller.animalsController.deleteAnimalTag);
+router.get(
+  "/animal/:id/tag",
+  auth.authMiddleware(["membre", "staff", "admin"]),
+  controller.animalsController.getAnimalTags
+);
+router.post(
+  "/animal/:id/tag",
+  auth.authMiddleware(["staff", "admin"]),
+  validation.check(schemaHasTag.addTag(), "body"),
+  controller.animalsController.addAnimalTag
+);
+router.delete(
+  "/animal/:id/tag/:tagId",
+  auth.authMiddleware(["staff", "admin"]),
+  controller.animalsController.deleteAnimalTag
+);
 
 export default router;
-
-
 
 // doc swagger : /api-docs
 

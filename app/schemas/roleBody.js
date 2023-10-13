@@ -15,4 +15,3 @@ const roleSchema = {
 };
 
 export default roleSchema;
-

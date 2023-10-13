@@ -1,14 +1,22 @@
-import express from 'express';
-import auth from '../service/security.js';
-import authController from '../controllers/auth.js';
-import usersController from '../controllers/users.js';
+import express from "express";
+import auth from "../service/security.js";
+import authController from "../controllers/auth.js";
+import usersController from "../controllers/users.js";
 import validation from "../service/validation.js";
 import schemaRegister from "../schemas/registerBody.js";
 
 const router = express.Router();
 
-router.post("/login", validation.check(schemaRegister.login(),"body"), authController.checkLogin);
-router.post("/register", validation.check(schemaRegister.create(),"body"), usersController.addUser);
+router.post(
+  "/login",
+  validation.check(schemaRegister.login(), "body"),
+  authController.checkLogin
+);
+router.post(
+  "/register",
+  validation.check(schemaRegister.create(), "body"),
+  usersController.addUser
+);
 router.get("/token", auth.checkToken);
 
 export default router;
@@ -33,7 +41,6 @@ export default router;
  * @return {object} 200 - new user
  * @return {object} 500 - Unexpected error
  */
-
 
 /**
  * GET /api/token
@@ -62,4 +69,3 @@ export default router;
  * @property {string} email - email de l'utilisateur
  * @property {string} password - mot de passe
  */
-

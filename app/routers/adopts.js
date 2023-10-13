@@ -1,5 +1,5 @@
-import express from 'express';
-import controller from '../controllers/index.js';
+import express from "express";
+import controller from "../controllers/index.js";
 import auth from "../service/security.js";
 import validation from "../service/validation.js";
 import schemaAdopt from "../schemas/adoptBody.js";
@@ -8,14 +8,35 @@ const router = express.Router();
 
 // Routes des demandes d'adoptions
 
-router.get('/adopts', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.getAll);
-router.post('/adopt', auth.authMiddleware(['membre','staff', 'admin']), validation.check(schemaAdopt.create(),"body"), controller.adoptsController.addAdopt);
-router.get('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.adminGetAdopt);
-router.patch('/adopt/:id', auth.authMiddleware(['staff', 'admin']), validation.check(schemaAdopt.update(),"body"), controller.adoptsController.updateAdopt);
-router.delete('/adopt/:id', auth.authMiddleware(['staff', 'admin']), controller.adoptsController.deleteAdopt);
+router.get(
+  "/adopts",
+  auth.authMiddleware(["staff", "admin"]),
+  controller.adoptsController.getAll
+);
+router.post(
+  "/adopt",
+  auth.authMiddleware(["membre", "staff", "admin"]),
+  validation.check(schemaAdopt.create(), "body"),
+  controller.adoptsController.addAdopt
+);
+router.get(
+  "/adopt/:id",
+  auth.authMiddleware(["staff", "admin"]),
+  controller.adoptsController.adminGetAdopt
+);
+router.patch(
+  "/adopt/:id",
+  auth.authMiddleware(["staff", "admin"]),
+  validation.check(schemaAdopt.update(), "body"),
+  controller.adoptsController.updateAdopt
+);
+router.delete(
+  "/adopt/:id",
+  auth.authMiddleware(["staff", "admin"]),
+  controller.adoptsController.deleteAdopt
+);
 
 export default router;
-
 
 // doc swagger : /api-docs
 
@@ -88,4 +109,3 @@ export default router;
  * @property {string} status - status de la demande d'adoption
  * @property {string} date_adopt - date effective de l'adoption
  */
-

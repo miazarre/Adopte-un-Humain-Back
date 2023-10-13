@@ -1,13 +1,13 @@
-import express from 'express';
-import controller from '../controllers/index.js';
+import express from "express";
+import controller from "../controllers/index.js";
 
 const router = express.Router();
 
 // Route pour récupérer les images d'animaux
-router.get('/images/animal/:filename', controller.photosController.getPhotoAnimal);
-
-
-
+router.get(
+  "/images/animal/:filename",
+  controller.photosController.getPhotoAnimal
+);
 
 export default router;
 

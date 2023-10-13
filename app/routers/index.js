@@ -13,5 +13,5 @@ export {
   tagsRouter,
   rolesRouter,
   photosRouter,
-  adoptRouter
+  adoptRouter,
 };
