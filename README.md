@@ -54,8 +54,8 @@ Le serveur devrait maintenant être accessible à l'adresse http://localhost:300
 
 - `/app` : Contient le code source du serveur Node.js.
 - `/app/routers`: Définition des routes et contrôleurs Express.
-- `/src/models` : Modèles de données pour la base de données PostgreSQL.
-- `/src/script` : Configuration de la base de données et d'autres paramètres.
+- `/app/models` : Modèles de données pour la base de données PostgreSQL.
+- `/app/script` : Configuration de la base de données et d'autres paramètres.
 
 ### Auteur
 
