@@ -6,7 +6,7 @@ Ce répertoire contient le code source du back-end pour le site web fictif J'ado
 
 1. Clonez ce dépôt sur votre machine locale.
 
-   `git clone https://github.com/votre-utilisateur/refuge-animal-matching-backend.git`
+   `git clone https://github.com/miazarre/Adopte-un-Humain-Back.git`
 
 2. Accédez au répertoire du projet.
 
