@@ -1,11 +1,12 @@
 {
   "type": "module",
-  "name": "J'adopte un humain",
+  "name": "adopte-un-humain",
   "version": "1.0.0",
   "description": "## Git Workflow",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "render_start": "node ./app/script/setupDatabase.js && node index.js",
     "dev": "DEBUG=controller:*,model:* node index.js",
     "test": "jest --forceExit"
   },

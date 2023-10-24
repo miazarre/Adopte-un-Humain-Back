@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: ah-backend
+    runtime: node
+    plan: free
+    region: frankfurt
+    repo: https://github.com/miazarre/Adopte-un-Humain-Back.git
+    buildCommand: npm install
+    startCommand: npm run render_start
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PGHOST
+        fromDatabase:
+          name: ah-database
+          property: host
+      - key: PGPORT
+        fromDatabase:
+          name: ah-database
+          property: port
+      - key: PGDATABASE
+        fromDatabase:
+          name: ah-database
+          property: database
+      - key: PGUSER
+        fromDatabase:
+          name: ah-database
+          property: user
+      - key: PGPASSWORD
+        fromDatabase:
+          name: ah-database
+          property: password
+    autoDeploy: false
+
+databases:
+  - name: ah-database
+    plan: free
+    region: frankfurt

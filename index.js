@@ -74,7 +74,7 @@ app.use(errorService.manage);
 const PORT = process.env.PORT ?? 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server ready : http://${process.env.APP_URL}:${PORT}`);
+  console.log(`Server ready, listening on port:${PORT}`);
 });
 
 export default app;
