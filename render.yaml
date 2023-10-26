@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ah-backend
+    name: adopte-un-humain-api
     runtime: node
     plan: free
     region: frankfurt
@@ -30,7 +30,28 @@ services:
         fromDatabase:
           name: ah-database
           property: password
+      - key: INITIAL_ADMIN_EMAIL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
     autoDeploy: false
+  - type: web
+    name: adopte-un-humain
+    runtime: static
+    repo: https://github.com/miazarre/Adopte-un-Humain-Front.git
+    buildCommand: yarn build
+    staticPublishPath: ./build
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: REACT_APP_BASE_URL
+        sync: false
 
 databases:
   - name: ah-database
